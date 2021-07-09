@@ -1,0 +1,844 @@
+.home{
+    width: 1232px;
+    padding: 0 16px;
+    margin: 0px auto;
+    padding-top: 56px;
+}
+.title{
+    color: #272834;
+    font-weight: 500;
+    font-weight: 500;
+    font-size: 18px;
+    padding: 30px 0 20px 0;
+    border-bottom: 1px solid rgba(0,0,0,.12);
+}
+.listContainer{
+    display: flex;
+}
+.filterContainer{
+    width: 280px;
+    margin-right: 8px;
+    padding-top: 30px;
+}
+.search{
+    position: relative;
+}
+.search , .inp ,.blue{
+    width: 276px;
+    height: 40px;
+    border-radius: 5px;
+    overflow: hidden;
+    font-size: 14px;
+}
+.blue{
+    border:2px solid #5a3cff;
+    text-indent: 14px;
+}
+.inp{
+    text-indent: 14px;
+    border:1px solid #ddd;
+}
+.iconse{
+    position: absolute;
+    right: 8px;
+    top: 8px;
+}
+.sear{
+    color:#757575;
+}
+.searblue{
+    color:#5a3cff;
+}
+.leftContent{
+    margin-top: 20px;
+}
+.boxList{
+    color: #333;
+    margin-bottom: 23px;
+}
+.boxTitle{
+    color: #272834;
+    font-size: 16px !important;
+    font-weight: 500;
+}
+.boxSpan , .boxOpen{
+    max-height: 108px;
+    overflow: hidden;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: flex;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    align-items: center;
+    -webkit-flex-flow: wrap;
+    flex-flow: wrap;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+.boxSpanList ,.boxSpanStyle ,.boxAllStyle{
+    font-size: 12px;
+    color: #272834;
+    transition: all .27s cubic-bezier(.4,0,.2,1);
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 4px 12px;
+    margin: 4px;
+    cursor: pointer;
+}
+.boxAllStyle{
+    background: #f5f7f9;
+}
+.boxSpanStyle{
+    color: #5a3cff;
+    background-color: rgba(90,60,255,.1);
+    border: 1px solid #5a3cff;
+}
+.arrow{
+    font-size: 12px;
+    color: #5a3cff;
+    display: flex;
+    cursor: pointer;
+    line-height: 23px;
+}
+.boxOpen{
+    max-height: inherit;
+}
+.scro{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    position: fixed;
+    right: 40px;
+    text-align: center;
+    line-height: 66px;
+    bottom: 60px;
+    cursor: pointer;
+    color: #fff;
+    background-color: rgba(127,139,149,.4);
+    z-index: 1000;
+}
+.grid{
+    padding-top: 32px;
+    display: flex;
+    -webkit-justify-content: flex-end;
+    -moz-box-pack: end;
+    justify-content: flex-end;
+}
+.publicDataChip{
+    display: -webkit-flex;
+    display: -moz-box;
+    display: flex;
+    border: 1px solid #c9d0d8;
+    height: 28px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 8px;
+}
+.chipContainer{
+    width: 28px;
+    font-size: 16px;
+    color: #a8b0b7;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: flex;
+    -webkit-flex-direction: column;
+    -moz-box-orient: vertical;
+    -moz-box-direction: normal;
+    flex-direction: column;
+    -webkit-justify-content: center;
+    -moz-box-pack: center;
+    justify-content: center;
+    text-align: center;
+    border-right: 1px solid #c9d0d8;
+}
+.publicDataChipData{
+    width: 44px;
+    font-size: 12px;
+    color: #3c4061;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: flex;
+    -webkit-flex-direction: column;
+    -moz-box-orient: vertical;
+    -moz-box-direction: normal;
+    flex-direction: column;
+    -webkit-justify-content: center;
+    -moz-box-pack: center;
+    justify-content: center;
+    text-align: center;
+    moz-user-select: -moz-none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.datasetHead{
+    display: -webkit-flex;
+    display: -moz-box;
+    display: flex;
+    -webkit-justify-content: space-between;
+    -moz-box-pack: justify;
+    justify-content: space-between;
+    height: 80px;
+}
+.thumbnail{
+    display: -webkit-flex;
+    display: -moz-box;
+    display: flex;
+    color: #272834;
+}
+.dataName{
+    margin-left: 20px;
+}
+.detailedTitle{
+    font-size: 20px;
+    line-height: 30px;
+    word-break: break-all;
+    margin-bottom: 15px;
+}
+.thumbnail image{
+    border-radius: 5px;
+}
+.imgHome{
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.dataButton{
+    align-self: center;
+}
+.tabsContainer{
+    border-bottom: 1px solid #dbe0e9;
+    display: flex;
+    margin-top: 20px;
+}
+.muiButton{
+    color: #5a3cff;
+    display: flex;
+    font-weight: 500;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    align-items: center;
+    padding: 16px 8px 14px;
+    border-radius: 0;
+    font-size: 14px;
+    border-bottom: 2px solid #5a3cff;
+}
+.overviewField{
+    width: 888px;
+}
+.fieldHome{
+    border: 1px solid #dbe0e9;
+    border-radius: 4px;
+    margin-bottom: 24px;
+    
+}
+.DatasetOverview{
+    display: flex;
+    margin-top: 20px;
+}
+.mdContainer ,.mdContainerClose{
+    padding: 16px;
+    overflow: hidden;
+}
+.mdContainerClose{
+    max-height: 269px;
+}
+.mdContainer h1,.mdContainerClose h1{
+    padding-bottom: .3em;
+    border-bottom: 1px solid #eaecef;
+    margin-bottom: 16px;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-top: 0px;
+}
+.expandBar{
+    border-top: 1px solid #dbe0e9;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: flex;
+    height: 40px;
+    -webkit-flex-direction: column;
+    -moz-box-orient: vertical;
+    -moz-box-direction: normal;
+    flex-direction: column;
+    text-align: center;
+    -webkit-justify-content: center;
+    -moz-box-pack: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.previewTitle{
+    height: 72px;
+    padding: 0 16px;
+    display: flex;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    align-items: center;
+    -webkit-justify-content: space-between;
+    -moz-box-pack: justify;
+    justify-content: space-between;
+    border-bottom: 1px solid #dbe0e9;
+}
+.previewTitleLeft{
+    font-size: 18px;
+    font-weight: 500;
+    color: #272834;
+}
+.groupContainer{
+    border-style: none;
+    width: 886px;
+    height: 480px;
+    background: #fff;
+    --separator-border: #444;
+    font-size: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    flex-direction: column;
+    overflow: hidden;
+}
+.groupSideContainer{
+    display: flex;
+    height: 640px;
+    width: 240px;
+    background: #fff;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #dbe0e9;
+}
+.poweredBy{
+    padding-left: 16px;
+    height: 50px;
+    text-align: left;
+    font-size: 14px;
+    z-index: 5;
+    border-bottom: 1px solid #dbe0e9;
+}
+.poweredTitle{
+    display: flex;
+    align-items: center;
+    color: #a8b0b7;
+    justify-content: space-between;
+}
+.ico{
+    margin-right: 5px;
+    color: #272834;
+}
+.poweredList{
+    display: flex;
+    align-items: center;
+    color: #272834;
+    font-weight: 500;
+    font-size: 16px;
+}
+.objectPathDisplay{
+    display: flex;
+    align-items: center;
+    color: #a8b0b7;
+    font-size: 12px;
+    padding-left: 8px;
+    margin-top: 16px;
+    margin-left: 16px;
+    width: 232px;
+    height: 40px;
+    background-color: #f5f7f9;
+    border: 1px solid #dbe0e9;
+    box-sizing: border-box;
+    white-space: nowrap;
+    margin-left: 12px;
+    width: 168px;
+}
+.objectSelectButton{
+    width: 56px;
+    height: 40px;
+    margin-top: 16px;
+    margin-right: 16px;
+    display: flex;
+    align-items: center;
+    color: #272834;
+    justify-content: center;
+    background-color: #fff;
+    border: 1px solid #dbe0e9;
+    border-left: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+    margin-right: 12px;
+}
+.fileSelectorContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    height: 72px;
+    border-bottom: 1px solid #dbe0e9;
+}
+.viewerGroupDisplay{
+    width: 646px;
+    height: 584px;
+    position: relative;
+}
+.viewerGroupDisplay img{
+    width: 100%;
+}
+.viewerArrowLeft{
+    position: absolute;
+    top: 224px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 12px;
+    color: #272834;
+    background: rgba(255,255,255,0.7);
+    text-align: center;
+    line-height: 34px;
+    text-indent: 3px;
+    cursor: pointer;
+}
+.DatasetOverviewInfoSide{
+    -moz-box-flex: 0;
+    flex: 0 0 280px;
+    width: 280px;
+    margin-left: 16px;
+    padding-left: 16px;
+}
+.DatasetInfoFieldInfoBlock{
+    margin-bottom: 24px;
+}
+.DatasetInfoFieldInfoTitle{
+    color: #272834;
+    font-weight: 500;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+.DatasetInfoFieldInfoEntry{
+    padding: 4px 0;
+    line-height: 32px;
+}
+.DatasetInfoFieldInfoSubtitle{
+    color: #272834;
+    font-size: 12px;
+    margin-right: 12px;
+}
+.DatasetInfoFieldTagChip{
+    margin-right: 10px;
+}
+.DatasetDetailTagChipChip{
+    display: inline-block;
+    font-size: 12px;
+    color: #7f8b95;
+    height: 20px;
+    line-height: 20px;
+    padding: 0 10px;
+    border-radius: 10px;
+    background-color: #f5f7f9;
+}
+.fileLstContainer{
+    overflow-y: auto;
+    height: 410px;
+}
+.button{
+    width: 72px;
+    height: 32px;
+    border-radius: 0px;
+    border: 1px solid #dbe0e9;
+    font-size: 14px;
+    color: #272834;
+    margin-top: 16px;
+    margin-left: 16px;
+    text-align: center;
+    line-height: 28px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+.fileList{
+    overflow-y: auto;
+    height: 360px;
+}
+.segmentContainer{
+    margin-left: 16px;
+    font-size: 14px;
+    margin-top: 20px;
+}
+.segmentTitle{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    color: #272834;
+    font-size: 14px;
+}
+.segmentName{
+    margin-left: 7px;
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    font-size: 15px;
+}
+.objectListContainer{
+    font-size: 14px;
+    margin-top: 12px;
+}
+.objectBlock{
+    color: #272834;
+    box-sizing: border-box;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    padding-left: 24px;
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+.activeObjectBlock{
+    color: #5a3cff;
+    background: #f5f7f9;
+    margin-right: -20px;
+}
+.tagHome{
+    margin: 0px auto;
+    padding-top: 56px;
+    background-color: #f3f3f3;
+    min-height: 100vh;
+}
+.homeTop{
+    padding: 16px;
+    display: flex;
+    flex-wrap: wrap-reverse;
+}
+.tagListLeft{
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0%;
+}
+.basicInfoWindow{
+    background: #fff;
+    padding: 24px;
+    padding-bottom: 0px;
+}
+.tgaTitle{
+    margin-bottom: 32px;
+    border-left: 3px solid #5a3cff;
+    text-indent: 12px;
+    height: 18px;
+    font-weight: 600;
+    font-size: 18px;
+    color: #333;
+    line-height: 18px;
+}
+.tagTopList{
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 14px;
+}
+.topListBox{
+    display: flex;
+    flex: 1 1 0%;
+    flex-direction: column;
+    margin-bottom: 8px;
+    margin-right: 16px;
+    min-width: 248px;
+}
+.listBoxTitle{
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 24px;
+}
+.listBoxSpan{
+    display: flex;
+    margin-bottom: 18px;
+}
+.boxSpanLeft{
+    color: rgb(137, 138, 150);
+    flex: 0 0 96px;
+}
+.boxSpanRight{
+    flex: 1 1 0%;
+}
+.tableTitle{
+    display: flex;
+    background: rgb(249, 248, 252) none repeat scroll 0% 0%;
+    padding: 24px 40px;
+    font-size: 14px;
+    color: rgb(137, 138, 150);
+}
+.tableList{
+    display: flex;
+    padding: 16px 40px;
+    font-size: 14px;
+    align-items: center;
+    color: rgb(39, 42, 66);
+}
+.tagListRight{
+    display: flex;
+    flex-direction: column;
+    margin-left: 16px;
+    flex: 0 0 336px;
+    padding: 24px;
+    background: #fff;
+}
+.rigBox{
+    padding: 16px;
+    background: rgb(247, 247, 247) none repeat scroll 0% 0%;
+    margin-bottom: 8px;
+}
+.taghometop{
+    padding: 16px;
+}
+.filehome{
+    background: #fff;
+    padding: 24px;
+}
+.BreadcrumbsList{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    font-size: 12px;
+}
+.BreadcrumNumb{
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    margin-left: 8px;
+    margin-right: 8px;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    border: 1px solid #bec0d0;
+    color: #bec0d0;
+    text-align: center;
+    line-height: 15px;
+}
+.stepperDivider{
+    border: 1px solid #e5e7f5;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-item-align: center;
+    align-self: center;
+    width: 40px;
+    margin-left: 8px;
+}
+.tagBoxIndex{
+    overflow: hidden;
+    min-height: 660px;
+}
+.tagBoxTitle{
+    margin-bottom: 8px;
+    color: rgb(89, 89, 89);
+    font-weight: 600;
+    padding-right: 24px;
+}
+.dataList{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    overflow-y: auto;
+    /* margin: 0 -16px; */
+    padding-bottom: 50px;
+}
+.dataListBox{
+    margin: 8px;
+    flex:0 0 calc(23% - 16px);
+    max-width: 280px;
+}
+.boxImg{
+    position: relative;
+    overflow: hidden;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+    max-width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+.boxImgBack{
+    width: 100%;
+}
+.boxSpanimg{
+    padding: 10px; 
+    color: rgb(75, 75, 83);
+    font-size: 15px;
+}
+.boxIndex{
+    box-shadow: 0px 3px 14px -4px rgb(96, 96, 96);
+}
+.userName{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    margin-top: 30px;
+}
+.basicInfoWindow{
+    padding: 24px;
+}
+.BreadcrumbsListStyle{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    font-size: 12px;
+    color: #5a3cff;
+}
+.BreadcrumbsListGreen{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    font-size: 12px;
+    color: rgb(76, 175, 80);
+}
+.BreadcrumbsListStyle .BreadcrumNumb{
+    background: #5a3cff;
+    border: 1px solid #5a3cff;
+    color: #fff;
+    width: 17px;
+    height: 17px;
+}
+.BreadcrumbsListGreen .BreadcrumNumb{
+    background: rgb(76, 175, 80);
+    border: 1px solid rgb(76, 175, 80);
+    color: #fff;
+    width: 17px;
+    height: 17px;
+}
+.tagType{
+    
+}
+.DatasetInfoFieldTagChipSpan{
+    font-size: 12px;
+    color: #666;
+}
+.exmaine_home{
+    width: 850px;
+    margin: 0px auto;
+    margin-top: 100px;
+}
+.msgHeading{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #dbe0e9;
+}
+.examineList{
+    padding: 24px 0;
+    border-bottom: 1px solid #dbe0e9;
+    display: flex;
+}
+.msgWrapper{
+    flex-grow: 1;
+    font-size: 14px !important;
+color: #272834;
+}
+.msgTitle{
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; */
+}
+.msgTitleText{
+    font-weight: 500;
+    color: #272834;
+    margin-right: 12px;
+    margin-left: 10px;
+}
+.msgDetails p{
+    margin-top: 12px;
+    margin-bottom: 0px;
+}
+.sheet{
+    height: 48px;
+    margin-top: 0px;
+    transform: translateY(0px);
+    left: 0px;
+    right: 0px;
+    border-radius: 0px;
+    background-color: #272a42 !important;
+    color: #fff;
+    border-bottom: 1px solid rgb(11, 13, 18);
+}
+.numb_list{
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 16px;
+    margin-right: 16px;
+}
+body .sub{
+    background: #272a42 ;
+}
+body .sub:hover{
+    background: #454861;
+}
+body .pagenet{
+    background: #3e4160;
+    color: #c9c9c9;
+    margin: 0px 7px;
+}
+body .pagenet:hover{
+    background: #444768;
+}
+.leftTap{
+    display: flex;
+    flex: 0 0 48px;
+    flex-direction: column;
+    background: rgb(39, 42, 66) none repeat scroll 0% 0%;
+    border-left: 1px solid rgb(10, 11, 16);
+    overflow-y: hidden;
+    border-right:1px solid rgb(11, 13, 18);
+    color: rgb(201, 201, 201);
+    font-size: 12px;
+}
+.leftTapList{
+    display: flex;
+    flex: 0 0 32px;
+    align-items: center;
+    justify-content: center;
+}
+.tapBoxList{
+    display: flex;
+    flex: 1 1 0%;
+    flex-direction: column;
+    overflow-y: auto;
+}
+.boxTap{
+    border-radius: 4px;
+    margin-bottom: 16px;
+    min-width: 0px;
+    width: 30px;
+    height: 30px;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+}
+.boxTap .MuiSvgIcon-root ,.boxTap svg{
+    margin-top: 2px;
+}
+.BoxHidden,.BoxHiddenTwo{
+    flex: 1 1 0%;
+    height: 100%;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    background: rgb(141, 142, 154) none repeat scroll 0% 0%;
+    line-height: 36px;
+    text-align: center;
+    cursor: pointer;
+}
+.BoxHiddenTwo{
+    background: initial;
+}
+.MuiGrid-wrap-xs-nowrap{
+    height: 100%;
+}

@@ -1,0 +1,150 @@
+[33mcommit 5596917b61e22c2059537ab80e4f7ca905ebd436[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: thatseanren <seanren96@gmail.com>
+Date:   Sat May 8 17:16:30 2021 +0800
+
+    submition for Saturday
+
+[33mcommit f8eb0870c5f7ba01b68727efc2a0ac1cf4b59a3a[m
+Author: thatseanren <seanren96@gmail.com>
+Date:   Sat May 8 15:26:51 2021 +0800
+
+    editing datasetView
+
+[33mcommit 5f995a807328122640bb245bef4f8b8193ba3269[m
+Merge: 28ae0ec f6c6b95
+Author: thatseanren <seanren96@gmail.com>
+Date:   Sat May 8 10:43:51 2021 +0800
+
+    Merge branch 'master' of github.com:thatseanren/fawai-datawarehouse
+
+[33mcommit 28ae0ecb0dc4d5507c8b04cf165a5c6c21647c07[m
+Author: thatseanren <seanren96@gmail.com>
+Date:   Sat May 8 10:42:44 2021 +0800
+
+    save for pull from remote
+
+[33mcommit f6c6b95f45ac5b3fd9324e7b261411f7c71f20c9[m
+Merge: c0f52b9 3743ed2
+Author: PrivateRen <37495423+thatseanren@users.noreply.github.com>
+Date:   Sat May 8 10:41:06 2021 +0800
+
+    Merge pull request #5 from 15584102756/master
+    
+    搜索组件，左侧栏回到顶部功能 Xq
+
+[33mcommit 3743ed22a3df38f5370c23d753d83ef6516b179a[m
+Merge: a1c6e8a c0f52b9
+Author: 15584102756 <8600765661@QQ.COM>
+Date:   Fri May 7 18:08:43 2021 +0800
+
+    search组件
+
+[33mcommit a1c6e8a2b6498dbfb25656b284e27d92f8914b5a[m
+Author: 15584102756 <8600765661@QQ.COM>
+Date:   Fri May 7 14:45:18 2021 +0800
+
+    search
+
+[33mcommit c0f52b98b8b717169e22ad2ffd5acaa95d711cb8[m
+Merge: 4ad3c2a d0e10c0
+Author: PrivateRen <37495423+thatseanren@users.noreply.github.com>
+Date:   Fri May 7 13:56:25 2021 +0800
+
+    Merge pull request #4 from 15584102756/master
+    
+    左侧组件详细列表
+
+[33mcommit d0e10c0f1f0fd965abc2e0183ae84ae2ba32ef37[m
+Author: 15584102756 <8600765661@QQ.COM>
+Date:   Fri May 7 13:51:49 2021 +0800
+
+    左侧
+
+[33mcommit 4ad3c2adca29e75218e5272ba8dcd34410037609[m
+Merge: 4c31b4f d74278d
+Author: thatseanren <seanren96@gmail.com>
+Date:   Fri May 7 13:48:36 2021 +0800
+
+    Merge reomote before push
+
+[33mcommit 4c31b4f9c0373587a0a50ed1bf97f3a35f013d81[m
+Author: thatseanren <seanren96@gmail.com>
+Date:   Fri May 7 13:41:44 2021 +0800
+
+    adding dataset display component
+
+[33mcommit d74278df162747d33b01139e475419dcddbfe59e[m
+Merge: 92a4662 34ecd43
+Author: PrivateRen <37495423+thatseanren@users.noreply.github.com>
+Date:   Fri May 7 13:39:28 2021 +0800
+
+    Merge pull request #3 from 15584102756/master
+    
+    增加header，左部标签组件 by xuqi
+
+[33mcommit 34ecd43db1c2dc6e2467bbd1f7c3a5316e68a51b[m
+Author: 15584102756 <8600765661@QQ.COM>
+Date:   Fri May 7 08:58:57 2021 +0800
+
+    header,left
+
+[33mcommit 51156ceb0c5a0e19e51b56afb8c624c3ed189a5d[m
+Author: 15584102756 <8600765661@QQ.COM>
+Date:   Thu May 6 11:03:29 2021 +0800
+
+    header.js
+
+[33mcommit 09b2df0f6e87549d77ba3fbe590bcd3f8e64174e[m
+Merge: c102a47 5049f01
+Author: 15584102756 <8600765661@QQ.COM>
+Date:   Thu May 6 11:01:00 2021 +0800
+
+    Merge branch 'master' of github.com:15584102756/fawai into master
+
+[33mcommit 5049f0174744100685d77f7e9d0b53592dcf6b85[m
+Merge: 109383a 92a4662
+Author: 15584102756 <83386782+15584102756@users.noreply.github.com>
+Date:   Thu May 6 10:54:09 2021 +0800
+
+    Merge pull request #1 from thatseanren/master
+    
+    Catching up 3 commits
+
+[33mcommit c102a47b332eecaaa18cd5024624e4e5c5985c7e[m
+Merge: 05014c2 92a4662
+Author: 15584102756 <8600765661@QQ.COM>
+Date:   Thu May 6 10:43:13 2021 +0800
+
+    Merge branch 'master' of https://github.com/thatseanren/fawai into master
+
+[33mcommit 92a4662ab621be13a29ca263da2807db120a9049[m
+Merge: bbb615f 109383a
+Author: thatseanren <seanren96@gmail.com>
+Date:   Thu May 6 10:30:33 2021 +0800
+
+    Merge branch 'master' of github.com:thatseanren/fawai-datawarehouse
+    umm this merge is unnecessary
+
+[33mcommit bbb615f538e0be5e00567e30cfd91348f65ac004[m[33m ([m[1;31morigin/siyang[m[33m)[m
+Author: thatseanren <seanren96@gmail.com>
+Date:   Thu May 6 10:05:10 2021 +0800
+
+    next-app init
+
+[33mcommit 710475d73b3ce91b59d01ac5ff1ae5aef2e1f6f4[m
+Author: thatseanren <seanren96@gmail.com>
+Date:   Thu May 6 10:02:20 2021 +0800
+
+    Initial commit from Create Next App
+
+[33mcommit 05014c22dcd3865d81a4d679dbc23c82eca86bc3[m
+Author: 15584102756 <8600765661@QQ.COM>
+Date:   Fri Apr 30 11:09:49 2021 +0800
+
+    “change2”
+
+[33mcommit 109383a3435b12603fbaf0e2b214648fbc575936[m
+Author: thatseanren-数据平台开发部 <rensiyang1@faw.com.cn>
+Date:   Wed Apr 28 15:34:51 2021 +0800
+
+    initial commit
