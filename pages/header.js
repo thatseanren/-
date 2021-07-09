@@ -24,16 +24,16 @@ export default class App extends React.Component {
         user = eval('(' + user + ')');
         console.log(user)
         this.setState({
-            name: user.name
+            name: "user.name"
         });
         var qs = require('qs');
         axios.post(server + 'login', qs.stringify({
-            'name': user.name,
-            'password': user.password
+            'name': "user.name",
+            'password': "user.password"
         }))
             .then(function (response) {
                 console.log(response)
-                response.status === 200 ? localStorage.setItem("login", user.name) : ""
+                response.status === 200 ? localStorage.setItem("login", "user.name") : ""
             })
             .catch(function (error) {
                 console.log(error);
@@ -43,7 +43,7 @@ export default class App extends React.Component {
     componentDidMount() {
         console.log(Cookies.get('account'))
 
-        if (Cookies.get('account')) {
+        if (!Cookies.get('account')) {
 
             this.login()
 

@@ -15,6 +15,7 @@ import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import Button from "@material-ui/core/Button";
 import store from "../../redux";
 import SaveIcon from "@material-ui/icons/Save";
+import Router from 'next/router';
 import {
   CreateNextFrame,
   CreatePreviousFrame,
@@ -55,15 +56,23 @@ const SaveToCloud_through_redud_store_button = connect(
     window.SaveToCloud_through_redux_store = SaveToCloud_through_redux_store;
   });
   return (
-    <button
-      style={{ display: "none" }}
+    <Button
+      variant="contained"
+      color="secondary"
+      className={DataSet.sub}
+      startIcon={<SaveIcon />}
       onClick={() => {
         SaveToCloud_through_redux_store({
-          sequence: sequence,
           _taskID: _taskID,
+          sequence: sequence,
+        });
+        Router.push({
+          pathname: `/taskdetail/${_taskID}`,
         });
       }}
-    />
+    >
+      保存并退出
+    </Button>
   );
 });
 
@@ -166,16 +175,12 @@ export default function Annotator(props) {
             style={{ display: "flex", alignItems: "center", height: "100%" }}
           >
             <div style={{ flexGrow: "1" }}></div>
-            <div className={DataSet.numb_list}>1 / 5589</div>
+            <div className={DataSet.numb_list}>1 / 50</div>
             <div>
-              <Button
-                variant="contained"
-                color="secondary"
-                className={DataSet.sub}
-                startIcon={<SaveIcon />}
-              >
-                保存并退出
-              </Button>
+              <SaveToCloud_through_redud_store_button
+                _taskID={_taskID}
+                sequence={sequence}
+              />
             </div>
             <div>
               <PreviousFrame />
