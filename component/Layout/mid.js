@@ -27,13 +27,11 @@ function MidPage(props) {
     var [offsetXY,] = React.useState([])
     var [clientXY,] = React.useState([])
     const HandleMouseDown = (event) => {
-        console.log("currentBoundingBoxIndex:", store.getState().GeneralReducer.currentBoundingBoxIndex, "x", event.offsetX, 'y', event.offsetY)
         offsetXY = [event.offsetX, event.offsetY]
         clientXY = [event.clientX, event.clientY]
     }
     const HandleMouseUp = (event) => {
         if (event.offsetX > offsetXY[0] && event.offsetY > offsetXY[1]) {
-            console.log('from TopLeft to BottonRight', "x", offsetXY[0], "y", offsetXY[1])
             props.handleMouseUp({
                 currentFrameIndex: props.currentFrameIndex,
                 currentBoundingBoxIndex: props.entireBoundingBox[props.currentFrameIndex].length,
