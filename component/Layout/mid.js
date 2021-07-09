@@ -31,6 +31,7 @@ function MidPage(props) {
         clientXY = [event.clientX, event.clientY]
     }
     const HandleMouseUp = (event) => {
+        console.log("event")
         if (event.offsetX > offsetXY[0] && event.offsetY > offsetXY[1]) {
             props.handleMouseUp({
                 currentFrameIndex: props.currentFrameIndex,
