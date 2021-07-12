@@ -137,7 +137,7 @@ function MidPage(props) {
             <img
                 id="image"
                 src={
-                   `${props.imageArray[props.currentFrameIndex]}`
+                   `${props.imageList[props.currentFrameIndex]}`
                 }
                 alt="fdsa"
                 role="presentation"
