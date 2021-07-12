@@ -15,7 +15,7 @@ import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import Button from "@material-ui/core/Button";
 import store from "../../redux";
 import SaveIcon from "@material-ui/icons/Save";
-import Router from 'next/router';
+import Router from "next/router";
 import {
   CreateNextFrame,
   CreatePreviousFrame,
@@ -26,7 +26,6 @@ interface taskInfo {
   sequence: number;
   data: string;
 }
-
 const mapDispatchToProps = (dispatch) => ({
   SaveToCloud_through_redux_store: (taskInfo: taskInfo) => {
     dispatch(createSaveToCloudAction(taskInfo));
@@ -37,24 +36,12 @@ const mapDispatchToProps = (dispatch) => ({
   previousFrame: () => {
     dispatch(CreatePreviousFrame());
   },
-  SetDrawmode: (bool) => {
-    dispatch(createSetDrawmodeAction(bool));
-  },
-  handleMouseUp: (event) => {
-    dispatch(createHandleMouseUpAction(event));
-  },
-  setCurrentBoundingBoxIndex: (index) => {
-    dispatch(SetCurrentBoundingBoxIndexAction(index));
-  },
 });
 const SaveToCloud_through_redud_store_button = connect(
   null,
   mapDispatchToProps
 )((props) => {
   const { SaveToCloud_through_redux_store, _taskID, sequence } = props;
-  React.useEffect(() => {
-    window.SaveToCloud_through_redux_store = SaveToCloud_through_redux_store;
-  });
   return (
     <Button
       variant="contained"
@@ -84,7 +71,7 @@ const mapStatesToProps = (state) => ({
   currentCategory: state.GeneralReducer.currentCategory,
 });
 const PreviousFrame = connect(
-  mapStatesToProps,
+  null,
   mapDispatchToProps
 )((props) => {
   const { previousFrame } = props;
@@ -103,7 +90,7 @@ const PreviousFrame = connect(
   );
 });
 const NextFrame = connect(
-  mapStatesToProps,
+  null,
   mapDispatchToProps
 )((props) => {
   const { nextFrame } = props;
@@ -123,7 +110,6 @@ const NextFrame = connect(
 });
 export default function Annotator(props) {
   const router = useRouter();
-  console.log(router.query);
   const { _id, _taskID, sequence } = router.query;
   console.log("router.query", router.query);
   var [imageArray, setImageArray] = React.useState([]);
@@ -132,17 +118,16 @@ export default function Annotator(props) {
     const imageRequest = new XMLHttpRequest();
     imageRequest.open(
       "GET",
-      `${dataServer}/${option.getSingleTask}?_id=${_id}&index=${sequence}`
+      `${dataServer}/${option.getSingleTask}?_id=${_taskID}&index=${sequence}`
     );
     imageRequest.setRequestHeader("Authorization", "bdta");
     imageRequest.withCredentials = true;
     imageRequest.addEventListener("load", ({ target }) => {
-      let { status, response, responseURL } = target;
-      console.log("My data retrieved ", JSON.parse(response).data);
+      let { response } = target;
+      console.log(`Route /2DAnnotator?_taskID=${_taskID}&sequence=${sequence}useData  `, JSON.parse(response).data);
       imageArray = JSON.parse(response).data.map((object, index) => {
         return object.jpg;
       });
-
       imageArray = imageArray.map((address) => {
         return `${dataServer}/${option.getMeterail}${address}`;
       });
@@ -191,33 +176,8 @@ export default function Annotator(props) {
         <div style={{ height: "100%", display: "flex" }}>
           <MainAnnotator imageArray={imageArray} />
           <Categories />
-          {/* <Position /> */}
         </div>
       </Grid>
     </Provider>
-
-    // <Provider store={store}>
-    //   <Header />
-    //   <Grid
-    //     container
-    //     wrap="nowrap"
-    //     direction="column"
-    //     style={{ position: "relative", top: 56 }}
-    //   >
-    //     <Grid item container>
-    //       <div className="toolBar"></div>
-    //     </Grid>
-    //     <Grid item container wrap="nowrap">
-    //       <MainAnnotator imageArray={imageArray} />
-    //       <Categories />
-    //     </Grid>
-    //     <SaveToCloud_through_redud_store_button
-    //       _taskID={_taskID}
-    //       sequence={sequence}
-    //     />
-    //     {/* {false && <SaveToCloud_through_redud_store_button />} */}
-    //     {/* <Position /> */}
-    //   </Grid>
-    // </Provider>
   );
 }

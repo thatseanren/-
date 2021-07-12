@@ -93,9 +93,7 @@ class TagDetails extends React.Component {
             <Link
               href={
                 this.state.data.type === "2DBox"
-                  ? `/2DAnnotator?_id=${
-                    this.state.data._id
-                  }&_taskID=${this.state.data._id}&sequence=${a}`
+                  ? `/2DAnnotator?_taskID=${this.state.data._id}&sequence=${a}`
                   : `${"http://10.78.4.88:555"}?_id=${
                       this.state.data.dataset_id
                     }&_taskID=${this.state.data._id}&sequence=${a}`
