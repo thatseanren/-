@@ -21,6 +21,7 @@ import {
   CreatePreviousFrame,
 } from "../../redux/action/GeneralReducerAction";
 import { createSaveToCloudAction } from "../../redux/action/BoundingBoxAction";
+
 interface taskInfo {
   taskid: string;
   sequence: number;
@@ -111,62 +112,103 @@ const NextFrame = connect(
 export default function Annotator(props) {
   const router = useRouter();
   const { _taskID, sequence } = router.query;
-  console.log("router.query", router.query);
+  // console.log("router.query", router.query);
   var [imageArray, setImageArray] = React.useState([]);
-  var [XMLresult, setAnnotationArray] = React.useState([]);
-  React.useEffect(() => {
-    const imageRequest = new XMLHttpRequest();
-    imageRequest.open(
-      "GET",
-      `${dataServer}/${option.getSingleTask}?_id=${_taskID}&index=${sequence}`
-    );
-    console.log( `${dataServer}/${option.getSingleTask}?_id=${_taskID}&index=${sequence}`)
-    imageRequest.setRequestHeader("Authorization", "bdta");
-    imageRequest.withCredentials = true;
-    imageRequest.addEventListener("load", ({ target }) => {
-      let { response } = target;
-      let parsedData = JSON.parse(response).data
-      const concatAddresstoData = (array) => {
-        return array.map((value, index) => {
-          for (let key in value) {
-            value[key] = `${dataServer}/${option.getMeterail}${value[key]}`;
-          }
-          return value;
-       })
+  var [annotationArray, setAnnotationArray] = React.useState([]);
+  const concatAddresstoData = (array) => {
+    return array.map((value, index) => {
+      for (let key in value) {
+        value[key] = `${dataServer}${option.getMeterail}${value[key]}`;
       }
-      XMLresult = concatAddresstoData(parsedData)
-      imageArray = XMLresult.map((object, index) => {
-        return object.jpg;
-      });
-      window.result = XMLresult;
-      setImageArray(imageArray);
-      // if (Object.keys(result[0]).includes("json")) {
-      //   console.log("有标注信息", result[0]["json"])
-      //   const annotationRequest = new XMLHttpRequest();
-      //   annotationRequest.open(
-      //     "GET", result[0]["json"]
-      //   )
-      //   annotationRequest.setRequestHeader("Authorization", "bdta");
-      //   annotationRequest.withCredentials = true;
-      //   annotationRequest.addEventListener("load", ({ target }) => {
-      //     let { response } = target;
-      //     let parsedData = JSON.parse(response)
-      //     parsedData.forEach(value => {
-      //    })
-      //   })
-      //   annotationRequest.send()
-      //   // annotationArray = JSON.parse(response).data.map((object, index) => {
-      //   //   return object.json;
-      //   // });
-      //   // annotationArray = annotationArray.map((address) => {
-      //   //   return `${dataServer}/${option.getMeterail}${address}`;
-      //   // });
-      //   // console.log("加载已有标注", annotationArray);
-      //   // setAnnotationArray(annotationArray);
-      // }
+      return value;
     });
-    imageRequest.send();
+  };
+  React.useEffect(() => {
+    const request = () => {
+      return new Promise((resolve, reject) => {
+        const imageRequest = new XMLHttpRequest();
+        imageRequest.open(
+          "GET",
+          `${dataServer}/${option.getSingleTask}?_id=${_taskID}&index=${sequence}`
+        );
+        console.log(
+          `${dataServer}/${option.getSingleTask}?_id=${_taskID}&index=${sequence}`
+        );
+        imageRequest.setRequestHeader("Authorization", "bdta");
+        imageRequest.withCredentials = true;
+
+        imageRequest.onload = () => {
+          const res = JSON.parse(imageRequest.response);
+          if (res.status === 1) {
+            resolve(res.data);
+          } else {
+            reject(res.status);
+          }
+        };
+        imageRequest.send();
+        // imageRequest.addEventListener("load", ({ target }) => {
+        //   let { response } = target;
+        //   let parsedData = JSON.parse(response).data;
+
+        //   XMLresult = concatAddresstoData(parsedData);
+        //   imageArray = XMLresult.map((object, index) => {
+        //     return object.jpg;
+        //   });
+        //   window.result = XMLresult;
+        //   setImageArray(imageArray);
+        //   // if (Object.keys(result[0]).includes("json")) {
+        //   //   console.log("有标注信息", result[0]["json"])
+        //   //   const annotationRequest = new XMLHttpRequest();
+        //   //   annotationRequest.open(
+        //   //     "GET", result[0]["json"]
+        //   //   )
+        //   //   annotationRequest.setRequestHeader("Authorization", "bdta");
+        //   //   annotationRequest.withCredentials = true;
+        //   //   annotationRequest.addEventListener("load", ({ target }) => {
+        //   //     let { response } = target;
+        //   //     let parsedData = JSON.parse(response)
+        //   //     parsedData.forEach(value => {
+        //   //    })
+        //   //   })
+        //   //   annotationRequest.send()
+        //   //   // annotationArray = JSON.parse(response).data.map((object, index) => {
+        //   //   //   return object.json;
+        //   //   // });
+        //   //   // annotationArray = annotationArray.map((address) => {
+        //   //   //   return `${dataServer}/${option.getMeterail}${address}`;
+        //   //   // });
+        //   //   // console.log("加载已有标注", annotationArray);
+        //   //   // setAnnotationArray(annotationArray);
+        //   // }
+        // });
+      });
+    };
+    request()
+      .then(
+        (response) => {
+          let addressList = concatAddresstoData(response);
+          let imageArray = addressList.map((object, index) => {
+            return object.jpg;
+          });
+          let annotationArray = addressList.map((object, index) => {
+            return object.json;
+          });
+          return { imageArray, annotationArray };
+        },
+        (err) => {
+          console.log("Having Problem", err);
+        }
+      )
+      .then((response) => {
+        imageArray = response.imageArray;
+        setImageArray(imageArray)
+        setAnnotationArray(response.annotationArray)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [router.query]);
+
   return (
     <Provider store={store}>
       <Grid
@@ -196,7 +238,7 @@ export default function Annotator(props) {
         <div style={{ height: "100%", display: "flex" }}>
           <MainAnnotator
             imageList={imageArray}
-            // BoudingBox={BoudingBox}
+            annotationArray={annotationArray}
           />
           <Categories />
         </div>

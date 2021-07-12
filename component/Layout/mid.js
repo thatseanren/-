@@ -5,7 +5,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { CreateNextFrame, CreatePreviousFrame, createSetSelectedBoundingBoxAction, createSetDrawmodeAction, SetCurrentBoundingBoxIndexAction } from '../../redux/action/GeneralReducerAction'
-import { createHandleMouseUpAction } from '../../redux/action/BoundingBoxAction';
+import { createHandleMouseUpAction, createUpdateBoudingBoxAction } from '../../redux/action/BoundingBoxAction';
 import BoundingBox from '../BoundingBox'
 import { categories, class_colors } from './PageLeft'
 const mapStatesToProps = (state) =>
@@ -21,7 +21,8 @@ const mapDispatchToProps = (dispatch) => ({
     previousFrame: () => { dispatch(CreatePreviousFrame()) },
     SetDrawmode: (bool) => { dispatch(createSetDrawmodeAction(bool)) },
     handleMouseUp: (event) => { dispatch(createHandleMouseUpAction(event)) },
-    setCurrentBoundingBoxIndex: (index) => { dispatch(SetCurrentBoundingBoxIndexAction(index)) }
+    setCurrentBoundingBoxIndex: (index) => { dispatch(SetCurrentBoundingBoxIndexAction(index)) },
+    updateBoundingBox: (payload) => { dispatch(createUpdateBoudingBoxAction(payload)) }
 })
 function MidPage(props) {
     var [offsetXY,] = React.useState([])
@@ -31,7 +32,7 @@ function MidPage(props) {
         clientXY = [event.clientX, event.clientY]
     }
     const HandleMouseUp = (event) => {
-        console.log("event")
+        // console.log("event")
         if (event.offsetX > offsetXY[0] && event.offsetY > offsetXY[1]) {
             props.handleMouseUp({
                 currentFrameIndex: props.currentFrameIndex,
@@ -47,7 +48,7 @@ function MidPage(props) {
         }
         //drawing from bottomLeft to topRight
         else if (event.offsetX > offsetXY[0] && event.offsetY < offsetXY[1]) {
-            console.log('bottomLeft to topRight',)
+            // console.log('bottomLeft to topRight',)
             props.handleMouseUp({
                 currentFrameIndex: props.currentFrameIndex,
                 currentBoundingBoxIndex: props.entireBoundingBox[props.currentFrameIndex].length,
@@ -63,7 +64,7 @@ function MidPage(props) {
         }
         //drawing from topRight to bottomLeft
         else if (event.offsetX < offsetXY[0] && event.offsetY > offsetXY[1]) {
-            console.log("drawing from topRight to bottomLeft")
+            // console.log("drawing from topRight to bottomLeft")
             props.handleMouseUp({
                 currentFrameIndex: props.currentFrameIndex,
                 currentBoundingBoxIndex: props.entireBoundingBox[props.currentFrameIndex].length,
@@ -79,7 +80,7 @@ function MidPage(props) {
         }
         //drawing from bottomRight to TopLeft
         else if (event.offsetX < offsetXY[0] && event.offsetY < offsetXY[1]) {
-            console.log("drawing from bottomRight to TopLeft")
+            // console.log("drawing from bottomRight to TopLeft")
             props.handleMouseUp({
                 currentFrameIndex: props.currentFrameIndex,
                 currentBoundingBoxIndex: props.entireBoundingBox[props.currentFrameIndex].length,
@@ -101,7 +102,7 @@ function MidPage(props) {
         const offsetVY = imageElement ? imageElement.offsetTop : 0
         return props.entireBoundingBox[props.currentFrameIndex].map((value, index) => {
             return < BoundingBox
-                backdropFilter = "opacity(0.5)"
+                backdropFilter="opacity(0.5)"
                 backgroundColor="transparent"
                 cursor="pointer"
                 color={class_colors[value.category]}
@@ -127,48 +128,90 @@ function MidPage(props) {
             document.querySelector('#image').removeEventListener("mouseup", HandleMouseUp)
         }
     })
+    React.useEffect(() => {
+        const request = (url) => {
+            return new Promise((resolve, reject) => {
+                const req = new XMLHttpRequest();
+                req.open('GET', url);
+                req.setRequestHeader("Authorization", "bdta");
+                req.withCredentials = true;
+                req.onload = (response) => {
+                    if (response.currentTarget.status === 200) {
+                        resolve(response.currentTarget.response);
+                    } else if (response.currentTarget.status === 404) {
+                        reject(response.currentTarget.responseURL);
+                    }
+                };
+                req.send()
+            })
+        }
+        props.annotationArray.forEach((value, index) => {
+            request(value)
+                .then(
+                    response => {
+                        console.log('successfull', "Frame", index, JSON.parse(response));
+                        JSON.parse(response).forEach((BBvalue, BBindex) => {
+                            props.updateBoundingBox({
+                                currentFrameIndex: index,
+                                currentBoundingBoxIndex:BBindex,
+                                x: BBvalue.x,
+                                y: BBvalue.y,
+                                drawX: BBvalue.drawX,
+                                drawY: BBvalue.drawY,
+                                width: BBvalue.width,
+                                height: BBvalue.height,
+                                category: BBvalue.category,
+                        })
+                        })    
+                    },
+                    err => { console.log('fail', "Frame", index) })
+                .catch(
+                    err => { }
+                )
+        })
+    }, [props.annotationArray])
     return (
         <Grid item container wrap="nowrap" direction="column" alignItems="center" justify="center"
-        style={{background: "#000",justifyContent: "flex-start",height:"100%" }}>
-            <div style={{height:"48px",background: "#272a42",width:"100%"}}>
+            style={{ background: "#000", justifyContent: "flex-start", height: "100%" }}>
+            <div style={{ height: "48px", background: "#272a42", width: "100%" }}>
 
-</div>
-        <div position="relative">
-            <img
-                id="image"
-                src={
-                   `${props.imageList[props.currentFrameIndex]}`
-                }
-                alt="fdsa"
-                role="presentation"
-                style={{
-                    width: 1080,
-                    // maxWidth: `${200}`,
-                    height: 720,
-                    maxHeight: `${3000}`,
-                    display: "block"
-                }}
-                onDragOver={(e) => {
-                    e.preventDefault()
-                }}
-                draggable={false}
-                onContextMenu={event => {
-                    event.preventDefault()
-                }}
-            />
-            {typeof document !== "undefined" && renderBB()}
-            x
-        </div>
-        <div className={"changeFrame"} style={{
-            width: "20%",
-            float: "left",
-            display: "flex",
-            justifyContent: "center",
-            color: "#1976d3",
-            marginTop: "10px"
-        }}
-        >
-            {/* <div style={{ width: "30px", height: "30px", cursor: "pointer", background: "#e3e5e4", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "5px" }}>
+            </div>
+            <div position="relative">
+                <img
+                    id="image"
+                    src={
+                        `${props.imageList[props.currentFrameIndex]}`
+                    }
+                    alt="fdsa"
+                    role="presentation"
+                    style={{
+                        width: 1080,
+                        // maxWidth: `${200}`,
+                        height: 720,
+                        maxHeight: `${3000}`,
+                        display: "block"
+                    }}
+                    onDragOver={(e) => {
+                        e.preventDefault()
+                    }}
+                    draggable={false}
+                    onContextMenu={event => {
+                        event.preventDefault()
+                    }}
+                />
+                {typeof document !== "undefined" && renderBB()}
+                x
+            </div>
+            <div className={"changeFrame"} style={{
+                width: "20%",
+                float: "left",
+                display: "flex",
+                justifyContent: "center",
+                color: "#1976d3",
+                marginTop: "10px"
+            }}
+            >
+                {/* <div style={{ width: "30px", height: "30px", cursor: "pointer", background: "#e3e5e4", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "5px" }}>
                 <Button onClick={props.previousFrame}> < ChevronLeftIcon style={{ fontSize: "18" }} /></Button>
             </div>
             <div style={{
@@ -182,7 +225,7 @@ function MidPage(props) {
                 <Button onClick={props.nextFrame}>  < ChevronRightIcon style={{ fontSize: "18" }} />
 
                 </Button></div> */}
-        </div>
-    </Grid>)
+            </div>
+        </Grid>)
 }
 export default connect(mapStatesToProps, mapDispatchToProps)(MidPage)
