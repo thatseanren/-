@@ -102,6 +102,7 @@ export default class My extends React.Component<
           "&tags=" + tag + "&tasks=" + tas + "&accessibility=private"
       )
       .then((res) => {
+        console.log("Component <myDataset /> -> GET:",res)
         if (res.status === 200 // && !(console.log(`${server}${option.dataset}`), 0) 
           ) {
           this.setState({ DataSetList: res.data.data });
@@ -117,7 +118,7 @@ export default class My extends React.Component<
           console.log(`${server}${option.dataset} mulfunctioning`);
         }
       })
-      .catch(function (error) {
+      .catch(function (error) { 
         console.log(error);
       });
   };
@@ -126,6 +127,7 @@ export default class My extends React.Component<
     axios
       .get(server + "get_dataset_info?accessibility=private", {})
       .then((response) => {
+        console.log("Component <myDataset /> -> GET:",response)
         response.data.data;
         var setdata = this.state.data;
         setdata[0].arr = response.data.data.tags;

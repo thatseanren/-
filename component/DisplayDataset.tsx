@@ -106,6 +106,7 @@ export default function Dataset(props: {
     category: string;
     create_time: string;
     department: string;
+    user_name: string;
   }[];
   accessibility: string;
 }) {
@@ -133,6 +134,8 @@ export default function Dataset(props: {
             category,
             create_time,
             department,
+            user_name,
+            description,
           }) => (
             <Link
               href={`/dataDetailed/`}
@@ -211,7 +214,7 @@ export default function Dataset(props: {
                             height: "18px",
                           }}
                         >
-                          {name || "Dataset Name"}
+                          {description || "Dataset Name"}
                         </span>
                       </div>
                       <div className={classes.metaData_Div}>
@@ -221,13 +224,16 @@ export default function Dataset(props: {
                             height: "15px",
                           }}
                         >
-                          {category || "Category"}
+                          { tags|| "Category"}
                         </span>
                       </div>
-                      {<div className={classes.metaData_Div} style={{fontSize: '17px'}}> {tags}</div>}
+                      {/* {<div className={classes.metaData_Div} style={{fontSize: '17px'}}> {category}</div>} */}
                       <div className={classes.metaData_Div}>
                         <span style={{ fontSize: "12px" }}>
-                          {department || "Author"}
+                          { department} {user_name || "Author"}
+                        </span>
+                        <span style={{ fontSize: "12px", color:"#a8b0b7" }}>
+                          { } {create_time.split(" ")[0]|| "Author"}
                         </span>
                       </div>
                     </div>
