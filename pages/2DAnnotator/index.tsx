@@ -109,6 +109,12 @@ const NextFrame = connect(
     </Button>
   );
 });
+const CurrentFrame = connect(
+  mapStatesToProps,
+  null
+)((props) => {
+  return ( <div className={DataSet.numb_list}> {props.currentFrameIndex + 1} / 50</div>);
+});
 export default function Annotator(props) {
   const router = useRouter();
   const { _taskID, sequence } = router.query;
@@ -201,8 +207,8 @@ export default function Annotator(props) {
       )
       .then((response) => {
         imageArray = response.imageArray;
-        setImageArray(imageArray)
-        setAnnotationArray(response.annotationArray)
+        setImageArray(imageArray);
+        setAnnotationArray(response.annotationArray);
       })
       .catch((error) => {
         console.log(error);
@@ -222,7 +228,7 @@ export default function Annotator(props) {
             style={{ display: "flex", alignItems: "center", height: "100%" }}
           >
             <div style={{ flexGrow: "1" }}></div>
-            <div className={DataSet.numb_list}>1 / 50</div>
+            <CurrentFrame />
             <div>
               <SaveToCloud_through_redud_store_button
                 _taskID={_taskID}

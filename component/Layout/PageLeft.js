@@ -161,7 +161,7 @@ function LeftContainer(props) {
   const classes = useStyle();
 
   const [showClassLabel, setShowClassLabel] = React.useState(false)
-  const [showBoundingBox, setShowBoundingBox] = React.useState(false)
+  const [showBoundingBox, setShowBoundingBox] = React.useState(true)
   return (
 
     <div style={{ display: "flex" }}>
@@ -189,7 +189,7 @@ function LeftContainer(props) {
                 setShowBoundingBox(true);
                 setShowClassLabel(false)
               }}
-            >标注(3)</div>
+            >标注({props.BoundingBoxCollection[props.currentFrameIndex].length })</div>
             <div
               onClick={() => {
                 setShowClassLabel(true);
