@@ -60,6 +60,7 @@ export function ForkDialog(props: any): any {
   const classes = useStyles();
   const [show, setShow] = useState(false);
   const [dataSetName, setDataSetName] = useState("");
+  const [titleName, setTitleName] = useState("");
   const [description, setDscription] = useState("");
   const [datalist, setDataList] = useState();
   const [errorshow, setErrorShow] = useState(3);
@@ -126,6 +127,22 @@ export function ForkDialog(props: any): any {
             <p className={classes.p14Gray}>支持通过标签筛选、使用数据</p>
             <p className={classes.p14Gray}>数据在线可视化，实时查看</p>
             <div className={classes.flexDiv}>
+            <div className={classes.flexDiv}>
+                <p style={{ margin: "0", fontSize: "16px", fontWeight: 500 }}>
+                  数据集名称
+                </p>
+                <p className={clsx(classes.p14Gray, classes.Size12)}>
+                  数据集的名字
+                </p>
+                <TextField
+                  label=""
+                  value={titleName}
+                  onChange={(e) => {
+                    setTitleName(e.target.value);
+                  }}
+                  variant="outlined"
+                ></TextField>
+              </div>
               <div className={classes.flexDiv}>
                 <p style={{ margin: "0", fontSize: "16px", fontWeight: 500 }}>
                   数据集简介
