@@ -23,7 +23,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import clsx from "clsx";
-import Dataset from "../../component/DisplayDataset";
+import Dataset from "../../component/GroupCell";
 import ForDialogWrapper from "../../component/ForkDialog";
 import { useRouter } from "next/router";
 import axios from "axios";

@@ -233,7 +233,7 @@ export default function Dataset(props: {
                           { department} {user_name || "Author"}
                         </span>
                         <span style={{ fontSize: "12px", color:"#a8b0b7" }}>
-                          { } {create_time.split(" ")[0]|| "Author"}
+                          { } {create_time|| "Author"}
                         </span>
                       </div>
                     </div>
