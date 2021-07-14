@@ -35,7 +35,7 @@ export default class Detailed extends React.Component {
             dataId:"",
             errorspan:"",
             errorShow:"none",
-            dataNmae:"",//数据集名称
+            dataNmae:"",//数据集名称1
             category:"2DBox",
             tag:[],
             dataBoxlist:[],
