@@ -47,7 +47,7 @@ export default function StickyHeadTable() {
   const [count, setCount] = useState([]);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const handleCreate = (value) => {
-    axios.get(server_ip + 'get_record_list?limit='+rowsPerPage+'&page='+value*1+1,{'limit':15,'page':1})
+    axios.get(server_ip + 'get_record_list?limit='+rowsPerPage+'&page='+ (parseInt(value*1) + 1),{'limit':15,'page':1})
     .then(function (response) {
       console.log(response.data)
         const data = response.data.data;
