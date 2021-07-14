@@ -8,7 +8,7 @@ import DataSet from "../styles/DataSet.module.css";
 import SearchIcon from "@material-ui/icons/Search";
 import styles from "../styles/Home.module.css";
 import clsx from "clsx";
-import Dataset from "../component/DisplayDataset";
+import GroupCell from "../component/GroupCell";
 import { HomeState } from "./index";
 import axios from "axios";
 import server, { option } from "../main_config";
@@ -181,7 +181,7 @@ export default class My extends React.Component<
               </div>
             </div>
             <div style={{ width: "937px" }}>
-              <Dataset data={this.state.DataSetList} accessibility={"private"} />
+              <GroupCell data={this.state.DataSetList} accessibility={"private"} />
               <div className={styles.pages}>
                 <div
                   className={styles.pagesLable}

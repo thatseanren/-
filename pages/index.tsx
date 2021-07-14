@@ -5,7 +5,7 @@ import styles from "../styles/Home.module.css";
 import Header from "./header.js";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import FilterSection from "../component/FilterSection.js";
-import DataSetDisplay from "../component/DisplayDataset";
+import DataSetDisplay from "../component/GroupCell";
 import axios from "axios";
 import server, { option } from "../main_config";
 import { resolveHref } from "next/dist/next-server/lib/router/router";
