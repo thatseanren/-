@@ -842,3 +842,104 @@ body .pagenet:hover{
 .MuiGrid-wrap-xs-nowrap{
     height: 100%;
 }
+.login_home{
+    width: 480px;
+    border: 1px solid #dadce0;
+    background: #fff;
+    border-radius: 4px;
+}
+.login_flex{
+    width: 100%;
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.v_application_wrap{
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-height: 100vh;
+    max-width: 100%;
+    position: relative;
+}
+.v_content{
+    display: flex;
+    flex: 1 0 auto;
+}
+.v_content_wrap{
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    max-width: 100%;
+    position: relative;
+}
+.page_desktop{
+    width: 100%;
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    justify-content: center;
+}
+.sign_in_desktop{
+    width: 380px;
+    height: 100%;
+    padding: 0 0 12px 0;
+    margin: 0 auto;
+}
+.login_title{
+    font-size: 20px;
+    color: rgb(17, 17, 17);
+    font-weight: 600;
+    margin-bottom: 12px;
+    text-align: center;
+}
+.login_input{
+    width: 100%;
+    background: #f9f8fc;
+}
+.login_input fieldset{
+    border: 0px !important;
+}
+.login_bottom{
+    margin-top: 16px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+.login_span{
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 3px 4px;
+    color: rgb(137, 138, 150);
+    margin-left: 16px;
+    position: static;
+    font-size: 12px;
+    font-weight: bold;
+}
