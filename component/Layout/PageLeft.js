@@ -1,6 +1,7 @@
 import React from "react";
 import Paper from "@material-ui/core/Paper";
 import Divider from "@material-ui/core/Divider";
+import IconButton from '@material-ui/core/IconButton';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -21,7 +22,7 @@ import store from '../../redux'
 import { connect } from 'react-redux'
 import DataSet from "../../styles/DataSet.module.css";
 import { createUpdateBoudingBoxAction } from '../../redux/action/BoundingBoxAction'
-import { createSetCurrentCategoryAction, createSetSelectedBoundingBoxAction } from '../../redux/action/GeneralReducerAction'
+import { createSetCurrentCategoryAction, createSetSelectedBoundingBoxAction,createSwitchCurrentStyle } from '../../redux/action/GeneralReducerAction'
 const useStyle = makeStyles((theme) => ({
   flexItem: {
     flexBasis: "17.5vw",
@@ -151,11 +152,17 @@ const mapDispatchToProps = (dispatch) => (
       dispatch(
         createSetSelectedBoundingBoxAction(SelectedBoundingBoxIndex)
       )
+    },
+    swtichStyle: (style) =>{
+      dispatch(
+        createSwitchCurrentStyle(style)
+      )
     }
   })
 const mapStateToProps = (state) => ({
   currentFrameIndex: state.GeneralReducer.currentFrameIndex,
-  BoundingBoxCollection: state.BoundingBoxCollection
+  BoundingBoxCollection: state.BoundingBoxCollection,
+  currentStyle: state.GeneralReducer.currentStyle
 })
 function LeftContainer(props) {
   const classes = useStyle();
@@ -172,11 +179,19 @@ function LeftContainer(props) {
         <div class={DataSet.tapBoxList}>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", margin: "8px 0px" }}>
             <div class={DataSet.boxTap}>
-              <CheckBoxOutlineBlankIcon />
+            <IconButton onClick = {()=>{
+                props.swtichStyle("BOX")
+            }}>
+               <CheckBoxOutlineBlankIcon />
+            </IconButton>
             </div>
             <div class={DataSet.boxTap}>
-              <LinearScaleIcon />
-            </div>
+              <IconButton onClick = {() =>{
+               props.swtichStyle("POLYLINE")
+              }}>  
+                <LinearScaleIcon /> 
+               </IconButton>
+            </div> 
           </div>
 
         </div>
