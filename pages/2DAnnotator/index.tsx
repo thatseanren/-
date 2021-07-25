@@ -70,6 +70,7 @@ const mapStatesToProps = (state) => ({
   currentBoundingBoxIndex: state.GeneralReducer.currentBoundingBoxIndex,
   currentDrawMode: state.GeneralReducer.currentDrawMode,
   currentCategory: state.GeneralReducer.currentCategory,
+  currentStyle:state.GeneralReducer.currentStyle
 });
 const PreviousFrame = connect(
   null,
@@ -152,41 +153,6 @@ export default function Annotator(props) {
           }
         };
         imageRequest.send();
-        // imageRequest.addEventListener("load", ({ target }) => {
-        //   let { response } = target;
-        //   let parsedData = JSON.parse(response).data;
-
-        //   XMLresult = concatAddresstoData(parsedData);
-        //   imageArray = XMLresult.map((object, index) => {
-        //     return object.jpg;
-        //   });
-        //   window.result = XMLresult;
-        //   setImageArray(imageArray);
-        //   // if (Object.keys(result[0]).includes("json")) {
-        //   //   console.log("有标注信息", result[0]["json"])
-        //   //   const annotationRequest = new XMLHttpRequest();
-        //   //   annotationRequest.open(
-        //   //     "GET", result[0]["json"]
-        //   //   )
-        //   //   annotationRequest.setRequestHeader("Authorization", "bdta");
-        //   //   annotationRequest.withCredentials = true;
-        //   //   annotationRequest.addEventListener("load", ({ target }) => {
-        //   //     let { response } = target;
-        //   //     let parsedData = JSON.parse(response)
-        //   //     parsedData.forEach(value => {
-        //   //    })
-        //   //   })
-        //   //   annotationRequest.send()
-        //   //   // annotationArray = JSON.parse(response).data.map((object, index) => {
-        //   //   //   return object.json;
-        //   //   // });
-        //   //   // annotationArray = annotationArray.map((address) => {
-        //   //   //   return `${dataServer}/${option.getMeterail}${address}`;
-        //   //   // });
-        //   //   // console.log("加载已有标注", annotationArray);
-        //   //   // setAnnotationArray(annotationArray);
-        //   // }
-        // });
       });
     };
     request()

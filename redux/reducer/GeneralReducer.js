@@ -6,6 +6,7 @@ export default function GeneralReducer(state = {
     currentSelectedBoundingBoxIndex: 0,
     currentDrawMode: false,
     currentCategory: 0,
+    currentStyle:"BOX"
 }, action) {
     let NewState = {...state}
     switch (action.type) {
@@ -30,6 +31,8 @@ export default function GeneralReducer(state = {
             return { ...state, currentBoundingBoxIndex: action.payload }
         case Constant.SETCURRENTCATEGORY:
             return { ...state, currentCategory: action.payload.category }
+        case Constant.SWITCHSTYLE:
+            return {...state, currentStyle:action.payload}
         default:
             return NewState;
     }

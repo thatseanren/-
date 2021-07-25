@@ -21,3 +21,7 @@ export const createSetCurrentCategoryAction = (info) => ({
     type: ActionConstant.SETCURRENTCATEGORY,
     payload: info
 })
+export const createSwitchCurrentStyle = (info) =>({
+    type:ActionConstant.SWITCHSTYLE,
+    payload:info
+})

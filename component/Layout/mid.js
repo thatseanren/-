@@ -14,7 +14,8 @@ const mapStatesToProps = (state) =>
     currentFrameIndex: state.GeneralReducer.currentFrameIndex,
     currentBoundingBoxIndex: state.GeneralReducer.currentBoundingBoxIndex,
     currentDrawMode: state.GeneralReducer.currentDrawMode,
-    currentCategory: state.GeneralReducer.currentCategory
+    currentCategory: state.GeneralReducer.currentCategory,
+    currentStyle: state.GeneralReducer.currentStyle
 })
 const mapDispatchToProps = (dispatch) => ({
     nextFrame: () => { dispatch(CreateNextFrame()) },
