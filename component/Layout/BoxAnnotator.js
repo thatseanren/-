@@ -171,62 +171,67 @@ function MidPage(props) {
                 )
         })
     }, [props.annotationArray])
-    return (
-        <Grid item container wrap="nowrap" direction="column" alignItems="center" justify="center"
-            style={{ background: "#000", justifyContent: "flex-start", height: "100%" }}>
-            <div style={{ height: "48px", background: "#272a42", width: "100%" }}>
-
-            </div>
-            <div position="relative">
-                <img
-                    id="image"
-                    src={
-                        `${props.imageList[props.currentFrameIndex]}`
-                    }
-                    alt="fdsa"
-                    role="presentation"
-                    style={{
-                        width: 1080,
-                        // maxWidth: `${200}`,
-                        height: 720,
-                        maxHeight: `${3000}`,
-                        display: "block"
-                    }}
-                    onDragOver={(e) => {
-                        e.preventDefault()
-                    }}
-                    draggable={false}
-                    onContextMenu={event => {
-                        event.preventDefault()
-                    }}
-                />
-                {typeof document !== "undefined" && renderBB()}
-                x
-            </div>
-            <div className={"changeFrame"} style={{
-                width: "20%",
-                float: "left",
-                display: "flex",
-                justifyContent: "center",
-                color: "#1976d3",
-                marginTop: "10px"
-            }}
-            >
-                {/* <div style={{ width: "30px", height: "30px", cursor: "pointer", background: "#e3e5e4", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "5px" }}>
-                <Button onClick={props.previousFrame}> < ChevronLeftIcon style={{ fontSize: "18" }} /></Button>
-            </div>
-            <div style={{
-                margin: "0px 20px",
-                fontSize: "14px",
-                lineHeight: "30px"
-            }}>
-                {props.currentFrameIndex + 1}/50
-            </div>
-            <div style={{ width: "30px", height: "30px", cursor: "pointer", background: "#e3e5e4", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "5px" }}>
-                <Button onClick={props.nextFrame}>  < ChevronRightIcon style={{ fontSize: "18" }} />
-
-                </Button></div> */}
-            </div>
-        </Grid>)
+    if (props.currentStyle === "BOX"){
+        return (
+            <Grid item container wrap="nowrap" direction="column" alignItems="center" justify="center"
+                style={{ background: "#000", justifyContent: "flex-start", height: "100%" }}>
+                <div style={{ height: "48px", background: "#272a42", width: "100%" }}>
+    
+                </div>
+                <div position="relative">
+                    <img
+                        id="image"
+                        src={
+                            `${props.imageList[props.currentFrameIndex]}`
+                        }
+                        alt="fdsa"
+                        role="presentation"
+                        style={{
+                            width: 1080,
+                            // maxWidth: `${200}`,
+                            height: 720,
+                            maxHeight: `${3000}`,
+                            display: "block"
+                        }}
+                        onDragOver={(e) => {
+                            e.preventDefault()
+                        }}
+                        draggable={false}
+                        onContextMenu={event => {
+                            event.preventDefault()
+                        }}
+                    />
+                    {typeof document !== "undefined" && renderBB()}
+                    x
+                </div>
+                <div className={"changeFrame"} style={{
+                    width: "20%",
+                    float: "left",
+                    display: "flex",
+                    justifyContent: "center",
+                    color: "#1976d3",
+                    marginTop: "10px"
+                }}
+                >
+                    {/* <div style={{ width: "30px", height: "30px", cursor: "pointer", background: "#e3e5e4", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "5px" }}>
+                    <Button onClick={props.previousFrame}> < ChevronLeftIcon style={{ fontSize: "18" }} /></Button>
+                </div>
+                <div style={{
+                    margin: "0px 20px",
+                    fontSize: "14px",
+                    lineHeight: "30px"
+                }}>
+                    {props.currentFrameIndex + 1}/50
+                </div>
+                <div style={{ width: "30px", height: "30px", cursor: "pointer", background: "#e3e5e4", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "5px" }}>
+                    <Button onClick={props.nextFrame}>  < ChevronRightIcon style={{ fontSize: "18" }} />
+    
+                    </Button></div> */}
+                </div>
+            </Grid>)
+    }else{
+        return null
+    }
+    
 }
 export default connect(mapStatesToProps, mapDispatchToProps)(MidPage)

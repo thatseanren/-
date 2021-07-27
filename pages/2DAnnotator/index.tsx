@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "../header";
-import MainAnnotator from "../../component/Layout/mid";
+import StyleisBox from "../../component/Layout/BoxAnnotator";
+import StyleisPolyline from "../../component/Layout/PolylineAnnotator";
 import Categories from "../../component/Layout/PageLeft";
 import Position from "../../component/Layout/PageRight";
 import { Provider } from "react-redux";
@@ -70,7 +71,7 @@ const mapStatesToProps = (state) => ({
   currentBoundingBoxIndex: state.GeneralReducer.currentBoundingBoxIndex,
   currentDrawMode: state.GeneralReducer.currentDrawMode,
   currentCategory: state.GeneralReducer.currentCategory,
-  currentStyle:state.GeneralReducer.currentStyle
+  currentStyle: state.GeneralReducer.currentStyle,
 });
 const PreviousFrame = connect(
   null,
@@ -114,7 +115,9 @@ const CurrentFrame = connect(
   mapStatesToProps,
   null
 )((props) => {
-  return ( <div className={DataSet.numb_list}> {props.currentFrameIndex + 1} / 50</div>);
+  return (
+    <div className={DataSet.numb_list}> {props.currentFrameIndex + 1} / 50</div>
+  );
 });
 export default function Annotator(props) {
   const router = useRouter();
@@ -208,7 +211,13 @@ export default function Annotator(props) {
           </div>
         </div>
         <div style={{ height: "100%", display: "flex" }}>
-          <MainAnnotator
+          {
+            <StyleisBox
+              imageList={imageArray}
+              annotationArray={annotationArray}
+            />
+          }
+          <StyleisPolyline
             imageList={imageArray}
             annotationArray={annotationArray}
           />

@@ -13,3 +13,5 @@ export const SETCURRENTBOUNDINGBOX = Symbol("set_current_bounding_box")
 export const HANDLERESIZE = Symbol("resize")
 export const HANDLESAVETOCLOUD = Symbol("save_to_cloud")
 export const SWITCHSTYLE=Symbol("switch_style")
+
+export const POLYLINESWITCHSTATE = Symbol("POLYLINESWITCHSTATE")
