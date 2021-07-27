@@ -32,6 +32,7 @@ export default function GeneralReducer(state = {
         case Constant.SETCURRENTCATEGORY:
             return { ...state, currentCategory: action.payload.category }
         case Constant.SWITCHSTYLE:
+            console.log("Style: ", action.payload)
             return {...state, currentStyle:action.payload}
         default:
             return NewState;
