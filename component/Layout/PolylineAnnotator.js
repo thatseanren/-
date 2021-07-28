@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
-
+import { categories, class_colors } from "./PageLeft";
 import {
   createSwtichStateAction,
   createPOLYLINEHandleMouseUpAction,
@@ -14,6 +14,7 @@ const mapStatesToProps = (state) => ({
   state: state.Polyline.state,
   points: state.Polyline.points,
   selected: state.Polyline.selected,
+  currentCategory: state.GeneralReducer.currentCategory,
 });
 const mapDispatchToProps = (Dispatch) => ({
   swtichState: (event) => {
@@ -22,8 +23,8 @@ const mapDispatchToProps = (Dispatch) => ({
   mouseUp: (event) => {
     Dispatch(createPOLYLINEHandleMouseUpAction(event));
   },
-  mouseDown: (event) => {
-    Dispatch(createPOLYLINEHandleMouseDownAction(event));
+  mouseDown: (payload) => {
+    Dispatch(createPOLYLINEHandleMouseDownAction(payload));
   },
   mouseMove: (event) => { Dispatch(createPOLYLINEHandleMouseMoveAction(event)) },
   keyDown: (event) => {
@@ -285,19 +286,44 @@ function POLYLINE(props) {
     mouseUp,
     mouseDown,
     selected,
-    mouseMove
+    mouseMove,
+    currentCategory
   } = props;
+  const mouseDownWrapper = (event) => {
+    mouseDown({
+      event: event,
+      currentCategory: currentCategory,
+    })
+  }
+  const mouseMoveWrapper = (event) => {
+    mouseMove({
+      event: event,
+      currentCategory: currentCategory,
+    })
+  }
+  const mouseUpWrapper = (event) => {
+    mouseUp({
+      event: event,
+      currentCategory: currentCategory,
+    })
+  }
+  const keyDownWrapper = event => {
+    keyDown({
+      event: event,
+      currentCategory: currentCategory,
+    })
+  }
   React.useEffect(() => {
     const Ele = document.querySelector("#image");
-    Ele.addEventListener("mousedown", mouseDown);
-    Ele.addEventListener("mousemove", mouseMove)
-    Ele.addEventListener("mouseup", mouseUp);
-    document.addEventListener("keydown", keyDown);
+    Ele.addEventListener("mousedown", mouseDownWrapper);
+    Ele.addEventListener("mousemove", mouseMoveWrapper)
+    Ele.addEventListener("mouseup", mouseUpWrapper);
+    document.addEventListener("keydown", keyDownWrapper);
     return () => {
-      Ele.removeEventListener("mousedown", mouseDown);
-      Ele.removeEventListener("mousemove", mouseMove);
-      Ele.removeEventListener("mouseup", mouseUp);
-      document.removeEventListener("keydown", keyDown);
+      Ele.removeEventListener("mousedown", mouseDownWrapper);
+      Ele.removeEventListener("mousemove", mouseMoveWrapper);
+      Ele.removeEventListener("mouseup", mouseUpWrapper);
+      document.removeEventListener("keydown", keyDownWrapper);
     };
   });
   React.useEffect(() => {
@@ -318,7 +344,7 @@ function POLYLINE(props) {
         ctx.moveTo(POLYGON[a][0], POLYGON[a][1]);
       }
       ctx.closePath();
-      ctx.strokeStyle = index === selected ? "green" : "white";
+      ctx.strokeStyle = index === selected ? "green" : class_colors[POLYGON[0][2]];
       ctx.stroke();
       for (var a = 1; a < POLYGON.length - 1; a++) {
         ctx.beginPath();
@@ -329,7 +355,7 @@ function POLYLINE(props) {
         ctx.lineWidth = 3;
       }
     });
-  }, [points, selected]);
+  }, );
   return (
     <Grid
       item
