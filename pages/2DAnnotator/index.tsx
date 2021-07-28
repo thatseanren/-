@@ -73,6 +73,19 @@ const mapStatesToProps = (state) => ({
   currentCategory: state.GeneralReducer.currentCategory,
   currentStyle: state.GeneralReducer.currentStyle,
 });
+const StoreWrapper = connect(
+  mapStatesToProps,
+  null
+)((props) => {
+
+  const { imageList, annotationArray } = props;
+
+  return props.currentStyle === "BOX" ? (
+    <StyleisBox imageList={imageList} annotationArray={annotationArray} />
+  ) : (
+    <StyleisPolyline imageList={imageList} annotationArray={annotationArray} />
+  );
+});
 const PreviousFrame = connect(
   null,
   mapDispatchToProps
@@ -183,7 +196,7 @@ export default function Annotator(props) {
         console.log(error);
       });
   }, [router.query]);
-
+  console.log(imageArray);
   return (
     <Provider store={store}>
       <Grid
@@ -211,13 +224,7 @@ export default function Annotator(props) {
           </div>
         </div>
         <div style={{ height: "100%", display: "flex" }}>
-          {
-            <StyleisBox
-              imageList={imageArray}
-              annotationArray={annotationArray}
-            />
-          }
-          <StyleisPolyline
+          <StoreWrapper
             imageList={imageArray}
             annotationArray={annotationArray}
           />
