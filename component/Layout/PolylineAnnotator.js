@@ -6,7 +6,8 @@ import {
   createSwtichStateAction,
   createPOLYLINEHandleMouseUpAction,
   createPOLYLINEHandleMouseDownAction,
-  createPOLYLINEHandleKeyDownAction, createPOLYLINEHandleMouseMoveAction
+  createPOLYLINEHandleKeyDownAction,
+  createPOLYLINEHandleMouseMoveAction
 } from "../../redux/action/PolyLineAction";
 const mapStatesToProps = (state) => ({
   currentStyle: state.GeneralReducer.currentStyle,
@@ -289,17 +290,16 @@ function POLYLINE(props) {
   React.useEffect(() => {
     const Ele = document.querySelector("#image");
     Ele.addEventListener("mousedown", mouseDown);
-    Ele.addEventListener("musemove",mouseMove)
-    // Ele.addEventListener("mouseup", mouseUp);
+    Ele.addEventListener("mousemove", mouseMove)
+    Ele.addEventListener("mouseup", mouseUp);
     document.addEventListener("keydown", keyDown);
     return () => {
       Ele.removeEventListener("mousedown", mouseDown);
-      Ele.removeEventListener("movemove", mouseMove);
-      //   Ele.removeEventListener("mouseup", mouseUp);
+      Ele.removeEventListener("mousemove", mouseMove);
+      Ele.removeEventListener("mouseup", mouseUp);
       document.removeEventListener("keydown", keyDown);
     };
   });
-  window.tools = props;
   React.useEffect(() => {
     const ctx = document.querySelector("#POLYLINE").getContext("2d");
     ctx.clearRect(0, 0, 1080, 720);

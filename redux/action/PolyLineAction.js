@@ -3,6 +3,7 @@ import {
   POLYLINEHANDLEMOUSEUP,
   POLYLINEHANDLEMOUSEDOWN,
   POLYLINEHANDLEKEYDOWN,
+  POLYLINEHANDLEMOUSEMOVE
 } from "./actionConstant";
 
 export const createSwtichStateAction = (state) => ({
@@ -12,7 +13,7 @@ export const createSwtichStateAction = (state) => ({
 
 export const createPOLYLINEHandleMouseUpAction = (payload) => ({
   type: POLYLINEHANDLEMOUSEUP,
-  paylaod: payload,
+  payload: payload,
 });
 export const createPOLYLINEHandleMouseDownAction = (payload) => ({
   type: POLYLINEHANDLEMOUSEDOWN,

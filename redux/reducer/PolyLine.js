@@ -9,6 +9,7 @@ const defaultState = {
   state: "IDLE",
   points: [],
   selected: null,
+  on_change_point: null,
 };
 /*
     @param: we have a two dimensional array, eachPolyline[ eachpoint[ ] ]
@@ -59,7 +60,8 @@ const Polyline = (state = defaultState, { type, payload }) => {
           payload.offsetY
         );
         if (is_still_the_same_selected) {
-          NewState.state = "ON_Selected";
+          NewState.state = "ON_Changing_Selected";
+          NewState.on_change_point = is_still_the_same_selected[1]
           console.log("onpoint", is_still_the_same_selected[1]);
         } else {
           NewState.state = "IDLE";
@@ -68,10 +70,18 @@ const Polyline = (state = defaultState, { type, payload }) => {
       console.log(NewState, NewState.state);
       return NewState;
     case POLYLINEHANDLEMOUSEUP:
+      console.log(payload)
+      if (NewState.state === "ON_Changing_Selected") {
+        NewState.points[NewState.selected][NewState.on_change_point] = [payload.offsetX, payload.offsetY]
+        NewState.state = "IDLE";
+      }
       return NewState;
     case POLYLINEHANDLEMOUSEMOVE:
-
-      
+      // console.log(1)
+      if (NewState.state === "ON_Changing_Selected") {
+        NewState.points[NewState.selected][NewState.on_change_point] = [payload.offsetX, payload.offsetY]
+      }
+      return NewState;
     case POLYLINEHANDLEKEYDOWN:
       console.log(payload);
       if (payload.code === "Enter") {
