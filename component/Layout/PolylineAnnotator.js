@@ -6,7 +6,7 @@ import {
   createSwtichStateAction,
   createPOLYLINEHandleMouseUpAction,
   createPOLYLINEHandleMouseDownAction,
-  createPOLYLINEHandleKeyDownAction,
+  createPOLYLINEHandleKeyDownAction, createPOLYLINEHandleMouseMoveAction
 } from "../../redux/action/PolyLineAction";
 const mapStatesToProps = (state) => ({
   currentStyle: state.GeneralReducer.currentStyle,
@@ -24,6 +24,7 @@ const mapDispatchToProps = (Dispatch) => ({
   mouseDown: (event) => {
     Dispatch(createPOLYLINEHandleMouseDownAction(event));
   },
+  mouseMove: (event) => { Dispatch(createPOLYLINEHandleMouseMoveAction(event)) },
   keyDown: (event) => {
     Dispatch(createPOLYLINEHandleKeyDownAction(event));
   },
@@ -283,14 +284,17 @@ function POLYLINE(props) {
     mouseUp,
     mouseDown,
     selected,
+    mouseMove
   } = props;
   React.useEffect(() => {
     const Ele = document.querySelector("#image");
     Ele.addEventListener("mousedown", mouseDown);
+    Ele.addEventListener("musemove",mouseMove)
     // Ele.addEventListener("mouseup", mouseUp);
     document.addEventListener("keydown", keyDown);
     return () => {
       Ele.removeEventListener("mousedown", mouseDown);
+      Ele.removeEventListener("movemove", mouseMove);
       //   Ele.removeEventListener("mouseup", mouseUp);
       document.removeEventListener("keydown", keyDown);
     };
@@ -303,7 +307,7 @@ function POLYLINE(props) {
     points.forEach((POLYGON, index) => {
       ctx.beginPath();
       ctx.fillStyle = index === selected ? "yellow" : "red";
-      ctx.arc(POLYGON[0][0], POLYGON[0][1], 5 , 0, 2 * Math.PI, false);
+      ctx.arc(POLYGON[0][0], POLYGON[0][1], 5, 0, 2 * Math.PI, false);
       ctx.closePath();
       ctx.fill();
       ctx.globalAlpha = 1.0;
@@ -314,7 +318,7 @@ function POLYLINE(props) {
         ctx.moveTo(POLYGON[a][0], POLYGON[a][1]);
       }
       ctx.closePath();
-      ctx.strokeStyle = index === selected ? "green" :  "white";
+      ctx.strokeStyle = index === selected ? "green" : "white";
       ctx.stroke();
       for (var a = 1; a < POLYGON.length - 1; a++) {
         ctx.beginPath();

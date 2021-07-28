@@ -3,6 +3,7 @@ import {
   POLYLINEHANDLEMOUSEUP,
   POLYLINEHANDLEMOUSEDOWN,
   POLYLINEHANDLEKEYDOWN,
+  POLYLINEHANDLEMOUSEMOVE
 } from "../action/actionConstant";
 const defaultState = {
   state: "IDLE",
@@ -21,17 +22,12 @@ const Polyline = (state = defaultState, { type, payload }) => {
     case POLYLINESWITCHSTATE:
       return { ...NewState, ...{ state: payload } };
     case POLYLINEHANDLEMOUSEDOWN:
-      console.log(NewState);
+
       //when we change the points of NewState,
       if (NewState.state === "IDLE") {
-        let result = util_input_is_near_any_control_point(
-          NewState,
-          payload.offsetX,
-          payload.offsetY
-        );
-        if (result) {
-          //select
-          NewState.selected = result[1];
+        let is_near_any_polyline = util_input_is_near_any_polyline(NewState.points, payload.offsetX, payload.offsetY)
+        if (Object.keys(is_near_any_polyline).length) {
+          NewState.selected = parseInt(Object.keys(is_near_any_polyline)[0]);
           NewState.state = "ON_Selected";
         } else {
           NewState.points.push([[payload.offsetX, payload.offsetY]]);
@@ -57,27 +53,25 @@ const Polyline = (state = defaultState, { type, payload }) => {
           ]);
         }
       } else if (NewState.state === "ON_Selected") {
-        let result = util_input_is_near_any_control_point(
-          NewState,
+        let is_still_the_same_selected = util_input_is_near_any_point(
+          NewState.points[NewState.selected],
           payload.offsetX,
           payload.offsetY
         );
-        if (result) {
-          NewState.selected = result[1];
+        if (is_still_the_same_selected) {
           NewState.state = "ON_Selected";
-          let point = util_input_is_near_any_point(
-            NewState.points[result[1]],
-            payload.offsetX,
-            payload.offsetY
-          );
-          console.log("onpoint", point);
+          console.log("onpoint", is_still_the_same_selected[1]);
         } else {
           NewState.state = "IDLE";
         }
       }
+      console.log(NewState, NewState.state);
       return NewState;
     case POLYLINEHANDLEMOUSEUP:
       return NewState;
+    case POLYLINEHANDLEMOUSEMOVE:
+
+      
     case POLYLINEHANDLEKEYDOWN:
       console.log(payload);
       if (payload.code === "Enter") {
@@ -133,3 +127,21 @@ const util_input_is_near_any_point = (points, cx, cy) => {
   }
   return false;
 };
+
+const util_input_is_near_any_polyline = (arryOfPolyline, cx, cy) => {
+  const result = {}
+  arryOfPolyline.forEach((polyline, index) => {
+    polyline.forEach((points, ind) => {
+      var dx = Math.abs(cx - points[0]);
+      var dy = Math.abs(cy - points[1]);
+      if (dx <= 30 && dy <= 30) {
+        //This means user has clicked on a point where is from index of Polyline, of ind of that polyline
+        result[index] = {
+          polyline: index,
+          point: ind,
+        }
+      }
+    })
+  })
+  return result
+}

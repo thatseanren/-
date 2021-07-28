@@ -6,7 +6,7 @@ export default function GeneralReducer(state = {
     currentSelectedBoundingBoxIndex: 0,
     currentDrawMode: false,
     currentCategory: 0,
-    currentStyle:"BOX"
+    currentStyle:"POLYLINE"
 }, action) {
     let NewState = {...state}
     switch (action.type) {
