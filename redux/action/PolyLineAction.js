@@ -23,3 +23,8 @@ export const createPOLYLINEHandleKeyDownAction = (payload) => ({
   type: POLYLINEHANDLEKEYDOWN,
   payload: payload,
 });
+
+export const createPOLYLINEHandleMouseMoveAction = (payload) => ({
+  type: POLYLINEHANDLEMOUSEMOVE,
+  payload:payload,
+})
