@@ -12,6 +12,7 @@ const mapStatesToProps = (state) => ({
   currentStyle: state.GeneralReducer.currentStyle,
   state: state.Polyline.state,
   points: state.Polyline.points,
+  selected: state.Polyline.selected,
 });
 const mapDispatchToProps = (Dispatch) => ({
   swtichState: (event) => {
@@ -281,6 +282,7 @@ function POLYLINE(props) {
     keyDown,
     mouseUp,
     mouseDown,
+    selected,
   } = props;
   React.useEffect(() => {
     const Ele = document.querySelector("#image");
@@ -293,23 +295,37 @@ function POLYLINE(props) {
       document.removeEventListener("keydown", keyDown);
     };
   });
-  console.log("POLYLINE");
   window.tools = props;
   React.useEffect(() => {
     const ctx = document.querySelector("#POLYLINE").getContext("2d");
-    ctx.strokeStyle = "yellow";
+    ctx.clearRect(0, 0, 1080, 720);
     ctx.lineWidth = 2;
-    points.forEach((POLYGON) => {
+    points.forEach((POLYGON, index) => {
+      ctx.beginPath();
+      ctx.fillStyle = index === selected ? "yellow" : "red";
+      ctx.arc(POLYGON[0][0], POLYGON[0][1], 5 , 0, 2 * Math.PI, false);
+      ctx.closePath();
+      ctx.fill();
+      ctx.globalAlpha = 1.0;
       ctx.beginPath();
       ctx.moveTo(POLYGON[0][0], POLYGON[0][1]);
       for (var a = 1; a < POLYGON.length; a++) {
         ctx.lineTo(POLYGON[a][0], POLYGON[a][1]);
-        ctx.moveTo(POLYGON[a][0], POLYGON[a][1])
+        ctx.moveTo(POLYGON[a][0], POLYGON[a][1]);
       }
       ctx.closePath();
+      ctx.strokeStyle = index === selected ? "green" :  "white";
       ctx.stroke();
+      for (var a = 1; a < POLYGON.length - 1; a++) {
+        ctx.beginPath();
+        ctx.arc(POLYGON[a][0], POLYGON[a][1], 4, 0, 2 * Math.PI, false);
+        ctx.closePath();
+        ctx.fill();
+        ctx.globalAlpha = 1.0;
+        ctx.lineWidth = 3;
+      }
     });
-  }, [points]);
+  }, [points, selected]);
   return (
     <Grid
       item
@@ -352,7 +368,7 @@ function POLYLINE(props) {
           id="POLYLINE"
           width={1080}
           height={720}
-          style={{ pointerEvents: "none" ,position:"relative", top: "-720px"}}
+          style={{ pointerEvents: "none", position: "relative", top: "-720px" }}
         ></canvas>
         {/* {typeof document !== "undefined" && renderBB()} */}
       </div>
