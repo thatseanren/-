@@ -2,7 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 
-import { createSwtichStateAction } from "../../redux/action/PolyLineAction";
+import {
+  createSwtichStateAction,
+  createPOLYLINEHandleMouseUpAction,
+  createPOLYLINEHandleMouseDownAction,
+  createPOLYLINEHandleKeyDownAction,
+} from "../../redux/action/PolyLineAction";
 const mapStatesToProps = (state) => ({
   currentStyle: state.GeneralReducer.currentStyle,
   state: state.Polyline.state,
@@ -11,6 +16,15 @@ const mapStatesToProps = (state) => ({
 const mapDispatchToProps = (Dispatch) => ({
   swtichState: (event) => {
     Dispatch(createSwtichStateAction(event));
+  },
+  mouseUp: (event) => {
+    Dispatch(createPOLYLINEHandleMouseUpAction(event));
+  },
+  mouseDown: (event) => {
+    Dispatch(createPOLYLINEHandleMouseDownAction(event));
+  },
+  keyDown: (event) => {
+    Dispatch(createPOLYLINEHandleKeyDownAction(event));
   },
 });
 const keydown_handler = (e) => {
@@ -259,63 +273,90 @@ const mouseMoveHandler = (e) => {
   }
 };
 function POLYLINE(props) {
-  const { currentStyle, switchState, state, points } = props;
-  //   React.useEffect(() => {
-  //     const Ele = document.querySelector("#image");
-  //     Ele.addEventListener("mousedown", mouseDownHandler);
-  //     Ele.addEventListener("mouseup", mouseUpHandler);
-  //     return () => {
-  //       Ele.removeEventListener("mousedown", mouseDownHandler);
-  //       Ele.remoteEventListener("mouseup", mouseUpHandler);
-  //     };
-  //   });
-  if (props.currentStyle === "POLYLINE") {
-    console.log("POY");
-    window.tools = props;
-    return (
-      <Grid
-        item
-        container
-        wrap="nowrap"
-        direction="column"
-        alignItems="center"
-        justify="center"
-        style={{
-          background: "#000",
-          justifyContent: "flex-start",
-          height: "100%",
-        }}
-      >
-        <div
-          style={{ height: "48px", background: "#272a42", width: "100%" }}
-        ></div>
-        <div position="relative">
-          <img
-            id="image"
-            src={`${props.imageList[props.currentFrameIndex]}`}
-            alt="fdsa"
-            role="presentation"
-            style={{
-              width: 1080,
-              // maxWidth: `${200}`,
-              height: 720,
-              maxHeight: `${3000}`,
-              display: "block",
-            }}
-            onDragOver={(e) => {
-              e.preventDefault();
-            }}
-            draggable={false}
-            onContextMenu={(event) => {
-              event.preventDefault();
-            }}
-          />
-          {/* {typeof document !== "undefined" && renderBB()} */}
-        </div>
-      </Grid>
-    );
-  } else {
-    return null;
-  }
+  const {
+    currentStyle,
+    switchState,
+    state,
+    points,
+    keyDown,
+    mouseUp,
+    mouseDown,
+  } = props;
+  React.useEffect(() => {
+    const Ele = document.querySelector("#image");
+    Ele.addEventListener("mousedown", mouseDown);
+    // Ele.addEventListener("mouseup", mouseUp);
+    document.addEventListener("keydown", keyDown);
+    return () => {
+      Ele.removeEventListener("mousedown", mouseDown);
+      //   Ele.removeEventListener("mouseup", mouseUp);
+      document.removeEventListener("keydown", keyDown);
+    };
+  });
+  console.log("POLYLINE");
+  window.tools = props;
+  React.useEffect(() => {
+    const ctx = document.querySelector("#POLYLINE").getContext("2d");
+    ctx.strokeStyle = "yellow";
+    ctx.lineWidth = 2;
+    points.forEach((POLYGON) => {
+      ctx.beginPath();
+      ctx.moveTo(POLYGON[0][0], POLYGON[0][1]);
+      for (var a = 1; a < POLYGON.length; a++) {
+        ctx.lineTo(POLYGON[a][0], POLYGON[a][1]);
+        ctx.moveTo(POLYGON[a][0], POLYGON[a][1])
+      }
+      ctx.closePath();
+      ctx.stroke();
+    });
+  }, [points]);
+  return (
+    <Grid
+      item
+      container
+      wrap="nowrap"
+      direction="column"
+      alignItems="center"
+      justify="center"
+      style={{
+        background: "#000",
+        justifyContent: "flex-start",
+        height: "100%",
+      }}
+    >
+      <div
+        style={{ height: "48px", background: "#272a42", width: "100%" }}
+      ></div>
+      <div position="relative">
+        <img
+          id="image"
+          src={`${props.imageList[props.currentFrameIndex]}`}
+          alt="fdsa"
+          role="presentation"
+          style={{
+            width: 1080,
+            // maxWidth: `${200}`,
+            height: 720,
+            maxHeight: `${3000}`,
+            display: "block",
+          }}
+          onDragOver={(e) => {
+            e.preventDefault();
+          }}
+          draggable={false}
+          onContextMenu={(event) => {
+            event.preventDefault();
+          }}
+        />
+        <canvas
+          id="POLYLINE"
+          width={1080}
+          height={720}
+          style={{ pointerEvents: "none" ,position:"relative", top: "-720px"}}
+        ></canvas>
+        {/* {typeof document !== "undefined" && renderBB()} */}
+      </div>
+    </Grid>
+  );
 }
 export default connect(mapStatesToProps, mapDispatchToProps)(POLYLINE);
