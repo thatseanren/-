@@ -3,11 +3,11 @@ import {
   POLYLINEHANDLEMOUSEUP,
   POLYLINEHANDLEMOUSEDOWN,
   POLYLINEHANDLEKEYDOWN,
-  POLYLINEHANDLEMOUSEMOVE
+  POLYLINEHANDLEMOUSEMOVE,
 } from "../action/actionConstant";
 const defaultState = {
   state: "IDLE",
-  points: [],
+  points: Array.from(Array(50), () => []),
   selected: null,
   on_change_point: null,
 };
@@ -19,49 +19,63 @@ const defaultState = {
 const Polyline = (state = defaultState, { type, payload }) => {
   //   let NewState = { ...state }; using spread operation to make a duplication of the state will not be permited, since spread operator only copy the address of the object, points from previous state will be copied to the new  state
   let NewState = JSON.parse(JSON.stringify(state));
+
   switch (type) {
     case POLYLINESWITCHSTATE:
       return { ...NewState, ...{ state: payload } };
     case POLYLINEHANDLEMOUSEDOWN:
+      const { currentFrameIndex } = payload;
       //when we change the points of NewState,
       if (NewState.state === "IDLE") {
-        let is_near_any_polyline = util_input_is_near_any_polyline(NewState.points, payload.event.offsetX, payload.event.offsetY)
+        let is_near_any_polyline = util_input_is_near_any_polyline(
+          NewState.points[currentFrameIndex],
+          payload.event.offsetX,
+          payload.event.offsetY
+        );
         if (Object.keys(is_near_any_polyline).length) {
           NewState.state = "ON_Selected";
-          ; NewState.selected = parseInt(Object.keys(is_near_any_polyline)[0])
+          NewState.selected = parseInt(Object.keys(is_near_any_polyline)[0]);
         } else {
-          NewState.points.push([[payload.event.offsetX, payload.event.offsetY, payload.currentCategory]]);
+          NewState.points[currentFrameIndex][
+            NewState.points[currentFrameIndex].length
+          ] = [
+            [
+              payload.event.offsetX,
+              payload.event.offsetY,
+              payload.currentCategory,
+            ],
+          ];
           NewState.state = "DRAW_ON_GOING";
         }
       } else if (NewState.state === "DRAW_ON_GOING") {
         if (
           util_input_is_near_first_user_input_point(
-            NewState,
+            NewState.points[currentFrameIndex][
+              NewState.points[currentFrameIndex].length - 1
+            ],
             payload.event.offsetX,
             payload.event.offsetY
           )
         ) {
-          NewState.points[NewState.points.length - 1].push([
-            payload.event.offsetX,
-            payload.event.offsetY,
-          ]);
+          NewState.points[currentFrameIndex][
+            NewState.points[currentFrameIndex].length - 1
+          ].push([payload.event.offsetX, payload.event.offsetY]);
           NewState.state = "IDLE";
         } else {
-          NewState.points[NewState.points.length - 1].push([
-            payload.event.offsetX,
-            payload.event.offsetY,
-          ]);
+          NewState.points[currentFrameIndex][
+            NewState.points[currentFrameIndex].length - 1
+          ].push([payload.event.offsetX, payload.event.offsetY]);
         }
       } else if (NewState.state === "ON_Selected") {
         let is_still_the_same_selected = util_input_is_near_any_point(
-          NewState.points[NewState.selected],
+          NewState.points[currentFrameIndex][NewState.selected],
           payload.event.offsetX,
           payload.event.offsetY
         );
         if (is_still_the_same_selected) {
           NewState.state = "ON_Changing_Selected";
-          NewState.on_change_point = is_still_the_same_selected[1]
-          console.log("onpoint", is_still_the_same_selected[1]);
+          NewState.on_change_point = is_still_the_same_selected[1];
+          console.log(NewState)
         } else {
           NewState.state = "IDLE";
         }
@@ -69,20 +83,30 @@ const Polyline = (state = defaultState, { type, payload }) => {
       return NewState;
     case POLYLINEHANDLEMOUSEUP:
       if (NewState.state === "ON_Changing_Selected") {
-        let temp = NewState.points[NewState.selected][NewState.on_change_point].splice(0)
+        let temp =
+          NewState.points[payload.currentFrameIndex][NewState.selected][
+            NewState.on_change_point
+          ].splice(0);
         temp[0] = payload.event.offsetX;
-        temp[1] = payload.event.offsetY
-        NewState.points[NewState.selected][NewState.on_change_point] = temp
+        temp[1] = payload.event.offsetY;
+        NewState.points[payload.currentFrameIndex][NewState.selected][
+          NewState.on_change_point
+        ] = temp;
         NewState.state = "ON_Selected";
       }
-      console.log(NewState)
       return NewState;
     case POLYLINEHANDLEMOUSEMOVE:
       if (NewState.state === "ON_Changing_Selected") {
-        let temp = NewState.points[NewState.selected][NewState.on_change_point].splice(0)
+          console.log(NewState)
+        let temp =
+          NewState.points[payload.currentFrameIndex][NewState.selected][
+            NewState.on_change_point
+          ].splice(0);
         temp[0] = payload.event.offsetX;
-        temp[1] = payload.event.offsetY
-        NewState.points[NewState.selected][NewState.on_change_point] = temp
+        temp[1] = payload.event.offsetY;
+        NewState.points[payload.currentFrameIndex][NewState.selected][
+          NewState.on_change_point
+        ] = temp;
       }
       return NewState;
     case POLYLINEHANDLEKEYDOWN:
@@ -92,7 +116,7 @@ const Polyline = (state = defaultState, { type, payload }) => {
       if (payload.event.key === "Backspace" || payload.event.key === "Delete") {
         payload.event.preventDefault();
         if (NewState.selected !== null) {
-          NewState.points.splice(NewState.selected, 1);
+          NewState.points[payload.currentFrameIndex].splice(NewState.selected, 1);
           NewState.state = "IDLE";
         }
       }
@@ -104,10 +128,10 @@ const Polyline = (state = defaultState, { type, payload }) => {
 export default Polyline;
 
 const util_input_is_near_first_user_input_point = (NewState, cx, cy) => {
-  var n = NewState.points[NewState.points.length - 1].length;
+  var n = NewState.length;
   if (n >= 2) {
-    var dx = Math.abs(cx - NewState.points[NewState.points.length - 1][0][0]);
-    var dy = Math.abs(cy - NewState.points[NewState.points.length - 1][0][1]);
+    var dx = Math.abs(cx - NewState[0][0]);
+    var dy = Math.abs(cy - NewState[0][1]);
 
     if (dx <= 30 && dy <= 30) {
       return true;
@@ -129,7 +153,7 @@ const util_input_is_near_any_point = (points, cx, cy) => {
 };
 
 const util_input_is_near_any_polyline = (arryOfPolyline, cx, cy) => {
-  const result = {}
+  const result = {};
   arryOfPolyline.forEach((polyline, index) => {
     polyline.forEach((points, ind) => {
       var dx = Math.abs(cx - points[0]);
@@ -139,9 +163,9 @@ const util_input_is_near_any_polyline = (arryOfPolyline, cx, cy) => {
         result[index] = {
           polyline: index,
           point: ind,
-        }
+        };
       }
-    })
-  })
-  return result
-}
+    });
+  });
+  return result;
+};

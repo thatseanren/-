@@ -7,7 +7,7 @@ import {
   createPOLYLINEHandleMouseUpAction,
   createPOLYLINEHandleMouseDownAction,
   createPOLYLINEHandleKeyDownAction,
-  createPOLYLINEHandleMouseMoveAction
+  createPOLYLINEHandleMouseMoveAction,
 } from "../../redux/action/PolyLineAction";
 const mapStatesToProps = (state) => ({
   currentStyle: state.GeneralReducer.currentStyle,
@@ -15,6 +15,7 @@ const mapStatesToProps = (state) => ({
   points: state.Polyline.points,
   selected: state.Polyline.selected,
   currentCategory: state.GeneralReducer.currentCategory,
+  currentFrameIndex: state.GeneralReducer.currentFrameIndex,
 });
 const mapDispatchToProps = (Dispatch) => ({
   swtichState: (event) => {
@@ -26,7 +27,9 @@ const mapDispatchToProps = (Dispatch) => ({
   mouseDown: (payload) => {
     Dispatch(createPOLYLINEHandleMouseDownAction(payload));
   },
-  mouseMove: (event) => { Dispatch(createPOLYLINEHandleMouseMoveAction(event)) },
+  mouseMove: (event) => {
+    Dispatch(createPOLYLINEHandleMouseMoveAction(event));
+  },
   keyDown: (event) => {
     Dispatch(createPOLYLINEHandleKeyDownAction(event));
   },
@@ -287,36 +290,41 @@ function POLYLINE(props) {
     mouseDown,
     selected,
     mouseMove,
-    currentCategory
+    currentCategory,
+    currentFrameIndex,
   } = props;
   const mouseDownWrapper = (event) => {
     mouseDown({
       event: event,
       currentCategory: currentCategory,
-    })
-  }
+      currentFrameIndex: currentFrameIndex,
+    });
+  };
   const mouseMoveWrapper = (event) => {
     mouseMove({
       event: event,
       currentCategory: currentCategory,
-    })
-  }
+      currentFrameIndex: currentFrameIndex,
+    });
+  };
   const mouseUpWrapper = (event) => {
     mouseUp({
       event: event,
       currentCategory: currentCategory,
-    })
-  }
-  const keyDownWrapper = event => {
+      currentFrameIndex: currentFrameIndex,
+    });
+  };
+  const keyDownWrapper = (event) => {
     keyDown({
       event: event,
       currentCategory: currentCategory,
-    })
-  }
+      currentFrameIndex: currentFrameIndex,
+    });
+  };
   React.useEffect(() => {
     const Ele = document.querySelector("#image");
     Ele.addEventListener("mousedown", mouseDownWrapper);
-    Ele.addEventListener("mousemove", mouseMoveWrapper)
+    Ele.addEventListener("mousemove", mouseMoveWrapper);
     Ele.addEventListener("mouseup", mouseUpWrapper);
     document.addEventListener("keydown", keyDownWrapper);
     return () => {
@@ -330,7 +338,8 @@ function POLYLINE(props) {
     const ctx = document.querySelector("#POLYLINE").getContext("2d");
     ctx.clearRect(0, 0, 1080, 720);
     ctx.lineWidth = 2;
-    points.forEach((POLYGON, index) => {
+
+    points[currentFrameIndex].forEach((POLYGON, index) => {
       ctx.beginPath();
       ctx.fillStyle = index === selected ? "yellow" : "red";
       ctx.arc(POLYGON[0][0], POLYGON[0][1], 5, 0, 2 * Math.PI, false);
@@ -344,18 +353,34 @@ function POLYLINE(props) {
         ctx.moveTo(POLYGON[a][0], POLYGON[a][1]);
       }
       ctx.closePath();
-      ctx.strokeStyle = index === selected ? "green" : class_colors[POLYGON[0][2]];
+      ctx.strokeStyle =
+        index === selected ? "green" : class_colors[POLYGON[0][2]];
       ctx.stroke();
       for (var a = 1; a < POLYGON.length - 1; a++) {
         ctx.beginPath();
-        ctx.arc(POLYGON[a][0], POLYGON[a][1], 4, 0, 2 * Math.PI, false);
+        ctx.arc(POLYGON[a][0], POLYGON[a][1], 3, 0, 2 * Math.PI, false);
         ctx.closePath();
         ctx.fill();
         ctx.globalAlpha = 1.0;
         ctx.lineWidth = 3;
       }
+      if (index === selected) {
+        let region = new Path2D();
+        region.moveTo(POLYGON[0][0], POLYGON[0][1]);
+        for (var a = 1; a < POLYGON.length; a++) {
+          region.lineTo(POLYGON[a][0], POLYGON[a][1]);
+        }
+        region.closePath();
+        var gradient = ctx.createLinearGradient(POLYGON[0][0], POLYGON[0][1], POLYGON[Math.floor(POLYGON.length / 2)][0],POLYGON[Math.floor(POLYGON.length / 2)][1]);
+        gradient.addColorStop(0, "green");
+        gradient.addColorStop(0.5, "cyan");
+        gradient.addColorStop(1, "green");
+
+        ctx.fillStyle = gradient;
+        ctx.fill(region, "evenodd");
+      }
     });
-  }, );
+  });
   return (
     <Grid
       item
