@@ -364,21 +364,21 @@ function POLYLINE(props) {
         ctx.globalAlpha = 1.0;
         ctx.lineWidth = 3;
       }
-      if (index === selected) {
-        let region = new Path2D();
-        region.moveTo(POLYGON[0][0], POLYGON[0][1]);
-        for (var a = 1; a < POLYGON.length; a++) {
-          region.lineTo(POLYGON[a][0], POLYGON[a][1]);
-        }
-        region.closePath();
-        var gradient = ctx.createLinearGradient(POLYGON[0][0], POLYGON[0][1], POLYGON[Math.floor(POLYGON.length / 2)][0],POLYGON[Math.floor(POLYGON.length / 2)][1]);
-        gradient.addColorStop(0, "green");
-        gradient.addColorStop(0.5, "cyan");
-        gradient.addColorStop(1, "green");
+      // if (index === selected) {
+      //   let region = new Path2D();
+      //   region.moveTo(POLYGON[0][0], POLYGON[0][1]);
+      //   for (var a = 1; a < POLYGON.length; a++) {
+      //     region.lineTo(POLYGON[a][0], POLYGON[a][1]);
+      //   }
+      //   region.closePath();
+      //   var gradient = ctx.createLinearGradient(POLYGON[0][0], POLYGON[0][1], POLYGON[Math.floor(POLYGON.length / 2)][0],POLYGON[Math.floor(POLYGON.length / 2)][1]);
+      //   gradient.addColorStop(0, "green");
+      //   gradient.addColorStop(0.5, "cyan");
+      //   gradient.addColorStop(1, "green");
 
-        ctx.fillStyle = gradient;
-        ctx.fill(region, "evenodd");
-      }
+      //   ctx.fillStyle = gradient;
+      //   ctx.fill(region, "evenodd");
+      // }
     });
   });
   return (
