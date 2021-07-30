@@ -28,6 +28,7 @@ import ForDialogWrapper from "../../component/ForkDialog";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Router  from 'next/router';
+import '../../config'
 import {
   Grow,
   Popper,
@@ -207,30 +208,34 @@ export class Detailed extends React.Component {
         <div style={{width:"400px",margin:"20px auto",paddingTop:"220px",display:this.state.status === 0 ? 'block' : 'none'}}>
           <img style={{width:"100%"}} src="/qsy.png" />
           <div style={{textAlign:"center",color:"#666",marginTop:"20px",fontWeight:"500",fontSize:"17px"}}>请等待数据分解</div>
+          <div style={{textAlign:"center",marginTop:"20px"}}>
+            <Button variant="contained" size="large" color="primary" onClick={() => this.deleteData()} >
+                取消分解
+            </Button>
+          </div>  
         </div>
         <div style={{display:this.state.status === 1 ? 'block' : 'none'}}>
         <Dialog
-        open={this.state.open}
-        onClose={this.handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        {/* <DialogTitle id="alert-dialog-title">{"删除提示"}</DialogTitle> */}
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-          确定要删除该标注任务?
-          </DialogContentText>
-        </DialogContent>
-        
-        <DialogActions>
-          <Button onClick={this.handleClose} color="primary">
-            取消
-          </Button>
-          <Button onClick={this.deleteAgree} color="primary" autoFocus>
-            确认
-          </Button>
-        </DialogActions>
-      </Dialog>
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+            确定要删除该标注任务?
+            </DialogContentText>
+          </DialogContent>
+          
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              取消
+            </Button>
+            <Button onClick={this.deleteAgree} color="primary" autoFocus>
+              确认
+            </Button>
+          </DialogActions>
+        </Dialog>
 
         {/* <ForkDialog ref={this.ForkRef} /> */}
         <div className={DataSet.home}>

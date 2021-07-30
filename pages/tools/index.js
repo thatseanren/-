@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Header from '../header'
+import '../../config';
 import Link from 'next/link';
 
 const useStyles = makeStyles(
