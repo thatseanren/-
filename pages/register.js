@@ -40,23 +40,6 @@ export default class Login extends React.Component {
         };
       }
 
-      login = value => {
-        var qs = require('qs');
-        axios.post(server + 'dataset_login', qs.stringify({
-            'name': this.state.username,
-            'password': this.state.password
-        }))
-        .then(function (response) {
-            console.log(response)
-            response.status === 200 ? localStorage.setItem("login", response.data.user.type) : ""
-            response.data.status != 0 ? Router.push({
-              pathname: '/'
-          }) : ""
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-      }
     
       componentDidMount () {
        
@@ -80,10 +63,25 @@ export default class Login extends React.Component {
                             </div>
                             <div className={DataSet.sign_in_desktop}>
                                 <div className={DataSet.login_title}>
-                                    登录
+                                    注册
                                 </div>
                                 <div style={{display:"flex",justifyContent:"center",marginBottom:"30px"}}>
-                                  <span style={{fontSize:"12px"}}>登陆账号以访问<span style={{color:"#5a3cff",letterSpacing:"1px",marginLeft:"3px"}}>数据集</span></span>
+                                  <span style={{fontSize:"12px"}}>注册账号以访问<span style={{color:"#5a3cff",letterSpacing:"1px",marginLeft:"3px"}}>数据集</span></span>
+                                </div>
+                                <div style={{marginTop:"30px"}}>
+                                  <TextField
+                                      label="手机号"
+                                      style={{border:"0px"}}
+                                      value={this.state.username}
+                                      className={DataSet.login_input}
+                                      onChange={(e) => {
+                                          this.setState({
+                                              username: e.target.value
+                                          });
+                                      }}
+                                      variant="outlined"
+                                      >
+                                  </TextField>
                                 </div>
                                 <div style={{marginTop:"30px"}}>
                                   <TextField
@@ -116,26 +114,33 @@ export default class Login extends React.Component {
                                       >
                                   </TextField>
                                 </div>
+                                <div style={{marginTop:"30px"}}>
+                                  <TextField
+                                      label="验证码"
+                                      style={{border:"0px"}}
+                                      value={this.state.username}
+                                      className={DataSet.login_input}
+                                      onChange={(e) => {
+                                          this.setState({
+                                              username: e.target.value
+                                          });
+                                      }}
+                                      variant="outlined"
+                                      >
+                                  </TextField>
+                                </div>
                                 <Button
                                   variant="contained"
                                   color="primary"
-                                  style={{width:"100%",marginTop:"30px",height:"56px",fontWeight: "600",fontSize: "16px"}}
+                                  style={{width:"100%",marginTop:"30px",height:"56px",fontWeight: "600",fontSize: "16px",marginBottom:"20px"}}
                                   onClick={() => {
-                                    this.login();
+                                    handleCreate();
+                                    setShow(false);
                                   }}
                                 >
-                                  {"登陆"}
+                                  {"注册"}
                                 </Button>
-                                <div className={DataSet.login_bottom}>
-                                  <div style={{color:"rgb(137, 138, 150)"}}>
-                                    没有账户?<span style={{color:"rgb(90, 60, 255)",cursor:"pointer"}}>点击注册</span>
-                                  </div>
-                                  <div style={{color:"rgb(90, 60, 255)",cursor:"pointer"}}>
-                                    忘记密码
-                                  </div>
-
-                                </div>
-
+ 
                             </div>
                         </div>
                         <div style={{float:"right"}}>

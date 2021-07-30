@@ -48,6 +48,7 @@
     float: right;
     position: absolute;
     right: 20px;
+    cursor: pointer;
 }
 
 .userNmae {
@@ -78,4 +79,16 @@
 .noti {
     float: left;
     padding-top: 3px;
+}
+.login{
+    /* position: absolute; */
+    top: 40px;
+    width: 100%;
+    border: 1px solid #b5b5b5;
+    line-height: 39px;
+    text-align: center;
+    font-size: 14px;
+    color: #b5b5b5;
+    background: #486570;
+    margin-top: -1px;
 }

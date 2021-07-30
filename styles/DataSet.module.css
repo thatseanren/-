@@ -943,3 +943,15 @@ body .pagenet:hover{
     font-size: 12px;
     font-weight: bold;
 }
+.takshow{
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    background:rgba(0,0,0,0.5);
+    z-index: 100;
+}
+.nameList{
+    width: 100%;
+}

@@ -47,13 +47,25 @@ export default function StickyHeadTable() {
   const [count, setCount] = useState([]);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const handleCreate = (value) => {
-    axios.get(server_ip + 'get_record_list?limit='+rowsPerPage+'&page='+ (parseInt(value*1) + 1),{'limit':15,'page':1})
+    axios.get(server_ip + 'get_record_list?limit='+rowsPerPage+'&page='+ (parseInt(value*1) + 1)+'&return_channel=1',{'limit':15,'page':1})
     .then(function (response) {
       console.log(response.data)
         const data = response.data.data;
         let temp = []
         setCount(response.data.count)
+
         for(let i=0;i<data.length;i++){
+          let channel = []
+          if(data[i]['channel'].hasOwnProperty('/apollo/sensor/livox/compensator/PointCloud2')){
+            channel.push("2dBox")
+          }
+          if(data[i]['channel'].hasOwnProperty('/apollo/sensor/matrix/front/meta_plus')){
+            channel.push("3dBox")
+          }
+          // data[i].channel.map()
+          // each(data[i].channel,function(k,v){
+          //   console.log(k);
+          // })
             var Format=["Kb","Mb","Gb","Tb","Pb"]
             var filenumb=data[i].file_size/1024
             var tag;
@@ -67,7 +79,7 @@ export default function StickyHeadTable() {
                 numb++
               }   
             })
-            temp.push(createData(data[i].data_name,data[i].create_time,data[i].file_name,filenumb,tag,data[i].frame_num,"operation,"+data[i]._id));
+            temp.push(createData(data[i].data_name,data[i].create_time,data[i].file_name,filenumb,tag,data[i].frame_num,"operation,"+data[i]._id,channel));
         }
         setrow(temp);
     })
@@ -118,8 +130,8 @@ useEffect(() => {
           },
       ];
       
-      function createData(data_name, create_time, file_name, file_size ,tag,frame_num,operation) {
-        return { data_name, create_time, file_name, file_size, tag ,frame_num,operation};
+      function createData(data_name, create_time, file_name, file_size ,tag,frame_num,operation,channel) {
+        return { data_name, create_time, file_name, file_size, tag ,frame_num,operation,channel};
       }
 
       
@@ -173,7 +185,6 @@ useEffect(() => {
           <TableBody>
             {row.map((row) => {
               return (
-
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                   {columns.map((column) => {
                     const value = row[column.id];

@@ -217,15 +217,26 @@ export default function Dataset(props: {
                           {description || "Dataset Name"}
                         </span>
                       </div>
-                      <div className={classes.metaData_Div}>
-                        <span
+                      <div className={classes.metaData_Div} style={{overflow:"inherit"}}>
+                        {tags.map((item) => {
+                          return (
+                            <span>
+                              {item != "" ? <span
                           style={{
                             fontSize: "12px",
                             height: "15px",
+                            background: "#dfdfdf",
+                            padding: "2px 6px",
+                            marginRight: "3px",
+                            borderRadius:"5px",
+                            color:"#666"
                           }}
                         >
-                          { tags|| "Category"}
-                        </span>
+                          {item}
+                        </span> : ''}
+                            </span>
+                        );
+                      })}
                       </div>
                       {/* {<div className={classes.metaData_Div} style={{fontSize: '17px'}}> {category}</div>} */}
                       <div className={classes.metaData_Div}>

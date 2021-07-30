@@ -73,14 +73,9 @@ export function ForkDialog(props: any): any {
     // };
     // axios.get(`${server}${option.forkDataSet}`);
     var qs = require('qs');
-    axios.post(server + 'add_dataset',qs.stringify({
-      'tags':show.tag,
-      'name':titleName||"",
-      'description':dataSetName,
-      'category':category,
-      'ids':show.operation.substring(10,show.operation.length),
-      'tasks':description,
-      'accessibility':accessibility
+    axios.post(server + 'add_company_user',qs.stringify({
+      'name':titleName,
+      'password':dataSetName
     }))
       .then(function (response) {
       response.data.status === 1 ? setErrorShow(2) : setErrorShow(1)
@@ -104,35 +99,33 @@ export function ForkDialog(props: any): any {
 
   return (
 
-      <div style={{ position: "absolute", display: "flex" }}>
-        <div style={{position: 'fixed',left:"0px",right:"0px",display:errorshow === 3 ?'none':'block' }}>
+      <div style={{ position: "absolute", display: "flex",top:"56px"}}>
+        <div style={{position: 'fixed',left:"0px",right:"0px",zIndex:"100000",display:errorshow === 3 ?'none':'block' }}>
           {errorshow === 1 ? 
           <Alert severity="error">
             <AlertTitle>失败</AlertTitle>
-            您的数据集分解失败，请重新尝试 <strong>error</strong>
+            您的用户添加失败，请重新尝试 <strong>error</strong>
           </Alert> :
           <Alert severity="success">
             <AlertTitle>成功</AlertTitle>
-            您的数据集创建成功 <strong>success</strong>
+            您的用户添加成功 <strong>success</strong>
           </Alert>
           }
         </div>
         
         <Dialog aria-labelledby="fork_dialog" open={show} className={"fasd"}>
-          <DialogTitle onClose={() => {}}> 添加数据集 </DialogTitle>
+          <DialogTitle onClose={() => {}}> 添加用户 </DialogTitle>
           <DialogContent dividers>
             <p className={classes.p14Gray}>
-              通过开发者工具直接管理、使用、读取数据
+              添加该公司用户用于项目标注
             </p>
-            <p className={classes.p14Gray}>支持通过标签筛选、使用数据</p>
-            <p className={classes.p14Gray}>数据在线可视化，实时查看</p>
             <div className={classes.flexDiv}>
             <div className={classes.flexDiv}>
                 <p style={{ margin: "0", fontSize: "16px", fontWeight: 500 }}>
-                  数据集名称
+                  用户名
                 </p>
                 <p className={clsx(classes.p14Gray, classes.Size12)}>
-                  数据集的名字
+                  用户登陆名称
                 </p>
                 <TextField
                   label=""
@@ -145,102 +138,26 @@ export function ForkDialog(props: any): any {
               </div>
               <div className={classes.flexDiv}>
                 <p style={{ margin: "0", fontSize: "16px", fontWeight: 500 }}>
-                  数据集简介
+                  密码
                 </p>
                 <p className={clsx(classes.p14Gray, classes.Size12)}>
-                  简单介绍一下
+                  用户登陆密码
                 </p>
                 <TextField
                   label=""
                   value={dataSetName}
+                  type="password"
                   onChange={(e) => {
                     setDataSetName(e.target.value);
                   }}
                   variant="outlined"
                 ></TextField>
               </div>
-              <div className={classes.flexDiv}>
-                <p style={{ margin: "0", fontSize: "16px", fontWeight: 500 }}>
-                  数据格式
-                </p>
-                <p className={clsx(classes.p14Gray, classes.Size12)}>
-                  数据集文件格式
-                </p>
-                <TextField
-                  label=""
-                  value={description}
-                  onChange={(e) => {
-                    setDscription(e.target.value);
-                  }}
-                  variant="outlined"
-                ></TextField>
-              </div>
-              <div className={classes.flexDiv}>
-                <p style={{ margin: "0", fontSize: "16px", fontWeight: 500 }}>
-                  数据类别
-                </p>
-                <p className={clsx(classes.p14Gray, classes.Size12)} style={{margin: '0px'}}>
-                  数据标注类型
-                </p>
-    
-                <FormControl component="fieldset">
-                  <RadioGroup aria-label="gender" name="gender1" style={{flexDirection:"row"}} value={category} onChange={handleChange}>
-                  {show.channel ? show.channel.map((row) => {
-              return (
-                    <FormControlLabel value={row} control={<Radio />} label={row} />
-                    // <FormControlLabel value="3dBox" control={<Radio />} label="3DBox" />
-                    );
-                  }) : ''}
-                    {/* <FormControlLabel value="Both" control={<Radio />} label="Both" />
-                    <FormControlLabel value="Segm" control={<Radio />} label="Segm" /> */}
-                </RadioGroup>
-                </FormControl>
-              </div>
-              <div style={{ paddingTop: "20px" }}>
-                <FormLabel component="description" children={"可见范围"} />
-                <RadioGroup
-                  value={accessibility}
-                  onChange={(e) => {
-                    setAccessibility(e.target.value);
-                  }}
-                >
-                  {" "}
-                  <div className={classes.flexMargin}>
-                    {" "}
-                    <Radio
-                      color="primary"
-                      value={"public"}
-                      style={{ width: "24px", height: "24px",marginTop:"8px" }}
-                    />
-                    <PublicIcon style={{ padding: "9px 9px 9px 0",width:"42px",height:"42px"}} />
-                    <div style={{ lineHeight: "calc((1.5rem + (9px * 2))/2)" }}>
-                      <p style={{ fontSize: "14px", margin: "0" }}>公开</p>
-                      <p style={{ fontSize: "12px", margin: "0" }}>
-                        任何人都可以搜索，查看，查询和Fork此公开数据集中的所有文件
-                      </p>
-                    </div>
-                  </div>
-                  <div className={classes.flexMargin}>
-                    {" "}
-                    <Radio
-                      value={"private"}
-                      color="primary"
-                      style={{ width: "24px", height: "24px",marginTop:"8px" }}
-                    />
-                    <PersonIcon style={{ padding: "9px 9px 9px 0",width:"42px",height:"42px" }} />
-                    <div style={{ lineHeight: "calc((1.5rem + (9px * 2))/2)" }}>
-                      <p style={{ fontSize: "14px", margin: "0" }}>私有</p>
-                      <p style={{ fontSize: "12px", margin: "0" }}>
-                        您控制谁可以查看，查询和下载此数据集
-                      </p>
-                    </div>
-                  </div>{" "}
-                </RadioGroup>
-              </div>
+              
 
               <div style={{ marginTop: "10px" }}>
                 <p className={clsx(classes.p14Gray, classes.MarginBottom16)}>
-                  确认创建数据集即代表您已阅读并同意平台的用户服务协议和隐私政策
+                  确认添加用户即代表您已阅读并同意平台的用户服务协议和隐私政策
                 </p>
                 <Button
                   variant="contained"
@@ -251,7 +168,7 @@ export function ForkDialog(props: any): any {
                     setShow(false);
                   }}
                 >
-                  {"确认创建"}
+                  {"确认添加"}
                 </Button>
                 <Button
                   variant="text"

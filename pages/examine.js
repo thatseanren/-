@@ -10,6 +10,7 @@ import Header from "./header.js";
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import DataSet from "../styles/DataSet.module.css";
 import Button from '@material-ui/core/Button';
+import '../config';
 
 export default class App extends React.Component {
 
