@@ -37,7 +37,7 @@ import qs from "qs";
 export default function DetailsWrapper(props) {
   const route = useRouter();
   const { _id } = route.query;
-  console.log("taskID ID: "_id);
+  console.log("taskID ID: ",_id);
   // return <TagDetails {...props} TaskId={_id} />;
   return <TagDetails {...props} TaskId={_id} />;
 }
@@ -269,9 +269,9 @@ class TagDetails extends React.Component {
     .then(function (response) {
         console.log(response)
         const data = response.data.data
-        console.log("this.state.dtaskUserList: ",this.state.dtaskUserList)
         const dtaskUserList = that.state.dtaskUserList;
-        let arr = [];
+console.log("dtaskUserList", dtaskUserList)        
+let arr = [];
         let userList = [];
         let type;
         console.log(dtaskUserList)
@@ -288,6 +288,7 @@ class TagDetails extends React.Component {
               'id':data[i]._id,
               'chkebox':type
             })
+console.log("arr",arr)
           } else {
             that.setState({
               adminId:data[i]._id,
