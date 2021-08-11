@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
-import { categories, class_colors } from "./PageLeft";
+import { categories, class_colors } from "./SwitchStylesBro";
 import {
   createSwtichStateAction,
   createPOLYLINEHandleMouseUpAction,

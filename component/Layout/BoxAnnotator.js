@@ -16,7 +16,7 @@ import {
   createUpdateBoudingBoxAction,
 } from "../../redux/action/BoundingBoxAction";
 import BoundingBox from "../BoundingBox";
-import { categories, class_colors } from "./PageLeft";
+import { categories, class_colors } from "./SwitchStylesBro";
 const mapStatesToProps = (state) => ({
   entireBoundingBox: state.BoundingBoxCollection,
   currentFrameIndex: state.GeneralReducer.currentFrameIndex,

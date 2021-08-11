@@ -2,7 +2,7 @@ import React from "react";
 import Header from "../header";
 import StyleisBox from "../../component/Layout/BoxAnnotator";
 import StyleisPolyline from "../../component/Layout/PolylineAnnotator";
-import Categories from "../../component/Layout/PageLeft";
+import Categories from "../../component/Layout/SwitchStylesBro";
 import Position from "../../component/Layout/PageRight";
 import { Provider } from "react-redux";
 import Grid from "@material-ui/core/Grid";
@@ -17,6 +17,8 @@ import Button from "@material-ui/core/Button";
 import store from "../../redux";
 import SaveIcon from "@material-ui/icons/Save";
 import Router from "next/router";
+import ZoomInIcon from "@material-ui/icons/ZoomIn";
+import ZoomOutIcon from "@material-ui/icons/ZoomOut";
 import {
   CreateNextFrame,
   CreatePreviousFrame,
@@ -77,7 +79,6 @@ const StoreWrapper = connect(
   mapStatesToProps,
   null
 )((props) => {
-
   const { imageList, annotationArray } = props;
 
   return props.currentStyle === "BOX" ? (
@@ -130,6 +131,17 @@ const CurrentFrame = connect(
 )((props) => {
   return (
     <div className={DataSet.numb_list}> {props.currentFrameIndex + 1} / 50</div>
+  );
+});
+const ZoomCombo = connect(
+  null,
+  mapDispatchToProps
+)((props) => {
+  return (
+    <>
+      <ZoomInIcon />
+      <ZoomOutIcon />
+    </>
   );
 });
 export default function Annotator(props) {
@@ -229,6 +241,7 @@ export default function Annotator(props) {
             annotationArray={annotationArray}
           />
           <Categories />
+          <ZoomCombo />
         </div>
       </Grid>
     </Provider>

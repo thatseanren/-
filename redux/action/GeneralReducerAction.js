@@ -25,3 +25,12 @@ export const createSwitchCurrentStyle = (info) =>({
     type:ActionConstant.SWITCHSTYLE,
     payload:info
 })
+export const createScaleupAction = (payload) =>({
+    type: ActionConstant.SCALEUP,
+    payload: payload
+})
+export const createScaledownAction = (payload) =>({
+    type: ActionConstant.SCALEDOWN,
+    payload: payload
+})
+
