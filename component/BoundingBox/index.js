@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { createRemoveBoudingBoxAction, createUpdateBoudingBoxAction } from "../../redux/action/BoundingBoxAction";
 import { createSetSelectedBoundingBoxAction } from "../../redux/action/GeneralReducerAction";
-import { categories } from "../Layout/PageLeft";
+import { categories } from "../Layout/SwitchStylesBro";
 const mapDispatchToProps = (dispatch) => ({
     removeBoundingBox: (currentFrameIndex, currentBoundingBoxIndex) => {
         dispatch(
