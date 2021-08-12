@@ -2,7 +2,7 @@
 // var server_ip = "http://10.78.7.191:888/"; //统一设置服务器ip
 const dreamview_ip = "http://10.78.4.88:8888/"; //统一设置服务器ip
 // var server_ip="http://10.78.7.169:888/";//统一设置服务器ip
-const server_ip = "http://10.78.6.6:888/"; //统一设置服务器ip
+const server_ip = "http://10.78.4.88:888/"; //统一设置服务器ip
 const test_ip = "http://10.78.6.6:888/"
 const annotation = "http://10.78.4.88:555/";
 interface API {
