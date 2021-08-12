@@ -82,7 +82,9 @@ export function ForkDialog(props: any): any {
       setTimeout( () => {
         setErrorShow(3)
       }, 3000);
-          
+      setTimeout( () => {
+            location.reload()
+        }, 1000);
       })
       .catch(function (error) {
           console.log(error);

@@ -54,10 +54,12 @@ class TagDetails extends React.Component {
       numb: "",
       userType:"",
       open: false,
+      examineopen:false,
       submitopen:false,
       done: "",
       adminId:"",
       age:"",
+      examineindex:"",
       type: "none",
       category:"admin",
       nameshow:"none",
@@ -96,8 +98,8 @@ class TagDetails extends React.Component {
   }
 
   componentDidMount() {
+    // location.reload()
     // this.userlist()
-    
     this.setState({
       userType:localStorage.getItem('login')
     })
@@ -112,7 +114,7 @@ class TagDetails extends React.Component {
           arr.push(res.data.data[0].user_list[i])
           let span;
           if(res.data.data[0].flag_list[i] == 0){
-            span = '未审核'
+            span = '未提交'
           } else if(res.data.data[0].flag_list[i] == 1){
             span = '待审核'
           } else if(res.data.data[0].flag_list[i] == -1){
@@ -129,9 +131,11 @@ class TagDetails extends React.Component {
           age:arr,
           speed:speed,
           dtaskUserList:res.data.data[0].users
+        } , () => {
+          this.userlist(res.data.data[0].users)  //添加成员列表
         });
       });
-      this.userlist()  //添加成员列表
+      
       this.company()  //添加标注公司列表
   }
 
@@ -217,9 +221,11 @@ class TagDetails extends React.Component {
     .catch(function (error) {
         console.log(error);
     });
-
+    
     // setAge(event.target.value as string);
   };
+  
+
 
   setSnetask = value => { //子任务提交审核
     const that = this
@@ -230,6 +236,23 @@ class TagDetails extends React.Component {
     }))
     .then(function (response) {
       console.log(response)
+      location.reload()
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+  }
+
+  examine = value => { //子任务提交审核
+    const that = this
+    axios.post(ip + 'set_onetask_flag',qs.stringify({
+      '_id':this.props.TaskId,
+      'index':this.state.examineindex,
+      'flag':value
+    }))
+    .then(function (response) {
+      console.log(response)
+      location.reload()
     })
     .catch(function (error) {
         console.log(error);
@@ -242,10 +265,11 @@ class TagDetails extends React.Component {
     .then(function (response) {
         console.log(response)
         const data = response.data.data
-        const dtaskUserList = that.state.dtaskUserList;
+        const dtaskUserList = value;
         let arr = [];
         let userList = [];
         let type;
+        console.log(dtaskUserList)
         for(let i=0;i<data.length;i++){
           if(data[i].type != 'admin'){
             if(JSON.stringify(dtaskUserList).match(data[i]._id)){
@@ -323,6 +347,7 @@ class TagDetails extends React.Component {
 
   }
 
+  
   radioChange = (event) => {  //标注公司列表
     this.setState({
       category:event.target.value
@@ -348,6 +373,7 @@ class TagDetails extends React.Component {
         'users':arr.join(',')
     }))
     .then(function (response) {
+      console.log(response);
       if(response.data.status == 1){
         let add = [];
         for(let i=0;i<arr.length;i++){
@@ -389,7 +415,7 @@ class TagDetails extends React.Component {
           >{`${this.state.data.done}/${a+1 != this.state.data.split ? 50 : this.state.data.num%50}`}</div>
           <div style={{ flex: "4 1 0%" }}>{this.state.speed[a]}</div>
           <div style={{ flex: "4 1 0%" }}>
-          <FormControl >
+          <FormControl disabled={this.state.adminId == this.state.data.user_id ? true : false}>
             <Select
               value={this.state.age[a]}
               onChange={(e)=>this.handleChange(a,e)}
@@ -397,8 +423,8 @@ class TagDetails extends React.Component {
               inputProps={{ 'aria-label': 'Without label' }}
             >
               {this.state.dtaskUserList ? this.state.dtaskUserList.map((row,index) => {
+                
               return (
-              
               <MenuItem key={index} value={row._id}>{row.name}</MenuItem>
               );
                   }) : ''}
@@ -427,7 +453,7 @@ class TagDetails extends React.Component {
               </Button>
             </Link>
             {
-              this.state.data.user_id == this.state.age[a] ? <Button
+              this.state.data.mark_admin == this.state.age[a] ? ( this.state.speed[a] != '待审核' ?<Button
               style={{
                 float:"left",marginLeft:"10px"
               }}
@@ -436,7 +462,19 @@ class TagDetails extends React.Component {
               onClick={() => this.setSnetask(a)}
             >
               提交
-            </Button> : ''
+            </Button> : <Button
+              style={{
+                float:"left",marginLeft:"10px"
+              }}
+              variant="outlined"
+              color="primary"
+              onClick={() => this.setState({
+                examineopen:true,
+                examineindex:a
+              })}
+            >
+              审核
+            </Button> ) : ''
             }
             
           </div>
@@ -445,6 +483,7 @@ class TagDetails extends React.Component {
     }
     return list;
   };
+  
   render() {
     return (
       <div className={Tag.tagHome}>
@@ -589,6 +628,29 @@ class TagDetails extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
+        
+        <Dialog
+          open={this.state.examineopen}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          {/* <DialogTitle id="alert-dialog-title">{"删除提示"}</DialogTitle> */}
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              是否通过该任务?
+            </DialogContentText>
+          </DialogContent>
+
+          <DialogActions>
+            <Button onClick={() => this.examine(-1)} color="primary">
+              驳回
+            </Button>
+            <Button onClick={() => this.examine(2)} color="primary" autoFocus>
+              审核通过
+            </Button>
+          </DialogActions>
+        </Dialog>
         <div className={Tag.homeTop}>
           <div className={Tag.tagListLeft}>
             <div className={Tag.basicInfoWindow}>
@@ -611,10 +673,10 @@ class TagDetails extends React.Component {
                   <div className={Tag.listBoxSpan}>
                     <div className={Tag.boxSpanLeft}>创建人：</div>
                     <div className={Tag.boxSpanRight}>
-                      {this.state.data.user_id}
+                      {this.state.data.user_name}
                     </div>
                   </div>
-                  <div className={Tag.listBoxSpan}>
+                  <div style={{display:this.state.adminId == this.state.data.user_id ? 'block' : 'none'}} className={Tag.listBoxSpan}>
                     <div className={Tag.boxSpanLeft}>标注公司：</div>
                     <div className={Tag.boxSpanRight}>
                     <FormControl style={{marginTop:"-5px"}}>
@@ -769,7 +831,7 @@ class TagDetails extends React.Component {
                 size="large"
                 color="primary"
                 onClick={() => this.deleteData()}
-                style={{ width: "100%",display:this.state.userType == 'admin' ? 'block' : 'none' }}
+                style={{ width: "100%",display:this.state.adminId == this.state.data.user_id ? 'block' : 'none' }}
               >
                 删除
               </Button>
@@ -780,7 +842,7 @@ class TagDetails extends React.Component {
                 onClick={() => this.setState({
                   submitopen:true
                 })}
-                style={{ width: "100%",display:this.state.userType == 'admin' ? 'block' : 'none',marginTop:"20px" }}
+                style={{ width: "100%",display:this.state.userType == 'admin' ? (this.state.adminId == this.state.data.user_id ? 'none' : 'block' ) : 'none',marginTop:"20px" }}
               >
                 提交任务
               </Button>

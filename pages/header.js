@@ -63,15 +63,20 @@ export default class App extends React.Component {
         .then(function (response) {
             console.log(response)
             if(response.data.status != 1){
-                if (Cookies.get('account')) {
-                    that.login()
-                } else {
-                    localStorage.removeItem('login');
-                    Router.push({
-                        // pathname: 'http://10.78.4.88:890/page/login.html'
-                        pathname: '/login'
-                    })
-                }
+                // if (Cookies.get('account')) {
+                //     that.login()
+                // } else {
+                //     localStorage.removeItem('login');
+                //     Router.push({
+                //         // pathname: 'http://10.78.4.88:890/page/login.html'
+                //         pathname: '/login'
+                //     })
+                // }
+
+                Router.push({
+                    // pathname: 'http://10.78.4.88:890/page/login.html'
+                    pathname: '/login'
+                })
             } else {
                 response.status === 200 ? localStorage.setItem("login", response.data.user.type) : ""
                 that.setState({
@@ -110,6 +115,7 @@ export default class App extends React.Component {
         //     return config;
         // })
         axios.interceptors.request.use(
+            console.log(1),
             config => {
                 config.headers.Authorization = "bdta";//把localStorage的token放在Authorization里
                 //  config.headers["Content-type"] = "application/json;charset=UTF-8";
