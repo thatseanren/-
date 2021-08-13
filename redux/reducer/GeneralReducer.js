@@ -37,13 +37,13 @@ export default function GeneralReducer(
     case ActionConstant.SETCURRENTCATEGORY:
       return { ...state, currentCategory: action.payload.category };
     case ActionConstant.SWITCHSTYLE:
-      console.log("Style: ", action.payload);
       return { ...state, currentStyle: action.payload };
     case ActionConstant.SCALEUP:
-      return { ...state, scaleFactor: (scaleFactor += 1 / 2) };
+      return { ...state, scaleFactor: (NewState.scaleFactor += 1 / 2) };
     case ActionConstant.SCALEDOWN:
+      let temp = (NewState.scaleFactor -= 1 / 2)
       let factor =
-        (scaleFactor -= 1 / 2) < 1 / 2 ? 1 / 2 : (scaleFactor -= 1 / 2);
+        temp <= 1 / 2 ? 1 / 2 : temp;
       return { ...state, scaleFactor: factor };
     default:
       return NewState;

@@ -2,7 +2,7 @@ import React from "react";
 import Header from "../header";
 import StyleisBox from "../../component/Layout/BoxAnnotator";
 import StyleisPolyline from "../../component/Layout/PolylineAnnotator";
-import Categories from "../../component/Layout/SwitchStylesBro";
+import SwitchStyles from "../../component/Layout/SwitchStylesBro";
 import Position from "../../component/Layout/PageRight";
 import { Provider } from "react-redux";
 import Grid from "@material-ui/core/Grid";
@@ -19,12 +19,17 @@ import SaveIcon from "@material-ui/icons/Save";
 import Router from "next/router";
 import ZoomInIcon from "@material-ui/icons/ZoomIn";
 import ZoomOutIcon from "@material-ui/icons/ZoomOut";
+import IconButton from "@material-ui/core/IconButton";
 import {
   CreateNextFrame,
   CreatePreviousFrame,
+  createScaleupAction,
+  createScaledownAction,
 } from "../../redux/action/GeneralReducerAction";
 import { createSaveToCloudAction } from "../../redux/action/BoundingBoxAction";
+import Draggable from "react-draggable";
 
+import Debug from "../../component/debug";
 interface taskInfo {
   taskid: string;
   sequence: number;
@@ -40,12 +45,26 @@ const mapDispatchToProps = (dispatch) => ({
   previousFrame: () => {
     dispatch(CreatePreviousFrame());
   },
+  scaleup: () => {
+    dispatch(createScaleupAction());
+  },
+  scaledown: () => {
+    dispatch(createScaledownAction());
+  },
+});
+const mapStatesToProps = (state) => ({
+  entireBoundingBox: state.BoundingBoxCollection,
+  currentFrameIndex: state.GeneralReducer.currentFrameIndex,
+  currentBoundingBoxIndex: state.GeneralReducer.currentBoundingBoxIndex,
+  currentDrawMode: state.GeneralReducer.currentDrawMode,
+  currentCategory: state.GeneralReducer.currentCategory,
+  currentStyle: state.GeneralReducer.currentStyle,
+  scaleFactor: state.GeneralReducer.scaleFactor,
 });
 const SaveToCloud_through_redud_store_button = connect(
   null,
   mapDispatchToProps
-)((props) => {
-  const { SaveToCloud_through_redux_store, _taskID, sequence } = props;
+)(({ SaveToCloud_through_redux_store, _taskID, sequence }) => {
   return (
     <Button
       variant="contained"
@@ -67,31 +86,29 @@ const SaveToCloud_through_redud_store_button = connect(
   );
 });
 
-const mapStatesToProps = (state) => ({
-  entireBoundingBox: state.BoundingBoxCollection,
-  currentFrameIndex: state.GeneralReducer.currentFrameIndex,
-  currentBoundingBoxIndex: state.GeneralReducer.currentBoundingBoxIndex,
-  currentDrawMode: state.GeneralReducer.currentDrawMode,
-  currentCategory: state.GeneralReducer.currentCategory,
-  currentStyle: state.GeneralReducer.currentStyle,
-});
 const StoreWrapper = connect(
   mapStatesToProps,
   null
 )((props) => {
-  const { imageList, annotationArray } = props;
-
+  const { imageList, annotationArray, scaleFactor } = props;
   return props.currentStyle === "BOX" ? (
-    <StyleisBox imageList={imageList} annotationArray={annotationArray} />
+    <StyleisBox
+      imageList={imageList}
+      annotationArray={annotationArray}
+      scaleFactor={scaleFactor}
+    />
   ) : (
-    <StyleisPolyline imageList={imageList} annotationArray={annotationArray} />
+    <StyleisPolyline
+      imageList={imageList}
+      annotationArray={annotationArray}
+      scaleFactor={scaleFactor}
+    />
   );
 });
 const PreviousFrame = connect(
   null,
   mapDispatchToProps
-)((props) => {
-  const { previousFrame } = props;
+)(({ previousFrame }) => {
   return (
     <Button
       variant="contained"
@@ -109,8 +126,7 @@ const PreviousFrame = connect(
 const NextFrame = connect(
   null,
   mapDispatchToProps
-)((props) => {
-  const { nextFrame } = props;
+)(({ nextFrame }) => {
   return (
     <Button
       variant="contained"
@@ -136,14 +152,27 @@ const CurrentFrame = connect(
 const ZoomCombo = connect(
   null,
   mapDispatchToProps
-)((props) => {
+)(({ scaleup, scaledown }) => {
   return (
-    <>
-      <ZoomInIcon />
-      <ZoomOutIcon />
-    </>
+    <div style={{position:"absolute", bottom:"20px", right:"30px"}}>
+      <IconButton
+        onClick={() => {
+          scaleup();
+        }}
+      >
+        <ZoomInIcon />
+      </IconButton>
+      <IconButton
+        onClick={() => {
+          scaledown();
+        }}
+      >
+        <ZoomOutIcon />
+      </IconButton>
+    </div>
   );
 });
+
 export default function Annotator(props) {
   const router = useRouter();
   const { _taskID, sequence } = router.query;
@@ -235,15 +264,16 @@ export default function Annotator(props) {
             <NextFrame />
           </div>
         </div>
-        <div style={{ height: "100%", display: "flex" }}>
+        <div style={{ height: "100%", overflow:"hidden"}}>
           <StoreWrapper
             imageList={imageArray}
             annotationArray={annotationArray}
           />
-          <Categories />
+          <SwitchStyles />
           <ZoomCombo />
         </div>
       </Grid>
+      {/* <Debug /> */}
     </Provider>
   );
 }

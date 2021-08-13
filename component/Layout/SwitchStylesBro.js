@@ -200,7 +200,7 @@ function LeftContainer(props) {
   const [showClassLabel, setShowClassLabel] = React.useState(false);
   const [showBoundingBox, setShowBoundingBox] = React.useState(true);
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex",float: "left",width: "315px",height:"100%" }}>
       <div class={DataSet.leftTap}>
         <div class={DataSet.leftTapList}>工具</div>
         <div class={DataSet.tapBoxList}>
@@ -213,7 +213,7 @@ function LeftContainer(props) {
             }}
           >
             <div class={DataSet.boxTap}>
-              <IconButton
+              <IconButton style={{padding:"0px"}}
                 onClick={() => {
                   props.swtichStyle("BOX");
                 }}
@@ -222,7 +222,7 @@ function LeftContainer(props) {
               </IconButton>
             </div>
             <div class={DataSet.boxTap}>
-              <IconButton
+              <IconButton style={{padding:"0px"}}
                 onClick={() => {
                   props.swtichStyle("POLYLINE");
                 }}
