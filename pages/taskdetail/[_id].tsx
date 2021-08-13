@@ -37,7 +37,7 @@ import qs from "qs";
 export default function DetailsWrapper(props) {
   const route = useRouter();
   const { _id } = route.query;
-  console.log(_id);
+  console.log("taskID ID: "_id);
   // return <TagDetails {...props} TaskId={_id} />;
   return <TagDetails {...props} TaskId={_id} />;
 }
@@ -87,7 +87,7 @@ class TagDetails extends React.Component {
         'category':'标注公司'
     }))
     .then(function (response) {
-        console.log(response)
+        console.log( "get_company_list Response: Response" ,response)
         that.setState({
           companyList:response.data.data
         })
@@ -108,7 +108,7 @@ class TagDetails extends React.Component {
     axios
       .get(`${ip}${option.getTaskList}?_id=${this.props.TaskId}`)
       .then((res) => {
-        console.log(res.data.data);
+        console.log(" get_tasklist Response: Response" ,res.data.data);
         let arr = [];
         let speed = [];
         for(let i = 0;i<res.data.data[0].split;i++) {
@@ -263,17 +263,20 @@ class TagDetails extends React.Component {
   }
 
   userlist = value => {
+    //why use that? 
     const that=this;
     axios.post(ip + 'company_user_list', {})
     .then(function (response) {
         console.log(response)
         const data = response.data.data
-        const dtaskUserList = value;
+        console.log("this.state.dtaskUserList: ",this.state.dtaskUserList)
+        const dtaskUserList = that.state.dtaskUserList;
         let arr = [];
         let userList = [];
         let type;
         console.log(dtaskUserList)
         for(let i=0;i<data.length;i++){
+          // I did not see type property but _id, create_time, name
           if(data[i].type != 'admin'){
             if(JSON.stringify(dtaskUserList).match(data[i]._id)){
               type = true;
