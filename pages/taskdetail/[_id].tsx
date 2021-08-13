@@ -290,7 +290,7 @@ let arr = [];
             })
 console.log("arr",arr)
           } else {
-            that.setState({
+            that.setState({  
               adminId:data[i]._id,
             })
           }

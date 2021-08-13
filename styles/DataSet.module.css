@@ -799,6 +799,7 @@ body .pagenet:hover{
     border-right:1px solid rgb(11, 13, 18);
     color: rgb(201, 201, 201);
     font-size: 12px;
+    overflow: hidden;
 }
 .leftTapList{
     display: flex;
@@ -810,7 +811,7 @@ body .pagenet:hover{
     display: flex;
     flex: 1 1 0%;
     flex-direction: column;
-    overflow-y: auto;
+    /* overflow-y: auto; */
 }
 .boxTap{
     border-radius: 4px;
