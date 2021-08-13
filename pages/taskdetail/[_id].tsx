@@ -56,6 +56,7 @@ class TagDetails extends React.Component {
       open: false,
       examineopen:false,
       submitopen:false,
+      adminopen:false,
       done: "",
       adminId:"",
       age:"",
@@ -142,6 +143,7 @@ class TagDetails extends React.Component {
   handleClose = () => {
     this.setState({
       open: false,
+      adminopen:false,
     });
   };
   deleteData = () => {
@@ -182,15 +184,16 @@ class TagDetails extends React.Component {
     // setAge(event.target.value as string);
   };
   submit = value => { //提交标注任务
+    const that = this
     var qs = require('qs');
     axios.post(ip + 'set_dtask_flag',qs.stringify({
         '_id':this.props.TaskId,
-        'flag':1
+        'flag':value
     }))
     .then(function (response) {
       console.log(response);
-      if (res.status === 200) {
-        this.setState({
+      if (response.data.status === 1) {
+        that.setState({
           type: "flex",
           span:"您的标注任务提交成功"
         });
@@ -198,7 +201,7 @@ class TagDetails extends React.Component {
           Router.push({
             pathname: ".././tools/annotation",
           });
-        }, 2000);
+        }, 1000);
       }
     })
     .catch(function (error) {
@@ -462,7 +465,7 @@ class TagDetails extends React.Component {
               onClick={() => this.setSnetask(a)}
             >
               提交
-            </Button> : <Button
+            </Button> : (this.state.data.mark_admin == this.state.data.user_id ? <Button
               style={{
                 float:"left",marginLeft:"10px"
               }}
@@ -474,7 +477,7 @@ class TagDetails extends React.Component {
               })}
             >
               审核
-            </Button> ) : ''
+            </Button> : '') ) : ''
             }
             
           </div>
@@ -623,7 +626,7 @@ class TagDetails extends React.Component {
             })} color="primary">
               取消
             </Button>
-            <Button onClick={this.submit} color="primary" autoFocus>
+            <Button onClick={() => this.submit(1)} color="primary" autoFocus>
               确认
             </Button>
           </DialogActions>
@@ -651,6 +654,30 @@ class TagDetails extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
+
+        <Dialog
+          open={this.state.adminopen}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          {/* <DialogTitle id="alert-dialog-title">{"删除提示"}</DialogTitle> */}
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              是否通过全部标注任务?
+            </DialogContentText>
+          </DialogContent>
+
+          <DialogActions>
+            <Button onClick={() => this.submit(-1)} color="primary">
+              驳回
+            </Button>
+            <Button onClick={() => this.submit(2)} color="primary" autoFocus>
+              审核通过
+            </Button>
+          </DialogActions>
+        </Dialog>
+
         <div className={Tag.homeTop}>
           <div className={Tag.tagListLeft}>
             <div className={Tag.basicInfoWindow}>
@@ -676,7 +703,7 @@ class TagDetails extends React.Component {
                       {this.state.data.user_name}
                     </div>
                   </div>
-                  <div style={{display:this.state.adminId == this.state.data.user_id ? 'block' : 'none'}} className={Tag.listBoxSpan}>
+                  <div style={{display:this.state.adminId == this.state.data.user_id ? 'flex' : 'none'}} className={Tag.listBoxSpan}>
                     <div className={Tag.boxSpanLeft}>标注公司：</div>
                     <div className={Tag.boxSpanRight}>
                     <FormControl style={{marginTop:"-5px"}}>
@@ -724,7 +751,7 @@ class TagDetails extends React.Component {
                     <div className={Tag.boxSpanRight}>1个</div>
                   </div>
                   <div className={Tag.listBoxSpan}>
-                    <Button style={{display:this.state.userType == 'admin' ? 'block' : 'none'}} variant="contained" size="large" color="primary" onClick={() => 
+                    <Button style={{display:this.state.userType == 'admin' ? (this.state.adminId == this.state.data.user_id ? 'none' : 'block') : 'none'}} variant="contained" size="large" color="primary" onClick={() => 
                       this.setState({
                         nameshow:"block"
                       })
@@ -845,6 +872,17 @@ class TagDetails extends React.Component {
                 style={{ width: "100%",display:this.state.userType == 'admin' ? (this.state.adminId == this.state.data.user_id ? 'none' : 'block' ) : 'none',marginTop:"20px" }}
               >
                 提交任务
+              </Button>
+              <Button
+                variant="contained"
+                size="large"
+                color="primary"
+                onClick={() => this.setState({
+                  adminopen:true
+                })}
+                style={{ width: "100%",display:this.state.adminId != this.state.data.user_id ? 'none' : 'block',marginTop:"20px" }}
+              >
+                任务审核
               </Button>
               
             </div>
