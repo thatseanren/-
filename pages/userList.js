@@ -40,9 +40,7 @@ export default class App extends React.Component {
             that.setState({
                 userList:response.data.data,
             })
-            // setTimeout( () => {
-            //     location.reload()
-            // }, 2000);
+          
         })
         .catch(function (error) {
             console.log(error);

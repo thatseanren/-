@@ -99,8 +99,7 @@ class TagDetails extends React.Component {
   }
 
   componentDidMount() {
-    // location.reload()
-    // this.userlist()
+
     this.setState({
       userType:localStorage.getItem('login')
     })
@@ -708,6 +707,27 @@ console.log("arr",arr)
                     </div>
                   </div>
                   <div style={{display:this.state.adminId == this.state.data.user_id ? 'flex' : 'none'}} className={Tag.listBoxSpan}>
+                    <div className={Tag.boxSpanLeft}>标注公司：</div>
+                    <div className={Tag.boxSpanRight}>
+                    <FormControl style={{marginTop:"-5px"}}>
+                      <Select
+                        value={this.state.companyIndex}
+                        onChange={this.companyChange}
+                        displayEmpty
+                        inputProps={{ 'aria-label': 'Without label' }}
+                      >
+                        {this.state.companyList ? this.state.companyList.map((row,index) => {
+                        return (
+                        
+                        <MenuItem key={index} value={row._id}>{row.name}</MenuItem>
+                        );
+                            }) : ''}
+                      </Select>
+                    </FormControl>
+                      {/* <span style={{textDecoration: 'underline',cursor: 'pointer',color:'#4e82c5'}} onClick={() => this.setState({companyShow:'block'})}>[添加标注公司]</span>       */}
+                    </div>
+                  </div>
+                  <div className={Tag.listBoxSpan}>
                     <div className={Tag.boxSpanLeft}>标注公司：</div>
                     <div className={Tag.boxSpanRight}>
                     <FormControl style={{marginTop:"-5px"}}>

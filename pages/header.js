@@ -63,18 +63,10 @@ export default class App extends React.Component {
         .then(function (response) {
             console.log(response)
             if(response.data.status != 1){
-                // if (Cookies.get('account')) {
-                //     that.login()
-                // } else {
-                //     localStorage.removeItem('login');
-                //     Router.push({
-                //         // pathname: 'http://10.78.4.88:890/page/login.html'
-                //         pathname: '/login'
-                //     })
-                // }
+               
 
                 Router.push({
-                    // pathname: 'http://10.78.4.88:890/page/login.html'
+                  
                     pathname: '/login'
                 })
             } else {
@@ -89,17 +81,6 @@ export default class App extends React.Component {
             console.log(error);
         });
 
-
-        // if (Cookies.get('account')) {
-        //     this.login()
-        // } else {
-        //     localStorage.removeItem('login');
-        //     Router.push({
-        //         // pathname: 'http://10.78.4.88:890/page/login.html'
-        //         pathname: '/login'
-        //     })
-        // }
-
         const instance = axios.create({
             // baseURL: 'http://localhost:3000/',
             xhrFields: {
@@ -109,11 +90,7 @@ export default class App extends React.Component {
                 'Content-Type': "application/json;charset=UTF-8"
             }
         })
-        // axios.interceptors.request.use(config => {
-        //     // 在请求头中添加token
-        //     config.headers["Content-type"] = "application/json;charset=UTF-d8";
-        //     return config;
-        // })
+       
         axios.interceptors.request.use(
             console.log(1),
             config => {
