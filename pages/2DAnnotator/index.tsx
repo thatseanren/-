@@ -27,6 +27,7 @@ import {
   createScaledownAction,
 } from "../../redux/action/GeneralReducerAction";
 import { createSaveToCloudAction } from "../../redux/action/BoundingBoxAction";
+import { createPOLYLINEUPLOADAction } from "../../redux/action/PolyLineAction";
 import Draggable from "react-draggable";
 
 import Debug from "../../component/debug";
@@ -38,6 +39,9 @@ interface taskInfo {
 const mapDispatchToProps = (dispatch) => ({
   SaveToCloud_through_redux_store: (taskInfo: taskInfo) => {
     dispatch(createSaveToCloudAction(taskInfo));
+  },
+  PolylineSaveToCloud_through_redux_store: (taskInfo: taskInfo) => {
+    dispatch(createPOLYLINEUPLOADAction(taskInfo));
   },
   nextFrame: () => {
     dispatch(CreateNextFrame());
@@ -60,31 +64,58 @@ const mapStatesToProps = (state) => ({
   currentCategory: state.GeneralReducer.currentCategory,
   currentStyle: state.GeneralReducer.currentStyle,
   scaleFactor: state.GeneralReducer.scaleFactor,
+  PolylinePoints: state.Polyline.points,
 });
 const SaveToCloud_through_redud_store_button = connect(
-  null,
+  mapStatesToProps,
   mapDispatchToProps
-)(({ SaveToCloud_through_redux_store, _taskID, sequence }) => {
-  return (
-    <Button
-      variant="contained"
-      color="secondary"
-      className={DataSet.sub}
-      startIcon={<SaveIcon />}
-      onClick={() => {
-        SaveToCloud_through_redux_store({
-          _taskID: _taskID,
-          sequence: sequence,
-        });
-        Router.push({
-          pathname: `/taskdetail/${_taskID}`,
-        });
-      }}
-    >
-      保存并退出
-    </Button>
-  );
-});
+)(
+  ({
+    SaveToCloud_through_redux_store,
+    _taskID,
+    sequence,
+    currentStyle,
+    PolylineSaveToCloud_through_redux_store,
+  }) => {
+    return currentStyle === "BOX" ? (
+      <Button
+        variant="contained"
+        color="secondary"
+        className={DataSet.sub}
+        startIcon={<SaveIcon />}
+        onClick={() => {
+          SaveToCloud_through_redux_store({
+            _taskID: _taskID,
+            sequence: sequence,
+          });
+          Router.push({
+            pathname: `/taskdetail/${_taskID}`,
+          });
+        }}
+      >
+        保存并退出
+      </Button>
+    ) : (
+      <Button
+        variant="contained"
+        color="secondary"
+        className={DataSet.sub}
+        startIcon={<SaveIcon />}
+        onClick={() => {
+          PolylineSaveToCloud_through_redux_store({
+            _taskID: _taskID,
+            sequence: sequence,
+          });
+          Router.push({
+            pathname: `/taskdetail/${_taskID}`,
+          });
+        }}
+      >
+        保存并退出
+      </Button>
+    );
+  }
+);
 
 const StoreWrapper = connect(
   mapStatesToProps,
@@ -154,7 +185,7 @@ const ZoomCombo = connect(
   mapDispatchToProps
 )(({ scaleup, scaledown }) => {
   return (
-    <div style={{position:"absolute", bottom:"20px", right:"30px"}}>
+    <div style={{ position: "absolute", bottom: "20px", right: "30px" }}>
       <IconButton
         onClick={() => {
           scaleup();
@@ -237,7 +268,7 @@ export default function Annotator(props) {
         console.log(error);
       });
   }, [router.query]);
-  console.log(imageArray);
+  // console.log(imageArray);
   return (
     <Provider store={store}>
       <Grid
@@ -264,7 +295,7 @@ export default function Annotator(props) {
             <NextFrame />
           </div>
         </div>
-        <div style={{ height: "100%", overflow:"hidden"}}>
+        <div style={{ height: "100%", overflow: "hidden" }}>
           <StoreWrapper
             imageList={imageArray}
             annotationArray={annotationArray}

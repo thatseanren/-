@@ -4,7 +4,12 @@ import {
   POLYLINEHANDLEMOUSEDOWN,
   POLYLINEHANDLEKEYDOWN,
   POLYLINEHANDLEMOUSEMOVE,
+  POLYLINESAVETOCLOUD,
+  UPDATEPOINT,
 } from "../action/actionConstant";
+import FAWAI_ip, { option, test_ip } from "../../main_config";
+import { request } from "http";
+import { rejects } from "assert";
 const defaultState = {
   state: "IDLE",
   points: Array.from(Array(50), () => []),
@@ -157,6 +162,33 @@ const Polyline = (state = defaultState, { type, payload }) => {
           NewState.state = "IDLE";
         }
       }
+      return NewState;
+    case POLYLINESAVETOCLOUD:
+      const { _id, _taskID, sequence } = payload;
+      const annotation = JSON.stringify(NewState.points);
+      const SynchronouseAnnotation_UI = new XMLHttpRequest();
+      SynchronouseAnnotation_UI.open(
+        "POST",
+        `${FAWAI_ip}${option.sendAnnotation}`
+      );
+      SynchronouseAnnotation_UI.onreadystatechange = function () {
+        // Call a function when the state changes.
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+          console.log(this);
+        }
+      };
+      SynchronouseAnnotation_UI.setRequestHeader(
+        "Content-Type",
+        "application/x-www-form-urlencoded"
+      );
+      SynchronouseAnnotation_UI.setRequestHeader("Authorization", "bdta");
+      SynchronouseAnnotation_UI.withCredentials = true;
+      SynchronouseAnnotation_UI.send(
+        `data=${annotation}&_id=${_taskID}&index=${sequence}`
+      );
+      return NewState;
+    case UPDATEPOINT:
+      NewState.points = payload;
       return NewState;
   }
   return NewState;

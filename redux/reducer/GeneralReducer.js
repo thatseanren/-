@@ -39,11 +39,11 @@ export default function GeneralReducer(
     case ActionConstant.SWITCHSTYLE:
       return { ...state, currentStyle: action.payload };
     case ActionConstant.SCALEUP:
-      return { ...state, scaleFactor: (NewState.scaleFactor += 1 / 2) };
+      let up = (NewState.scaleFactor += 1 / 2);
+      return { ...state, scaleFactor: up >= 2.5 ? 2.5 : up };
     case ActionConstant.SCALEDOWN:
-      let temp = (NewState.scaleFactor -= 1 / 2)
-      let factor =
-        temp <= 1 / 2 ? 1 / 2 : temp;
+      let temp = (NewState.scaleFactor -= 1 / 2);
+      let factor = temp <= 1 / 2 ? 1 / 2 : temp;
       return { ...state, scaleFactor: factor };
     default:
       return NewState;

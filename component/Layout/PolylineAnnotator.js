@@ -8,6 +8,7 @@ import {
   createPOLYLINEHandleMouseDownAction,
   createPOLYLINEHandleKeyDownAction,
   createPOLYLINEHandleMouseMoveAction,
+  createUpdatePointsAction,
 } from "../../redux/action/PolyLineAction";
 import {
   createScaleupAction,
@@ -43,6 +44,9 @@ const mapDispatchToProps = (Dispatch) => ({
   ScaleDown: (event) => {
     Dispatch(createScaledownAction(event));
   },
+  updatePoints: (jsonArray) => {
+    Dispatch(createUpdatePointsAction(jsonArray));
+  },
 });
 
 function POLYLINE(props) {
@@ -61,6 +65,8 @@ function POLYLINE(props) {
     scaleFactor,
     ScaleUp,
     ScaleDown,
+    annotationArray,
+    updatePoints,
   } = props;
   const mouseDownWrapper = (event) => {
     mouseDown({
@@ -98,9 +104,9 @@ function POLYLINE(props) {
     // event.preventDefault()
     if (event.shiftKey === true) {
       if (event.deltaY > 0) {
-        ScaleUp()
-      }else{
-        ScaleDown()
+        ScaleUp();
+      } else {
+        ScaleDown();
       }
     }
   };
@@ -110,7 +116,7 @@ function POLYLINE(props) {
     Ele.addEventListener("mousemove", mouseMoveWrapper);
     Ele.addEventListener("mouseup", mouseUpWrapper);
     document.addEventListener("keydown", keyDownWrapper);
-    Ele.addEventListener("wheel", onWheelWrapper,{passive:true});
+    Ele.addEventListener("wheel", onWheelWrapper, { passive: true });
     return () => {
       Ele.removeEventListener("mousedown", mouseDownWrapper);
       Ele.removeEventListener("mousemove", mouseMoveWrapper);
@@ -119,6 +125,43 @@ function POLYLINE(props) {
       Ele.removeEventListener("wheel", onWheelWrapper);
     };
   });
+  React.useEffect(() => {
+    const requestJson = (url) =>
+      new Promise((resolve, reject) => {
+        let requestJson = new XMLHttpRequest();
+        requestJson.open("GET", url);
+        requestJson.setRequestHeader("Authorization", "bdta");
+        requestJson.withCredentials = true;
+        requestJson.onload = (responseObject) => {
+          if (responseObject.currentTarget.status === 200) {
+            resolve(JSON.parse(responseObject.currentTarget.response));
+          } else if (responseObject.currentTarget.status === 404) {
+            resolve(
+              `${responseObject.currentTarget.responseURL} is ${responseObject.currentTarget.status}`
+            );
+          }
+        };
+        requestJson.send();
+      });
+      let PromiseArray = annotationArray.map((val, ind) => {
+        return requestJson(val);
+      });
+      let newPoints = Array.from(Array(50), () => []);
+      (async function () {
+        await Promise.all(PromiseArray).then((value) => {
+          console.log(value);
+          value.forEach((val, index) => {
+            console.log(val);
+            if (typeof val == "object") {
+              newPoints[index] = val;
+            }
+          });
+          updatePoints(newPoints);
+        });
+       
+      })();
+    
+  }, [annotationArray]);
   React.useEffect(() => {
     const ctx = document.querySelector("#POLYLINE").getContext("2d");
     ctx.clearRect(0, 0, 1080 * scaleFactor, 720 * scaleFactor);

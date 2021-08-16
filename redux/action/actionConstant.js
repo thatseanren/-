@@ -1,3 +1,5 @@
+import { symbol } from "prop-types";
+
 export const UPDATE_COORDINATES = Symbol("update_coordinate");
 export const NEXT_FRAME = Symbol("next_frame");
 export const PREVIOUS_FRAME = Symbol("previous_frame");
@@ -22,3 +24,5 @@ export const POLYLINEHANDLEMOUSEMOVE = Symbol("POLYLINEHANDLEMOUSEMOVE");
 
 export const SCALEUP = Symbol("SCALEUP");
 export const SCALEDOWN = Symbol("SCALEDOWN");
+export const POLYLINESAVETOCLOUD = Symbol("POLYLINESAVETOCLOU")
+export const UPDATEPOINT = Symbol("UpdatePointsAction")

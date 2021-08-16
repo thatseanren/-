@@ -216,7 +216,7 @@ function MidPage(props) {
         justifyContent: "flex-start",
         height: "100%",
         float: "left",
-        width: "calc(100% - 315px)"
+        width: "calc(100% - 315px)",
       }}
     >
       <div
