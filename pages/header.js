@@ -25,12 +25,12 @@ export default class App extends React.Component {
         user = eval('(' + user + ')');
         console.log(user)
         this.setState({
-            name: 'admin'
+            name: user.name
         });
         var qs = require('qs');
         axios.post(server + 'login', qs.stringify({
-            'name': 'admin',
-            'password': 'admin123456'
+            'name': user.name,
+            'password': user.password
         }))
         .then(function (response) {
             console.log(response)
@@ -59,28 +59,27 @@ export default class App extends React.Component {
     componentDidMount() {
         console.log(Cookies.get('account'))
         const that=this;
-        this.login()
-        // axios.post(server + 'login_status', {})
-        // .then(function (response) {
-        //     console.log(response)
-        //     if(response.data.status != 1){
+        axios.post(server + 'login_status', {})
+        .then(function (response) {
+            console.log(response)
+            if(response.data.status != 1){
                
 
-        //         Router.push({
+                Router.push({
                   
-        //             pathname: '/login'
-        //         })
-        //     } else {
-        //         response.status === 200 ? localStorage.setItem("login", response.data.user.type) : ""
-        //         that.setState({
-        //             name: response.data.user.name
-        //         });
-        //     }
+                    pathname: '/login'
+                })
+            } else {
+                response.status === 200 ? localStorage.setItem("login", response.data.user.type) : ""
+                that.setState({
+                    name: response.data.user.name
+                });
+            }
              
-        // })
-        // .catch(function (error) {
-        //     console.log(error);
-        // });
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 
         const instance = axios.create({
             // baseURL: 'http://localhost:3000/',
