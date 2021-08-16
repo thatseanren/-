@@ -27,7 +27,10 @@ import {
   createScaledownAction,
 } from "../../redux/action/GeneralReducerAction";
 import { createSaveToCloudAction } from "../../redux/action/BoundingBoxAction";
-import { createPOLYLINEUPLOADAction } from "../../redux/action/PolyLineAction";
+import {
+  createPOLYLINEUPLOADAction,
+  createResetStateAction,
+} from "../../redux/action/PolyLineAction";
 import Draggable from "react-draggable";
 
 import Debug from "../../component/debug";
@@ -45,9 +48,11 @@ const mapDispatchToProps = (dispatch) => ({
   },
   nextFrame: () => {
     dispatch(CreateNextFrame());
+    dispatch(createResetStateAction());
   },
   previousFrame: () => {
     dispatch(CreatePreviousFrame());
+    dispatch(createResetStateAction());
   },
   scaleup: () => {
     dispatch(createScaleupAction());

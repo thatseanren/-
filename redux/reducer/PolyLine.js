@@ -6,6 +6,7 @@ import {
   POLYLINEHANDLEMOUSEMOVE,
   POLYLINESAVETOCLOUD,
   UPDATEPOINT,
+  RESETSTATE,
 } from "../action/actionConstant";
 import FAWAI_ip, { option, test_ip } from "../../main_config";
 import { request } from "http";
@@ -190,7 +191,12 @@ const Polyline = (state = defaultState, { type, payload }) => {
     case UPDATEPOINT:
       NewState.points = payload;
       return NewState;
+    case RESETSTATE:
+      NewState.state = "IDLE";
+      return NewState
+
   }
+
   return NewState;
 };
 
