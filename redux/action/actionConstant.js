@@ -27,3 +27,4 @@ export const SCALEDOWN = Symbol("SCALEDOWN");
 export const POLYLINESAVETOCLOUD = Symbol("POLYLINESAVETOCLOU")
 export const UPDATEPOINT = Symbol("UpdatePointsAction")
 export const RESETSTATE = Symbol("RESETSTATE")
+export const IMAGEFINISHLOADING = Symbol("IMAGEFINISHLOADING")

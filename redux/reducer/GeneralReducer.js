@@ -9,6 +9,7 @@ export default function GeneralReducer(
     currentCategory: 0,
     currentStyle: "POLYLINE",
     scaleFactor: 1,
+    isImageFinishLoading: false,
   },
   action
 ) {
@@ -45,6 +46,8 @@ export default function GeneralReducer(
       let temp = (NewState.scaleFactor -= 1 / 2);
       let factor = temp <= 1 / 2 ? 1 / 2 : temp;
       return { ...state, scaleFactor: factor };
+    case ActionConstant.IMAGEFINISHLOADING:
+      return { ...state, isImageFinishLoading: action.payload };
     default:
       return NewState;
   }
