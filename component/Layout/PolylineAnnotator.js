@@ -60,6 +60,9 @@ const mapDispatchToProps = (Dispatch) => ({
   imageLoadingState: () => {
     Dispatch(createIMGFINISHLOADING(true));
   },
+  TellReduxLoadingStarted: () => {
+    Dispatch(createIMGFINISHLOADING(false));
+  },
 });
 
 function POLYLINE(props) {
@@ -167,6 +170,7 @@ function POLYLINE(props) {
     });
     let newPoints = Array.from(Array(50), () => []);
     (async function () {
+      TellReduxLoadingStarted();
       await Promise.all(PromiseArray).then((value) => {
         console.log(value);
         value.forEach((val, index) => {
@@ -176,6 +180,7 @@ function POLYLINE(props) {
           }
         });
         updatePoints(newPoints);
+        imageLoadingState();
       });
     })();
   }, [annotationArray]);
@@ -261,7 +266,6 @@ function POLYLINE(props) {
           {!isImageFinishLoading ? (
             <ThreeDot className={classes.transform}> </ThreeDot>
           ) : null}{" "}
-          
           <div style={{ opacity: `${isImageFinishLoading ? 1 : 0}` }}>
             {" "}
             <img
@@ -276,9 +280,7 @@ function POLYLINE(props) {
                 maxHeight: `${3000}`,
                 display: "block",
               }}
-              onLoad={() => {
-                imageLoadingState();
-              }}
+              onLoad={() => {}}
               onDragOver={(e) => {
                 e.preventDefault();
               }}
