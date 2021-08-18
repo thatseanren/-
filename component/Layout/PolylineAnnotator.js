@@ -86,6 +86,7 @@ function POLYLINE(props) {
     updatePoints,
     imageLoadingState,
     isImageFinishLoading,
+    TellReduxLoadingStarted
   } = props;
   const mouseDownWrapper = (event) => {
     mouseDown({
