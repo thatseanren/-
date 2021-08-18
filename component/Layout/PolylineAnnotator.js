@@ -256,7 +256,7 @@ function POLYLINE(props) {
         alignItems="center"
         justify="center"
         style={{
-          background: "#272a42",
+          background: "#000",
           justifyContent: "flex-start",
           height: "calc(100% - 48px)",
           width: "100%",

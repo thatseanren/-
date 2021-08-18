@@ -29,6 +29,8 @@ export default function GeneralReducer(
       } else {
         return { ...state, currentFrameIndex: state.currentFrameIndex - 1 };
       }
+    case ActionConstant.SETARBITATRYFRAME:
+      return { ...state, currentFrameIndex: action.payload };
     case ActionConstant.SETSELECTEDBOUNDINGBOX:
       return { ...state, currentSelectedBoundingBoxIndex: action.payload };
     case ActionConstant.SETDRAWMODE:

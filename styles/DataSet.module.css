@@ -766,7 +766,7 @@ color: #272834;
     border-radius: 0px;
     background-color: #272a42 !important;
     color: #fff;
-    border-bottom: 1px solid rgb(11, 13, 18);
+    border-bottom: 1px solid rgb(62, 65, 96);
 }
 .numb_list{
     color: white;
@@ -794,9 +794,9 @@ body .pagenet:hover{
     flex: 0 0 48px;
     flex-direction: column;
     background: rgb(39, 42, 66) none repeat scroll 0% 0%;
-    border-left: 1px solid rgb(10, 11, 16);
+    border-left: 1px solid rgb(62, 65, 96);
     overflow-y: hidden;
-    border-right:1px solid rgb(11, 13, 18);
+    border-right:1px solid rgb(62, 65, 96);
     color: rgb(201, 201, 201);
     font-size: 12px;
     overflow: hidden;

@@ -38,3 +38,7 @@ export const createIMGFINISHLOADING = (payload) => ({
   type: ActionConstant.IMAGEFINISHLOADING,
   payload: payload,
 });
+export const createSetArbitatryFrameAction = (payload) => ({
+  type: ActionConstant.SETARBITATRYFRAME,
+  payload: payload,
+});

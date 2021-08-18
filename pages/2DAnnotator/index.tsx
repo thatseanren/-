@@ -20,11 +20,14 @@ import Router from "next/router";
 import ZoomInIcon from "@material-ui/icons/ZoomIn";
 import ZoomOutIcon from "@material-ui/icons/ZoomOut";
 import IconButton from "@material-ui/core/IconButton";
+import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import {
   CreateNextFrame,
   CreatePreviousFrame,
   createScaleupAction,
   createScaledownAction,
+  createSetArbitatryFrameAction,
 } from "../../redux/action/GeneralReducerAction";
 import { createSaveToCloudAction } from "../../redux/action/BoundingBoxAction";
 import {
@@ -34,11 +37,37 @@ import {
 import Draggable from "react-draggable";
 
 import Debug from "../../component/debug";
+import MobileStepper from "@material-ui/core/MobileStepper";
 interface taskInfo {
   taskid: string;
   sequence: number;
   data: string;
 }
+const useStyles = makeStyles({
+  MuiMobileStepperProgress: {
+    width: "200%",
+    background: "rgba(0,0,0,0)",
+    "&:MuiMobileStepper_progress": {
+      width: "200%",
+    },
+  },
+  MuiPaper_root: {
+    "&:MuiMobileStepper_progress": {
+      position: "absolute",
+      content: '""',
+      display: "block",
+      right: 0,
+      top: "2px",
+      width: "1px",
+      height: "10px",
+      background: "#000",
+      marginRight: "5px",
+    },
+  },
+  MuiMobileStepper_progress: {
+    width: "100%",
+  },
+});
 const mapDispatchToProps = (dispatch) => ({
   SaveToCloud_through_redux_store: (taskInfo: taskInfo) => {
     dispatch(createSaveToCloudAction(taskInfo));
@@ -60,6 +89,10 @@ const mapDispatchToProps = (dispatch) => ({
   scaledown: () => {
     dispatch(createScaledownAction());
   },
+  arbitaryFrame: (payload) => {
+    console.log("dispatch")
+    dispatch(createSetArbitatryFrameAction(payload));
+  },
 });
 const mapStatesToProps = (state) => ({
   entireBoundingBox: state.BoundingBoxCollection,
@@ -71,6 +104,61 @@ const mapStatesToProps = (state) => ({
   scaleFactor: state.GeneralReducer.scaleFactor,
   PolylinePoints: state.Polyline.points,
 });
+const Guider = (props) => {
+  var [tool, setTool] = React.useState("none");
+  return (
+    <div
+      style={{
+        position: "relative",
+        zIndex: "1000000000",
+      }}
+    >
+      <ErrorOutlineOutlinedIcon
+        onMouseOver={() => setTool("block")}
+        onMouseOut={() => setTool("none")}
+        style={{ color: "#fff", cursor: "pointer" }}
+      />
+      <div
+        style={{
+          display: tool,
+          background: "#243a58",
+          position: "absolute",
+          padding: "14px",
+          color: "#fff",
+          left: "-20px",
+          width: "320px",
+        }}
+      >
+        <div
+          style={{ overflow: "hidden", fontSize: "14px", marginBottom: "10px" }}
+        >
+          <div style={{ width: "75px", float: "left" }}>图片缩放：</div>
+          <div
+            style={{
+              float: "left",
+              width: "calc(100% - 75px)",
+              color: "#a3b8b7",
+            }}
+          >
+            鼠标置于图片处，按住键盘上“Shift”键，滑动滚轮完成缩放
+          </div>
+        </div>
+        <div style={{ overflow: "hidden", fontSize: "14px" }}>
+          <div style={{ width: "75px", float: "left" }}>删除标注：</div>
+          <div
+            style={{
+              float: "left",
+              width: "calc(100% - 75px)",
+              color: "#a3b8b7",
+            }}
+          >
+            鼠标点击要操作的标注，按下“Delete”键删除标注
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 const SaveToCloud_through_redud_store_button = connect(
   mapStatesToProps,
   mapDispatchToProps
@@ -182,7 +270,11 @@ const CurrentFrame = connect(
   null
 )((props) => {
   return (
-    <div className={DataSet.numb_list}> {props.currentFrameIndex + 1} / 50</div>
+    <div className={DataSet.numb_list}>
+      {" "}
+      {props.currentFrameIndex + 1} /{" "}
+      {props.pageList ? props.pageList.length : 50}
+    </div>
   );
 });
 const ZoomCombo = connect(
@@ -208,14 +300,77 @@ const ZoomCombo = connect(
     </div>
   );
 });
-
+const Progressbar = connect(
+  mapStatesToProps,
+  mapDispatchToProps
+)((props) => {
+  const classes = useStyles();
+  const { pageList, arbitaryFrame } = props;
+  var [pageIndex, setPageIndex] = React.useState(1);
+  const page = (value) => {
+    console.log(value);
+    setPageIndex(value);
+  };
+  return (
+    <div
+      style={{
+        position: "fixed",
+        bottom: "20px",
+        right: "345px",
+        left: "50px",
+        zIndex: "10000",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        style={{
+          position: "absolute",
+          bottom: "0px",
+          display: "flex",
+          width: "100%",
+        }}
+      >
+        {pageList
+          ? pageList.map((item, index) => {
+              return (
+                <div
+                  onClick={() => {
+                    page(index);
+                    arbitaryFrame(index)
+  
+                  }}
+                  style={{
+                    flex: "1",
+                    cursor: "pointer",
+                    zIndex: "10",
+                    height: "21px",
+                  }}
+                  title={index + 1}
+                ></div>
+              );
+            })
+          : ""}
+      </div>
+      <MobileStepper
+        variant="progress"
+        className={classes.MuiMobileStepperProgress}
+        steps={pageList ? pageList.length : 50}
+        position="static"
+        activeStep={pageIndex}
+      />
+    </div>
+  );
+});
 export default function Annotator(props) {
   const router = useRouter();
   const { _taskID, sequence } = router.query;
   // console.log("router.query", router.query);
   var [imageArray, setImageArray] = React.useState([]);
+  var [pageList, setPageList] = React.useState();
   var [annotationArray, setAnnotationArray] = React.useState([]);
+
   const concatAddresstoData = (array) => {
+    setPageList(array);
     return array.map((value, index) => {
       for (let key in value) {
         value[key] = `${dataServer}${option.getMeterail}${value[key]}`;
@@ -276,6 +431,7 @@ export default function Annotator(props) {
   // console.log(imageArray);
   return (
     <Provider store={store}>
+      <Progressbar pageList={pageList} />
       <Grid
         container
         wrap="nowrap"
@@ -287,7 +443,8 @@ export default function Annotator(props) {
             style={{ display: "flex", alignItems: "center", height: "100%" }}
           >
             <div style={{ flexGrow: "1" }}></div>
-            <CurrentFrame />
+            <Guider />
+            <CurrentFrame pageList={pageList} />
             <div>
               <SaveToCloud_through_redud_store_button
                 _taskID={_taskID}
