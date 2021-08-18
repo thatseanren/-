@@ -319,7 +319,7 @@ function LeftContainer(props) {
                     marginLeft: "7px",
                     padding: "0px",
                     width: "90%",
-                    height: "675px",
+                    height: "calc(100% - 170px)",
                     overflowY: "auto",
                   }}
                 >

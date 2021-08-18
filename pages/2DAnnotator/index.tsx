@@ -20,6 +20,7 @@ import Router from "next/router";
 import ZoomInIcon from "@material-ui/icons/ZoomIn";
 import ZoomOutIcon from "@material-ui/icons/ZoomOut";
 import IconButton from "@material-ui/core/IconButton";
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {
   CreateNextFrame,
   CreatePreviousFrame,
@@ -34,11 +35,38 @@ import {
 import Draggable from "react-draggable";
 
 import Debug from "../../component/debug";
+import MobileStepper from '@material-ui/core/MobileStepper';
 interface taskInfo {
   taskid: string;
   sequence: number;
   data: string;
 }
+const useStyles = makeStyles({
+  MuiMobileStepperProgress: {
+    width:"200%",
+    background: "#000",
+    "&:MuiMobileStepper_progress": {
+      width:"200%",
+    },
+  },
+  MuiPaper_root:{
+    "&:MuiMobileStepper_progress": {
+      position: "absolute",
+      content: '""',
+      display: "block",
+      right: 0,
+      top: "2px",
+      width: "1px",
+      height: "10px",
+      background: "#000",
+      marginRight: "5px",
+    },
+  },
+  MuiMobileStepper_progress:{
+    width:"100%"
+  }
+  
+});
 const mapDispatchToProps = (dispatch) => ({
   SaveToCloud_through_redux_store: (taskInfo: taskInfo) => {
     dispatch(createSaveToCloudAction(taskInfo));
@@ -210,12 +238,20 @@ const ZoomCombo = connect(
 });
 
 export default function Annotator(props) {
+  const classes = useStyles();
   const router = useRouter();
   const { _taskID, sequence } = router.query;
   // console.log("router.query", router.query);
   var [imageArray, setImageArray] = React.useState([]);
+  var [pageList, setPageList] = React.useState();
+  var [pageIndex, setPageIndex] = React.useState(1);
   var [annotationArray, setAnnotationArray] = React.useState([]);
+  const page = (value) => {
+    console.log(value)
+    setPageIndex(value)
+  }
   const concatAddresstoData = (array) => {
+    setPageList(array);
     return array.map((value, index) => {
       for (let key in value) {
         value[key] = `${dataServer}${option.getMeterail}${value[key]}`;
@@ -276,6 +312,22 @@ export default function Annotator(props) {
   // console.log(imageArray);
   return (
     <Provider store={store}>
+      <div style={{position:"fixed",bottom:"20px",right:"345px",left:"50px",zIndex:"10000",overflow:"hidden"}}>
+        <div style={{position:"absolute",bottom:"0px",display:"flex",width:"100%"}}>
+          {pageList ? pageList.map((item, index) => {
+            return (
+              <div onClick={() => page(index)} style={{flex:"1",cursor: "pointer",zIndex:"10",height:"21px"}} title={index+1}></div>
+                );
+            }): ''}
+        </div>
+          <MobileStepper
+          variant="progress"
+          className={classes.MuiMobileStepperProgress}
+          steps={50}
+          position="static"
+          activeStep={pageIndex}
+        />
+      </div>
       <Grid
         container
         wrap="nowrap"
