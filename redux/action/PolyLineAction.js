@@ -5,8 +5,9 @@ import {
   POLYLINEHANDLEKEYDOWN,
   POLYLINEHANDLEMOUSEMOVE,
   POLYLINESAVETOCLOUD,
-  UPDATEPOINT,RESETSTATE
-
+  UPDATEPOINT,
+  SELECTPOLYLINE,
+  RESETSTATE
 } from "./actionConstant";
 
 export const createSwtichStateAction = (state) => ({
@@ -30,18 +31,22 @@ export const createPOLYLINEHandleKeyDownAction = (payload) => ({
 
 export const createPOLYLINEHandleMouseMoveAction = (payload) => ({
   type: POLYLINEHANDLEMOUSEMOVE,
-  payload:payload,
-})
+  payload: payload,
+});
 
 export const createPOLYLINEUPLOADAction = (payload) => ({
   type: POLYLINESAVETOCLOUD,
-  payload: payload
-})
-export const createUpdatePointsAction = (payload) =>({
-  type:UPDATEPOINT ,
-  payload: payload
-})
-export const createResetStateAction = payload => ({
+  payload: payload,
+});
+export const createUpdatePointsAction = (payload) => ({
+  type: UPDATEPOINT,
+  payload: payload,
+});
+export const createResetStateAction = (payload) => ({
   type: RESETSTATE,
-  payload: payload
-})
+  payload: payload,
+});
+export const createSelectPolylineAction = (payload) => ({
+  type: SELECTPOLYLINE,
+  payload: payload,
+});

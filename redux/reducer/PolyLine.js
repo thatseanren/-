@@ -7,6 +7,7 @@ import {
   POLYLINESAVETOCLOUD,
   UPDATEPOINT,
   RESETSTATE,
+  SELECTPOLYLINE
 } from "../action/actionConstant";
 import FAWAI_ip, { option, test_ip } from "../../main_config";
 import { request } from "http";
@@ -187,14 +188,19 @@ const Polyline = (state = defaultState, { type, payload }) => {
       SynchronouseAnnotation_UI.send(
         `data=${annotation}&_id=${_taskID}&index=${sequence}`
       );
+      console.log(NewState[0].length)
       return NewState;
     case UPDATEPOINT:
       NewState.points = payload;
       return NewState;
     case RESETSTATE:
       NewState.state = "IDLE";
-      return NewState
+      return NewState;
 
+    case SELECTPOLYLINE:
+      NewState.state = "ON_Selected";
+      NewState.selected = payload;
+      return NewState;
   }
 
   return NewState;

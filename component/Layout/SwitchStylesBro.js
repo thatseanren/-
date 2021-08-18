@@ -22,6 +22,7 @@ import store from "../../redux";
 import { connect } from "react-redux";
 import DataSet from "../../styles/DataSet.module.css";
 import { createUpdateBoudingBoxAction } from "../../redux/action/BoundingBoxAction";
+import {createSelectPolylineAction} from '../../redux/action/PolyLineAction';
 import {
   createSetCurrentCategoryAction,
   createSetSelectedBoundingBoxAction,
@@ -187,6 +188,9 @@ const mapDispatchToProps = (dispatch) => ({
   swtichStyle: (style) => {
     dispatch(createSwitchCurrentStyle(style));
   },
+  selectPolyline: (payload) =>{
+    dispatch(createSelectPolylineAction(payload))
+  }
 });
 const mapStateToProps = (state) => ({
   currentFrameIndex: state.GeneralReducer.currentFrameIndex,
@@ -378,7 +382,7 @@ function LeftContainer(props) {
               >
                 {returnBoudingBoxList(
                   props.points[props.currentFrameIndex],
-                  props.setCurrentSelectedBoundingBox
+                  props.selectPolyline
                 )}
               </ul>
             )}
