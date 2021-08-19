@@ -10,6 +10,7 @@ import DataSet from "../styles/DataSet.module.css";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from '@material-ui/core/Button';
+import cookie from 'react-cookies'
 const useStyles = makeStyles(
     {
     MuiInputBaseRoot: {
@@ -49,6 +50,7 @@ export default class Login extends React.Component {
         .then(function (response) {
             console.log(response)
             response.status === 200 ? localStorage.setItem("login", response.data.user.type) : ""
+            cookie.save('account', response.data.user)
             response.data.status != 0 ? Router.push({
               pathname: '/'
           }) : ""

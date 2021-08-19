@@ -20,6 +20,7 @@ import Router from "next/router";
 import ZoomInIcon from "@material-ui/icons/ZoomIn";
 import ZoomOutIcon from "@material-ui/icons/ZoomOut";
 import IconButton from "@material-ui/core/IconButton";
+import ErrorOutlineOutlinedIcon from '@material-ui/icons/ErrorOutlineOutlined';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {
   CreateNextFrame,
@@ -44,7 +45,7 @@ interface taskInfo {
 const useStyles = makeStyles({
   MuiMobileStepperProgress: {
     width:"200%",
-    background: "#000",
+    background: "rgba(0,0,0,0)",
     "&:MuiMobileStepper_progress": {
       width:"200%",
     },
@@ -210,14 +211,14 @@ const CurrentFrame = connect(
   null
 )((props) => {
   return (
-    <div className={DataSet.numb_list}> {props.currentFrameIndex + 1} / 50</div>
+    <div className={DataSet.numb_list}> {props.currentFrameIndex + 1} / {props.pageList ? props.pageList.length : 50}</div>
   );
 });
 const ZoomCombo = connect(
   null,
   mapDispatchToProps
 )(({ scaleup, scaledown }) => {
-  return (
+  return ( 
     <div style={{ position: "absolute", bottom: "20px", right: "30px" }}>
       <IconButton
         onClick={() => {
@@ -244,6 +245,7 @@ export default function Annotator(props) {
   // console.log("router.query", router.query);
   var [imageArray, setImageArray] = React.useState([]);
   var [pageList, setPageList] = React.useState();
+  var [tool, setTool] = React.useState("none");
   var [pageIndex, setPageIndex] = React.useState(1);
   var [annotationArray, setAnnotationArray] = React.useState([]);
   const page = (value) => {
@@ -312,6 +314,27 @@ export default function Annotator(props) {
   // console.log(imageArray);
   return (
     <Provider store={store}>
+      <div style={{position:"fixed",right:"417px",top:"10px",zIndex:"100000"}}>
+        <ErrorOutlineOutlinedIcon onMouseOver={() => setTool('block')} onMouseOut={() => setTool('none')} style={{color:"#fff",cursor: "pointer"}} />
+        <div style={{display:tool,background: "#243a58",position:"absolute",padding:"14px",color:"#fff",left:"-20px",width:"320px"}}>
+          <div style={{overflow:"hidden",fontSize:"14px",marginBottom: "10px"}}>
+            <div style={{width:"75px",float:"left"}}>
+              图片缩放：
+            </div>
+            <div style={{float:"left",width: "calc(100% - 75px)",color: "#a3b8b7"}}>
+              鼠标置于图片处，按住键盘上“Shift”键，滑动滚轮完成缩放
+            </div>
+          </div>
+          <div style={{overflow:"hidden",fontSize:"14px"}}>
+            <div style={{width:"75px",float:"left"}}>
+              删除标注：
+            </div>
+            <div style={{float:"left",width: "calc(100% - 75px)",color: "#a3b8b7"}}>
+              鼠标点击要操作的标注，按下“Delete”键删除标注
+            </div>
+          </div>
+        </div>
+      </div>
       <div style={{position:"fixed",bottom:"20px",right:"345px",left:"50px",zIndex:"10000",overflow:"hidden"}}>
         <div style={{position:"absolute",bottom:"0px",display:"flex",width:"100%"}}>
           {pageList ? pageList.map((item, index) => {
@@ -323,7 +346,7 @@ export default function Annotator(props) {
           <MobileStepper
           variant="progress"
           className={classes.MuiMobileStepperProgress}
-          steps={50}
+          steps={pageList ? pageList.length : 50}
           position="static"
           activeStep={pageIndex}
         />
@@ -339,7 +362,7 @@ export default function Annotator(props) {
             style={{ display: "flex", alignItems: "center", height: "100%" }}
           >
             <div style={{ flexGrow: "1" }}></div>
-            <CurrentFrame />
+            <CurrentFrame pageList={pageList} />
             <div>
               <SaveToCloud_through_redud_store_button
                 _taskID={_taskID}

@@ -10,5 +10,5 @@ export const ThreeDot = (props) => {
       valuenow:"Fetching video from the Great Internet"
     },
   });
-  return <section className = {props.className} style ={{position:"absolute", top:0,left:0}}{...containerProps}>{indicatorEl}</section>;
+  return <section className = {props.className} style ={{position:"absolute", top:0,left:0,color:"#fff"}}{...containerProps}>{indicatorEl}</section>;
 };

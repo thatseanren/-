@@ -321,6 +321,7 @@ function LeftContainer(props) {
                     width: "90%",
                     height: "calc(100% - 170px)",
                     overflowY: "auto",
+                    scrollbarWidth: "none",
                   }}
                 >
                   {" "}
