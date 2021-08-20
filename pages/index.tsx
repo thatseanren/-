@@ -7,6 +7,7 @@ import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import FilterSection from "../component/FilterSection.js";
 import DataSetDisplay from "../component/GroupCell";
 import axios from "axios";
+import '../config';
 import server, { option } from "../main_config";
 import { resolveHref } from "next/dist/next-server/lib/router/router";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
@@ -126,17 +127,17 @@ export default class Home extends React.Component<{}, HomeState> {
       rootMargin:"0px",
       threshold:[0.9,0.89,0.88,0.8,0.7,0.5,0]
     }
-    let callback = (entries, observer) =>{
-      // console.log(entries)
-      entries.forEach(entry =>{
-        // console.log(entry)
-        if (entry.intersectionRatio < 1) document.querySelector('#header_>div:nth-of-type(1)').style.backgroundColor = 'black'
-      })
+    // let callback = (entries, observer) =>{
+    //   // console.log(entries)
+    //   entries.forEach(entry =>{
+    //     // console.log(entry)
+    //     if (entry.intersectionRatio < 1) document.querySelector('#header_>div:nth-of-type(1)').style.backgroundColor = 'black'
+    //   })
      
-    }
+    // }
 
-    let observer = new IntersectionObserver(callback, Observe_options);
-    observer.observe(homebox)
+    // let observer = new IntersectionObserver(callback, Observe_options);
+    // observer.observe(homebox)
 
     axios.get(server + 'get_dataset_info',{})
 

@@ -15,6 +15,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import SearchIcon from "@material-ui/icons/Search";
 import PagesIcon from "@material-ui/icons/Pages";
+import '../../../config';
 import { TabPanel, TabContext } from "@material-ui/lab";
 import clsx from "clsx";
 import axios from "axios";

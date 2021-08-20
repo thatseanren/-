@@ -15,7 +15,8 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: "Adcccmin",
+            name: "",
+            loginshow:false,
         };
     }
 
@@ -31,32 +32,57 @@ export default class App extends React.Component {
             'name': user.name,
             'password': user.password
         }))
-            .then(function (response) {
-                console.log(response)
-                response.status === 200 ? localStorage.setItem("login", user.name) : ""
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        .then(function (response) {
+            console.log(response)
+            response.status === 200 ? localStorage.setItem("login", response.data.user.type) : ""
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+    loginout = value => {
+        axios.post(server + 'logout', {})
+        .then(function (response) {
+            console.log(response)
+            if(response.data.status == 1){
+                Router.push({
+                    // pathname: 'http://10.78.4.88:890/page/login.html'
+                    pathname: '/login'
+                })
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
     }
 
     componentDidMount() {
         console.log(Cookies.get('account'))
+        const that=this;
+        axios.post(server + 'login_status', {})
+        .then(function (response) {
+            console.log(response)
+            if(response.data.status != 1){
+               
 
-        if (Cookies.get('account')) {
-
-            this.login()
-
-
-        } else {
-            localStorage.removeItem('login');
-            Router.push({
-                pathname: 'http://10.78.4.88:890/page/login.html'
-            })
-        }
+                Router.push({
+                  
+                    pathname: '/login'
+                })
+            } else {
+                response.status === 200 ? localStorage.setItem("login", response.data.user.type) : ""
+                that.setState({
+                    name: response.data.user.name
+                });
+            }
+             
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 
         const instance = axios.create({
-            baseURL: 'http://localhost:3000/',
+            // baseURL: 'http://localhost:3000/',
             xhrFields: {
                 withCredentials: true
             },
@@ -64,12 +90,9 @@ export default class App extends React.Component {
                 'Content-Type': "application/json;charset=UTF-8"
             }
         })
-        // axios.interceptors.request.use(config => {
-        //     // 在请求头中添加token
-        //     config.headers["Content-type"] = "application/json;charset=UTF-d8";
-        //     return config;
-        // })
+       
         axios.interceptors.request.use(
+            console.log(1),
             config => {
                 config.headers.Authorization = "bdta";//把localStorage的token放在Authorization里
                 //  config.headers["Content-type"] = "application/json;charset=UTF-8";
@@ -110,15 +133,36 @@ export default class App extends React.Component {
                         </Link>
                     </div>
                     <div className={headerstyle.barRight}>
-                        <div className={headerstyle.userNmae}>
-                            <div className={headerstyle.portrait}>
-                                {this.state.name[0].toUpperCase()}
+                        <div onClick={ () =>
+                            this.setState({
+                                loginshow:!this.state.loginshow
+                            })
+                        }>
+                            <div className={headerstyle.userNmae}>
+                                <div className={headerstyle.portrait}>
+                                    {this.state.name ? this.state.name[0].toUpperCase() : ''}
+                                </div>
+                                <span>{this.state.name}</span>
                             </div>
-                            <span>{this.state.name}</span>
+                            <div className={headerstyle.noti}>
+                                <NotificationsNone style={{ fontSize: 26 }} />
+                            </div>
                         </div>
-                        <div className={headerstyle.noti}>
-                            <NotificationsNone style={{ fontSize: 26 }} />
+                        <div style={{display:this.state.loginshow ? "block" : "none",position: "fixed",width:"146px",top:"52px",right:"20px"}}>
+                            <div className={headerstyle.login}>
+                                <Link href="/userList">
+                                    <a>员工管理</a>
+                                </Link>
+                            </div>
+                            <div onClick={()=> this.loginout()} className={headerstyle.login}>
+                                {/* <Link href="/login">
+                                    <a>退出登录</a>
+                                </Link> */}
+                                退出登录
+                            </div>
+
                         </div>
+                        
                     </div>
                 </div>
             </div>

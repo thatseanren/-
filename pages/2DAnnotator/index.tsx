@@ -1,7 +1,8 @@
 import React from "react";
 import Header from "../header";
-import MainAnnotator from "../../component/Layout/mid";
-import Categories from "../../component/Layout/PageLeft";
+import StyleisBox from "../../component/Layout/BoxAnnotator";
+import StyleisPolyline from "../../component/Layout/PolylineAnnotator";
+import SwitchStyles from "../../component/Layout/SwitchStylesBro";
 import Position from "../../component/Layout/PageRight";
 import { Provider } from "react-redux";
 import Grid from "@material-ui/core/Grid";
@@ -16,66 +17,163 @@ import Button from "@material-ui/core/Button";
 import store from "../../redux";
 import SaveIcon from "@material-ui/icons/Save";
 import Router from "next/router";
+import ZoomInIcon from "@material-ui/icons/ZoomIn";
+import ZoomOutIcon from "@material-ui/icons/ZoomOut";
+import IconButton from "@material-ui/core/IconButton";
+import ErrorOutlineOutlinedIcon from '@material-ui/icons/ErrorOutlineOutlined';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {
   CreateNextFrame,
   CreatePreviousFrame,
+  createScaleupAction,
+  createScaledownAction,
 } from "../../redux/action/GeneralReducerAction";
 import { createSaveToCloudAction } from "../../redux/action/BoundingBoxAction";
+import {
+  createPOLYLINEUPLOADAction,
+  createResetStateAction,
+} from "../../redux/action/PolyLineAction";
+import Draggable from "react-draggable";
 
+import Debug from "../../component/debug";
+import MobileStepper from '@material-ui/core/MobileStepper';
 interface taskInfo {
   taskid: string;
   sequence: number;
   data: string;
 }
+const useStyles = makeStyles({
+  MuiMobileStepperProgress: {
+    width:"200%",
+    background: "rgba(0,0,0,0)",
+    "&:MuiMobileStepper_progress": {
+      width:"200%",
+    },
+  },
+  MuiPaper_root:{
+    "&:MuiMobileStepper_progress": {
+      position: "absolute",
+      content: '""',
+      display: "block",
+      right: 0,
+      top: "2px",
+      width: "1px",
+      height: "10px",
+      background: "#000",
+      marginRight: "5px",
+    },
+  },
+  MuiMobileStepper_progress:{
+    width:"100%"
+  }
+  
+});
 const mapDispatchToProps = (dispatch) => ({
   SaveToCloud_through_redux_store: (taskInfo: taskInfo) => {
     dispatch(createSaveToCloudAction(taskInfo));
   },
+  PolylineSaveToCloud_through_redux_store: (taskInfo: taskInfo) => {
+    dispatch(createPOLYLINEUPLOADAction(taskInfo));
+  },
   nextFrame: () => {
     dispatch(CreateNextFrame());
+    dispatch(createResetStateAction());
   },
   previousFrame: () => {
     dispatch(CreatePreviousFrame());
+    dispatch(createResetStateAction());
+  },
+  scaleup: () => {
+    dispatch(createScaleupAction());
+  },
+  scaledown: () => {
+    dispatch(createScaledownAction());
   },
 });
-const SaveToCloud_through_redud_store_button = connect(
-  null,
-  mapDispatchToProps
-)((props) => {
-  const { SaveToCloud_through_redux_store, _taskID, sequence } = props;
-  return (
-    <Button
-      variant="contained"
-      color="secondary"
-      className={DataSet.sub}
-      startIcon={<SaveIcon />}
-      onClick={() => {
-        SaveToCloud_through_redux_store({
-          _taskID: _taskID,
-          sequence: sequence,
-        });
-        Router.push({
-          pathname: `/taskdetail/${_taskID}`,
-        });
-      }}
-    >
-      保存并退出
-    </Button>
-  );
-});
-
 const mapStatesToProps = (state) => ({
   entireBoundingBox: state.BoundingBoxCollection,
   currentFrameIndex: state.GeneralReducer.currentFrameIndex,
   currentBoundingBoxIndex: state.GeneralReducer.currentBoundingBoxIndex,
   currentDrawMode: state.GeneralReducer.currentDrawMode,
   currentCategory: state.GeneralReducer.currentCategory,
+  currentStyle: state.GeneralReducer.currentStyle,
+  scaleFactor: state.GeneralReducer.scaleFactor,
+  PolylinePoints: state.Polyline.points,
+});
+const SaveToCloud_through_redud_store_button = connect(
+  mapStatesToProps,
+  mapDispatchToProps
+)(
+  ({
+    SaveToCloud_through_redux_store,
+    _taskID,
+    sequence,
+    currentStyle,
+    PolylineSaveToCloud_through_redux_store,
+  }) => {
+    return currentStyle === "BOX" ? (
+      <Button
+        variant="contained"
+        color="secondary"
+        className={DataSet.sub}
+        startIcon={<SaveIcon />}
+        onClick={() => {
+          SaveToCloud_through_redux_store({
+            _taskID: _taskID,
+            sequence: sequence,
+          });
+          Router.push({
+            pathname: `/taskdetail/${_taskID}`,
+          });
+        }}
+      >
+        保存并退出
+      </Button>
+    ) : (
+      <Button
+        variant="contained"
+        color="secondary"
+        className={DataSet.sub}
+        startIcon={<SaveIcon />}
+        onClick={() => {
+          PolylineSaveToCloud_through_redux_store({
+            _taskID: _taskID,
+            sequence: sequence,
+          });
+          Router.push({
+            pathname: `/taskdetail/${_taskID}`,
+          });
+        }}
+      >
+        保存并退出
+      </Button>
+    );
+  }
+);
+
+const StoreWrapper = connect(
+  mapStatesToProps,
+  null
+)((props) => {
+  const { imageList, annotationArray, scaleFactor } = props;
+  return props.currentStyle === "BOX" ? (
+    <StyleisBox
+      imageList={imageList}
+      annotationArray={annotationArray}
+      scaleFactor={scaleFactor}
+    />
+  ) : (
+    <StyleisPolyline
+      imageList={imageList}
+      annotationArray={annotationArray}
+      scaleFactor={scaleFactor}
+    />
+  );
 });
 const PreviousFrame = connect(
   null,
   mapDispatchToProps
-)((props) => {
-  const { previousFrame } = props;
+)(({ previousFrame }) => {
   return (
     <Button
       variant="contained"
@@ -93,8 +191,7 @@ const PreviousFrame = connect(
 const NextFrame = connect(
   null,
   mapDispatchToProps
-)((props) => {
-  const { nextFrame } = props;
+)(({ nextFrame }) => {
   return (
     <Button
       variant="contained"
@@ -113,15 +210,50 @@ const CurrentFrame = connect(
   mapStatesToProps,
   null
 )((props) => {
-  return ( <div className={DataSet.numb_list}> {props.currentFrameIndex + 1} / 50</div>);
+  return (
+    <div className={DataSet.numb_list}> {props.currentFrameIndex + 1} / {props.pageList ? props.pageList.length : 50}</div>
+  );
 });
+const ZoomCombo = connect(
+  null,
+  mapDispatchToProps
+)(({ scaleup, scaledown }) => {
+  return ( 
+    <div style={{ position: "absolute", bottom: "20px", right: "30px" }}>
+      <IconButton
+        onClick={() => {
+          scaleup();
+        }}
+      >
+        <ZoomInIcon />
+      </IconButton>
+      <IconButton
+        onClick={() => {
+          scaledown();
+        }}
+      >
+        <ZoomOutIcon />
+      </IconButton>
+    </div>
+  );
+});
+
 export default function Annotator(props) {
+  const classes = useStyles();
   const router = useRouter();
   const { _taskID, sequence } = router.query;
   // console.log("router.query", router.query);
   var [imageArray, setImageArray] = React.useState([]);
+  var [pageList, setPageList] = React.useState();
+  var [tool, setTool] = React.useState("none");
+  var [pageIndex, setPageIndex] = React.useState(1);
   var [annotationArray, setAnnotationArray] = React.useState([]);
+  const page = (value) => {
+    console.log(value)
+    setPageIndex(value)
+  }
   const concatAddresstoData = (array) => {
+    setPageList(array);
     return array.map((value, index) => {
       for (let key in value) {
         value[key] = `${dataServer}${option.getMeterail}${value[key]}`;
@@ -152,41 +284,6 @@ export default function Annotator(props) {
           }
         };
         imageRequest.send();
-        // imageRequest.addEventListener("load", ({ target }) => {
-        //   let { response } = target;
-        //   let parsedData = JSON.parse(response).data;
-
-        //   XMLresult = concatAddresstoData(parsedData);
-        //   imageArray = XMLresult.map((object, index) => {
-        //     return object.jpg;
-        //   });
-        //   window.result = XMLresult;
-        //   setImageArray(imageArray);
-        //   // if (Object.keys(result[0]).includes("json")) {
-        //   //   console.log("有标注信息", result[0]["json"])
-        //   //   const annotationRequest = new XMLHttpRequest();
-        //   //   annotationRequest.open(
-        //   //     "GET", result[0]["json"]
-        //   //   )
-        //   //   annotationRequest.setRequestHeader("Authorization", "bdta");
-        //   //   annotationRequest.withCredentials = true;
-        //   //   annotationRequest.addEventListener("load", ({ target }) => {
-        //   //     let { response } = target;
-        //   //     let parsedData = JSON.parse(response)
-        //   //     parsedData.forEach(value => {
-        //   //    })
-        //   //   })
-        //   //   annotationRequest.send()
-        //   //   // annotationArray = JSON.parse(response).data.map((object, index) => {
-        //   //   //   return object.json;
-        //   //   // });
-        //   //   // annotationArray = annotationArray.map((address) => {
-        //   //   //   return `${dataServer}/${option.getMeterail}${address}`;
-        //   //   // });
-        //   //   // console.log("加载已有标注", annotationArray);
-        //   //   // setAnnotationArray(annotationArray);
-        //   // }
-        // });
       });
     };
     request()
@@ -214,9 +311,46 @@ export default function Annotator(props) {
         console.log(error);
       });
   }, [router.query]);
-
+  // console.log(imageArray);
   return (
     <Provider store={store}>
+      <div style={{position:"fixed",right:"417px",top:"10px",zIndex:"100000"}}>
+        <ErrorOutlineOutlinedIcon onMouseOver={() => setTool('block')} onMouseOut={() => setTool('none')} style={{color:"#fff",cursor: "pointer"}} />
+        <div style={{display:tool,background: "#243a58",position:"absolute",padding:"14px",color:"#fff",left:"-20px",width:"320px"}}>
+          <div style={{overflow:"hidden",fontSize:"14px",marginBottom: "10px"}}>
+            <div style={{width:"75px",float:"left"}}>
+              图片缩放：
+            </div>
+            <div style={{float:"left",width: "calc(100% - 75px)",color: "#a3b8b7"}}>
+              鼠标置于图片处，按住键盘上“Shift”键，滑动滚轮完成缩放
+            </div>
+          </div>
+          <div style={{overflow:"hidden",fontSize:"14px"}}>
+            <div style={{width:"75px",float:"left"}}>
+              删除标注：
+            </div>
+            <div style={{float:"left",width: "calc(100% - 75px)",color: "#a3b8b7"}}>
+              鼠标点击要操作的标注，按下“Delete”键删除标注
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style={{position:"fixed",bottom:"20px",right:"345px",left:"50px",zIndex:"10000",overflow:"hidden"}}>
+        <div style={{position:"absolute",bottom:"0px",display:"flex",width:"100%"}}>
+          {pageList ? pageList.map((item, index) => {
+            return (
+              <div onClick={() => page(index)} style={{flex:"1",cursor: "pointer",zIndex:"10",height:"21px"}} title={index+1}></div>
+                );
+            }): ''}
+        </div>
+          <MobileStepper
+          variant="progress"
+          className={classes.MuiMobileStepperProgress}
+          steps={pageList ? pageList.length : 50}
+          position="static"
+          activeStep={pageIndex}
+        />
+      </div>
       <Grid
         container
         wrap="nowrap"
@@ -228,7 +362,7 @@ export default function Annotator(props) {
             style={{ display: "flex", alignItems: "center", height: "100%" }}
           >
             <div style={{ flexGrow: "1" }}></div>
-            <CurrentFrame />
+            <CurrentFrame pageList={pageList} />
             <div>
               <SaveToCloud_through_redud_store_button
                 _taskID={_taskID}
@@ -241,14 +375,16 @@ export default function Annotator(props) {
             <NextFrame />
           </div>
         </div>
-        <div style={{ height: "100%", display: "flex" }}>
-          <MainAnnotator
+        <div style={{ height: "100%", overflow: "hidden" }}>
+          <StoreWrapper
             imageList={imageArray}
             annotationArray={annotationArray}
           />
-          <Categories />
+          <SwitchStyles />
+          <ZoomCombo />
         </div>
       </Grid>
+      {/* <Debug /> */}
     </Provider>
   );
 }

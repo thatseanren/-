@@ -14,6 +14,7 @@ import clsx from 'clsx';
 import Alert from '@material-ui/lab/Alert';
 import Radio from "@material-ui/core/Radio";
 import Router  from 'next/router';
+import '../config';
 import AlertTitle from '@material-ui/lab';
 import {
     FormLabel,
@@ -286,10 +287,10 @@ export default class Detailed extends React.Component {
                                             category :event.target.value
                                         })
                                       }}>
-                                            <FormControlLabel value="2DBox" control={<Radio />} label="2DBox" />
-                                            <FormControlLabel value="3DBox" control={<Radio />} label="3DBox" />
-                                            <FormControlLabel value="2D多边形" control={<Radio />} label="Both" />
-                                            <FormControlLabel value="Segm" control={<Radio/>} label="Segm" />
+                                            <FormControlLabel value="2dBox" control={<Radio />} label="2DBox" />
+                                            <FormControlLabel value="3dBox" control={<Radio />} label="3DBox" />
+                                            {/* <FormControlLabel value="2d多边形" control={<Radio />} label="Both" />
+                                            <FormControlLabel value="Segm" control={<Radio/>} label="Segm" /> */}
                                         </RadioGroup>
                                     </FormControl>
                                 </div>

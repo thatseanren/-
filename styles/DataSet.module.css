@@ -766,7 +766,7 @@ color: #272834;
     border-radius: 0px;
     background-color: #272a42 !important;
     color: #fff;
-    border-bottom: 1px solid rgb(11, 13, 18);
+    border-bottom: 1px solid rgb(62, 65, 96);
 }
 .numb_list{
     color: white;
@@ -794,11 +794,12 @@ body .pagenet:hover{
     flex: 0 0 48px;
     flex-direction: column;
     background: rgb(39, 42, 66) none repeat scroll 0% 0%;
-    border-left: 1px solid rgb(10, 11, 16);
+    border-left: 1px solid rgb(62, 65, 96);
     overflow-y: hidden;
-    border-right:1px solid rgb(11, 13, 18);
+    border-right:1px solid rgb(62, 65, 96);
     color: rgb(201, 201, 201);
     font-size: 12px;
+    overflow: hidden;
 }
 .leftTapList{
     display: flex;
@@ -810,7 +811,7 @@ body .pagenet:hover{
     display: flex;
     flex: 1 1 0%;
     flex-direction: column;
-    overflow-y: auto;
+    /* overflow-y: auto; */
 }
 .boxTap{
     border-radius: 4px;
@@ -942,4 +943,16 @@ body .pagenet:hover{
     position: static;
     font-size: 12px;
     font-weight: bold;
+}
+.takshow{
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    background:rgba(0,0,0,0.5);
+    z-index: 100;
+}
+.nameList{
+    width: 100%;
 }
