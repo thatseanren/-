@@ -767,6 +767,7 @@ color: #272834;
     background-color: #272a42 !important;
     color: #fff;
     border-bottom: 1px solid rgb(62, 65, 96);
+    z-index: 1;
 }
 .numb_list{
     color: white;

@@ -90,7 +90,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(createScaledownAction());
   },
   arbitaryFrame: (payload) => {
-    console.log("dispatch")
+    console.log("dispatch");
     dispatch(createSetArbitatryFrameAction(payload));
   },
 });
@@ -143,7 +143,9 @@ const Guider = (props) => {
             鼠标置于图片处，按住键盘上“Shift”键，滑动滚轮完成缩放
           </div>
         </div>
-        <div style={{ overflow: "hidden", fontSize: "14px" }}>
+        <div
+          style={{ overflow: "hidden", fontSize: "14px", marginBottom: "10px" }}
+        >
           <div style={{ width: "75px", float: "left" }}>删除标注：</div>
           <div
             style={{
@@ -153,6 +155,20 @@ const Guider = (props) => {
             }}
           >
             鼠标点击要操作的标注，按下“Delete”键删除标注
+          </div>
+        </div>
+        <div
+          style={{ overflow: "hidden", fontSize: "14px", marginBottom: "10px" }}
+        >
+          <div style={{ width: "75px", float: "left" }}>闭合标注：</div>
+          <div
+            style={{
+              float: "left",
+              width: "calc(100% - 75px)",
+              color: "#a3b8b7",
+            }}
+          >
+            按下“Enter”键闭合多边形
           </div>
         </div>
       </div>
@@ -336,8 +352,7 @@ const Progressbar = connect(
                 <div
                   onClick={() => {
                     page(index);
-                    arbitaryFrame(index)
-  
+                    arbitaryFrame(index);
                   }}
                   style={{
                     flex: "1",
