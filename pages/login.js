@@ -40,21 +40,21 @@ export default class Login extends React.Component {
             password:'',
         };
       }
-
+      bindThis = (response) =>{ console.log(response)
+            response.status === 200 ? localStorage.setItem("login", response.data.user.type) : ""
+	      console.log(response.data.user)
+            response.status === 200 ? cookie.save('account', {user: response.data.user.name,password:this.state.password}) : ""
+            response.data.status != 0 ? Router.push({
+              pathname: '/'
+          }) : ""
+        } 
       login = value => {
         var qs = require('qs');
         axios.post(server + 'dataset_login', qs.stringify({
             'name': this.state.username,
             'password': this.state.password
         }))
-        .then(function (response) {
-            console.log(response)
-            response.status === 200 ? localStorage.setItem("login", response.data.user.type) : ""
-            cookie.save('account', response.data.user)
-            response.data.status != 0 ? Router.push({
-              pathname: '/'
-          }) : ""
-        })
+        .then( response => {this.bindThis(response)} )
         .catch(function (error) {
             console.log(error);
         });
