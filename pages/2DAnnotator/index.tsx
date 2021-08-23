@@ -171,6 +171,20 @@ const Guider = (props) => {
             按下“Enter”键闭合多边形
           </div>
         </div>
+        <div
+          style={{ overflow: "hidden", fontSize: "14px", marginBottom: "10px" }}
+        >
+          <div style={{ width: "75px", float: "left" }}>移动图片：</div>
+          <div
+            style={{
+              float: "left",
+              width: "calc(100% - 75px)",
+              color: "#a3b8b7",
+            }}
+          >
+            按下“Shift”键，右键放在图片内，拖拽图片
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -321,7 +335,7 @@ const Progressbar = connect(
   mapDispatchToProps
 )((props) => {
   const classes = useStyles();
-  const { pageList, arbitaryFrame } = props;
+  const { pageList, arbitaryFrame ,currentFrameIndex} = props;
   var [pageIndex, setPageIndex] = React.useState(1);
   const page = (value) => {
     console.log(value);
@@ -371,7 +385,7 @@ const Progressbar = connect(
         className={classes.MuiMobileStepperProgress}
         steps={pageList ? pageList.length : 50}
         position="static"
-        activeStep={pageIndex}
+        activeStep={currentFrameIndex}
       />
     </div>
   );

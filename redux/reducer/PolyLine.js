@@ -188,7 +188,7 @@ const Polyline = (state = defaultState, { type, payload }) => {
       SynchronouseAnnotation_UI.send(
         `data=${annotation}&_id=${_taskID}&index=${sequence}`
       );
-      console.log(NewState[0].length)
+      // console.log(NewState[0].length)
       return NewState;
     case UPDATEPOINT:
       NewState.points = payload;
