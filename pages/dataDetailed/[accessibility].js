@@ -1,9 +1,8 @@
-import Head from "next/head";
+
 import Image from "next/image";
 import Header from "../header.js";
 import server_ip from "../../main_config";
 import React from "react";
-import ReactDOM from "react-dom";
 import DataSet from "../../styles/DataSet.module.css";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
@@ -12,24 +11,20 @@ import ArtTrackIcon from "@material-ui/icons/ArtTrack";
 import Button from "@material-ui/core/Button";
 import ExpandMoreOutlinedIcon from "@material-ui/icons/ExpandMoreOutlined";
 import ExpandLessOutlinedIcon from "@material-ui/icons/ExpandLessOutlined";
-import FormatIndentDecreaseIcon from "@material-ui/icons/FormatIndentDecrease";
 import ContactSupportOutlinedIcon from "@material-ui/icons/ContactSupportOutlined";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import clsx from "clsx";
-import Dataset from "../../component/GroupCell";
 import ForDialogWrapper from "../../component/ForkDialog";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Router  from 'next/router';
 import '../../config'
-import {
+import { 
   Grow,
   Popper,
   MenuItem,
@@ -132,7 +127,9 @@ export class Detailed extends React.Component {
             '_id':this.props.urlQueryObj._id
         }))
       .then((response) => {
-        console.log(response)
+        console.log(`${server_ip + 'del_dataset',qs.stringify({
+          '_id':this.props.urlQueryObj._id
+      })}\n`, response)
         if(response.status === 200){
           setTimeout( () => {
               Router.push({
@@ -151,6 +148,12 @@ export class Detailed extends React.Component {
     if (this.props.urlQueryObj.accessibility == undefined) {
       // this.axios()
     }
+    /*
+      Fetch <folder> data save a collection of jpg, json, pcd. 
+      chop the first imgurl displays in the input field.
+      fetch the first img displays in the img view.
+            
+    */
     axios
       .get(
         server_ip +
@@ -160,6 +163,7 @@ export class Detailed extends React.Component {
         {}
       )
       .then((response) => {
+        console.log(`${server_ip}get_dataset_filelist?_id=${this.props.urlQueryObj._id}&limit=1000\n`,response)
         var ite = response.data.data[0].jpg;
         var url =
           ite.substring(0, 10) +
@@ -168,14 +172,17 @@ export class Detailed extends React.Component {
 
         this.setState({
           img: server_ip + "download?url=" + response.data.data[0].jpg,
-          filedata: response.data.data,
-          imgurl: url,
+          filedata: response.data.data,//collection of jpg, json, pcd. Array
+          imgurl: url,//Displayed in a abriviative way
         });
       })
       .catch(function (error) {
         console.log(error);
       });
+/*
+      Fetch <basic creation> data 
 
+*/
     axios
       .get(server_ip + "get_dataset_list?_id=" + this.props.urlQueryObj._id, {})
       .then((response) => {
@@ -246,7 +253,7 @@ export class Detailed extends React.Component {
                   style={{ fontSize: "17px", marginLeft: "5px" }}
                 />
               </div>
-              <div className={DataSet.publicDataChipData}>4137</div>
+              <div className={DataSet.publicDataChipData}>0</div>
             </div>
             <div className={DataSet.publicDataChip}>
               <div className={DataSet.chipContainer}>
@@ -262,7 +269,7 @@ export class Detailed extends React.Component {
                   style={{ fontSize: "17px", marginLeft: "5px" }}
                 />
               </div>
-              <div className={DataSet.publicDataChipData}>15</div>
+              <div className={DataSet.publicDataChipData}>0</div>
             </div>
           </div>
           <div className={DataSet.datasetHead}>
@@ -270,16 +277,16 @@ export class Detailed extends React.Component {
               <div className={DataSet.imgHome}>
                 <Image
                   style={{ borderRadius: "5px" }}
-                  src="/cover-CompCars.png"
+                  src={"/cover-CompCars.png"}
                   alt="Fawai Logo"
                   width={80}
                   height={80}
                 />
               </div>
               <div className={DataSet.dataName}>
-                <div className={DataSet.detailedTitle}>CompCars</div>
+                <div className={DataSet.detailedTitle}>{this.state.basic.name}</div>
                 <span style={{ fontSize: "14px" }}>
-                  创建来自Data Decorators
+                  创建来自 {` ${this.state.basic.department}`}
                 </span>
               </div>
             </div>
@@ -434,7 +441,7 @@ export class Detailed extends React.Component {
                       : DataSet.mdContainer
                   }
                 >
-                  <h1>Overview</h1>
+                  <h1>概述</h1>
                   <p>{this.state.basic.description}</p>
                 </div>
                 <div className={DataSet.expandBar} onClick={() => this.open()}>

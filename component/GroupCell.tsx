@@ -135,7 +135,6 @@ export default function Dataset(props: {
             create_time,
             department,
             user_name,
-            description,
           }) => (
             <Link
               href={`/dataDetailed/`}
@@ -214,7 +213,7 @@ export default function Dataset(props: {
                             height: "18px",
                           }}
                         >
-                          {description || "Dataset Name"}
+                          {name || "Dataset Name"}
                         </span>
                       </div>
                       <div className={classes.metaData_Div} style={{overflow:"inherit"}}>

@@ -61,7 +61,7 @@ export function ForkDialog(props: any): any {
   const [show, setShow] = useState(false);
   const [dataSetName, setDataSetName] = useState("");
   const [titleName, setTitleName] = useState("");
-  const [description, setDscription] = useState("");
+  const [format, setFormat] = useState("");
   const [datalist, setDataList] = useState();
   const [errorshow, setErrorShow] = useState(3);
   const [category, setCategory] = React.useState('female');
@@ -79,7 +79,7 @@ export function ForkDialog(props: any): any {
       'description':dataSetName,
       'category':category,
       'ids':show.operation.substring(10,show.operation.length),
-      'tasks':description,
+      'tasks':format,
       'accessibility':accessibility
     }))
       .then(function (response) {
@@ -119,7 +119,7 @@ export function ForkDialog(props: any): any {
         </div>
         
         <Dialog aria-labelledby="fork_dialog" open={show} className={"fasd"}>
-          <DialogTitle onClose={() => {}}> 添加数据集 </DialogTitle>
+          <DialogTitle onClose={() => {}}> 生成数据集 </DialogTitle>
           <DialogContent dividers>
             <p className={classes.p14Gray}>
               通过开发者工具直接管理、使用、读取数据
@@ -168,16 +168,16 @@ export function ForkDialog(props: any): any {
                 </p>
                 <TextField
                   label=""
-                  value={description}
+                  value={format}
                   onChange={(e) => {
-                    setDscription(e.target.value);
+                    setFormat(e.target.value);
                   }}
                   variant="outlined"
                 ></TextField>
               </div>
               <div className={classes.flexDiv}>
                 <p style={{ margin: "0", fontSize: "16px", fontWeight: 500 }}>
-                  数据类别
+                  标注类型
                 </p>
                 <p className={clsx(classes.p14Gray, classes.Size12)} style={{margin: '0px'}}>
                   数据标注类型

@@ -167,6 +167,7 @@ function POLYLINE(props) {
         requestJson.send();
       });
     let PromiseArray = annotationArray.map((val, ind) => {
+      val+= `&time=${Date.now()}`
       return requestJson(val);
     });
     let newPoints = Array.from(Array(50), () => []);

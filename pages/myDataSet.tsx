@@ -30,7 +30,7 @@ export default class My extends React.Component<
       valueName: "",
       data: [
         {
-          title: "标注类型",
+          title: "场景标签",
           arr: ["4", "5"],
         },
         {
