@@ -957,3 +957,9 @@ body .pagenet:hover{
 .nameList{
     width: 100%;
 }
+
+.MuiFilledInput-underline:before {
+  
+    border-bottom: 1px solid rgba(0, 0, 0, 0);
+
+}
