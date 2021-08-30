@@ -28,7 +28,7 @@ export default class App extends React.Component {
             name: user.name
         });
         var qs = require('qs');
-        axios.post(server + 'login', qs.stringify({
+        axios.post(server + 'dataset_login', qs.stringify({
             'name': user.name,
             'password': user.password
         }))

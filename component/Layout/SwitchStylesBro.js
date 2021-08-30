@@ -108,7 +108,7 @@ export const class_colors = [
 ];
 function returnCategory(setCategory, currentFrameIndex) {
   const classes = useStyle();
-
+  console.log(categories)
   return categories.map((value, index) => {
     return (
       <a key={index} style={{ cursor: "pointer" }}>
@@ -146,6 +146,7 @@ function returnCategory(setCategory, currentFrameIndex) {
 }
 const returnBoudingBoxList = (Collection, setCurrentSelectedBoundingBox) => {
   const classes = useStyle();
+	console.log(Collection)
   return Collection.map((BB, index) => {
     return (
       <a style={{ cursor: "pointer" }}>
