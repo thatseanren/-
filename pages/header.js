@@ -57,44 +57,26 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        console.log(Cookies.get('account'));
-        this.login()
-
-        // const that=this;
-        // axios.post(server + 'login_status', {})
-        // .then(function (response) {
-        //     console.log(response)
-        //     if(response.data.status != 1){
-               
-
-        //         Router.push({
-                  
-        //             pathname: '/login'
-        //         })
-        //     } else {
-        //         response.status === 200 ? localStorage.setItem("login", response.data.user.type) : ""
-        //         that.setState({
-        //             name: response.data.user.name
-        //         });
-        //     }
-             
-        // })
-        // .catch(function (error) {
-        //     console.log(error);
-        // });
-
-        const instance = axios.create({
-            // baseURL: 'http://localhost:3000/',
-            xhrFields: {
-                withCredentials: true
-            },
-            headers: {
-                'Content-Type': "application/json;charset=UTF-8"
+        const that=this;
+        axios.post(server + 'login_status', {})
+        .then(function (response) {
+            console.log(response)
+            if(response.data.status != 1){
+                Router.push({
+                    pathname: '/login'
+                })
+            } else {
+                response.status === 200 ? localStorage.setItem("login", response.data.user.type) : ""
+                that.setState({
+                    name: response.data.user.name
+                });
             }
         })
+        .catch(function (error) {
+            console.log(error);
+        });
        
         axios.interceptors.request.use(
-            console.log(1),
             config => {
                 config.headers.Authorization = "bdta";//把localStorage的token放在Authorization里
                 //  config.headers["Content-type"] = "application/json;charset=UTF-8";
@@ -105,13 +87,8 @@ export default class App extends React.Component {
                 console.log("失败信息" + err);
             }
         );
-
-
     }
     render() {
-
-
-
         return (
             <div className={headerstyle.Herder} style={{ backgroundColor: "#324D57" }} id={"header_"}>
                 <div id={headerstyle.appBar} style={{ backgroundColor: "#324D57" }}>
