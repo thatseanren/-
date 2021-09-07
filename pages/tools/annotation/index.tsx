@@ -381,7 +381,7 @@ const PaperLikeTask = (props: {
           </Grid>
           <Grid item container style={{ marginBottom: "8px" }}>
             <div children="数据集" />
-            <div children={props.Team || "Sample"} />
+            <div children={props.DatasetID || "Sample"} />
           </Grid>
           <Grid item container>
             <div children="数据量" />
@@ -405,7 +405,7 @@ const PaperLikeTask = (props: {
               style={{ color: "rgb(4,178,238)", fontSize: "14px" }}
             ></FiberManualRecordIcon>
           </i>
-          <span> {props.TaskStatus || "Sample"} </span>
+          <span> {props.TaskStatus || "未完成"} </span>
         </Grid>
       </Paper>
     </Link>

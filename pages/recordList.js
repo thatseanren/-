@@ -51,7 +51,7 @@ export default function StickyHeadTable() {
           rowsPerPage +
           "&page=" +
           (parseInt(value * 1) + 1) +
-          "&return_channel=1",
+          "&return_channel=1&vehicle=1",
         { limit: 15, page: 1 }
       )
       .then(function (response) {
