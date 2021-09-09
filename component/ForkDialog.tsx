@@ -79,7 +79,6 @@ export function ForkDialog(props: any): any {
     });
   };
   props.Syntec_ref.current = setShow;
-  console.log(show)
   return (
 
       <div style={{ position: "absolute", display: "flex" }}>

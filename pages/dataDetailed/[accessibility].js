@@ -23,6 +23,7 @@ import ForDialogWrapper from "../../component/ForkDialog";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Router  from 'next/router';
+import {Preview} from '../../component/Preview'
 import '../../config'
 import { 
   Grow,
@@ -207,11 +208,12 @@ export class Detailed extends React.Component {
     }, 500);
   }
   render() {
-    let { accessibility } = this.props.router.query;
+    let { accessibility,_id } = this.props.router.query;
     // let { accessibility } = "private";
     return (
       <div>
         <Header />
+        <Preview datasetID = {_id}/> 
         <div style={{width:"400px",margin:"20px auto",paddingTop:"220px",display:this.state.status === 0 ? 'block' : 'none'}}>
           <img style={{width:"100%"}} src="/qsy.png" />
           <div style={{textAlign:"center",color:"#666",marginTop:"20px",fontWeight:"500",fontSize:"17px"}}>请等待数据分解</div>

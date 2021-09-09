@@ -100,7 +100,6 @@ export function ForkDialog(props: any): any {
     setCategory(event.target.value);
   };
   props.Syntec_ref.current = setShow;
-  console.log(show)
 
   return (
 
