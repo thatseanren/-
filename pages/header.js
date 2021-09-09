@@ -17,6 +17,20 @@ export default class App extends React.Component {
     };
   }
   
+  loginout = value => {
+    axios.post(server + 'logout', {})
+    .then(function (response) {
+        console.log(response)
+        if(response.data.status == 1){
+            Router.push({
+                // pathname: 'http://10.78.4.88:890/page/login.html'
+                pathname: '/login'
+            })
+        }
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
 
   componentDidMount() {
     const that = this;
