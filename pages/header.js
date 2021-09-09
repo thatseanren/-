@@ -31,7 +31,7 @@ export default class App extends React.Component {
     .catch(function (error) {
         console.log(error);
     });
-
+  }
   componentDidMount() {
     const that = this;
 
