@@ -13,10 +13,12 @@ interface API {
   getTaskList: string;
   getMeterail: string;
   sendAnnotation: string;
+  datasetFiles:string;
 }
 
 const option: API = {
   dataset: "get_dataset_list",
+  datasetFiles: "get_dataset_filelist",
   forkDataSet: "fork_dataset",
   createTask: "add_dtask",
   getTaskList: "get_dtask_list",
