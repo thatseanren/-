@@ -7,7 +7,7 @@ export default function GeneralReducer(
     currentSelectedBoundingBoxIndex: 0,
     currentDrawMode: false,
     currentCategory: 0,
-    currentStyle: "POLYLINE",
+    currentStyle: "BOX",
     scaleFactor: 1,
     isImageFinishLoading: false,
   },

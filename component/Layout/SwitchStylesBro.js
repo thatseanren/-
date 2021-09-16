@@ -108,7 +108,6 @@ export const class_colors = [
 ];
 function returnCategory(setCategory, currentFrameIndex) {
   const classes = useStyle();
-  console.log(categories)
   return categories.map((value, index) => {
     return (
       <a key={index} style={{ cursor: "pointer" }}>
@@ -146,7 +145,7 @@ function returnCategory(setCategory, currentFrameIndex) {
 }
 const returnBoudingBoxList = (Collection, setCurrentSelectedBoundingBox) => {
   const classes = useStyle();
-	console.log(Collection)
+	
   return Collection.map((BB, index) => {
     return (
       <a style={{ cursor: "pointer" }}>
@@ -288,27 +287,7 @@ function LeftContainer(props) {
         </div>
         {"        "}
         <List style={{ paddingTop: 0 }}>
-          {/* <ListItem
-            button
-            onClick={() => {
-              setShowClassLabel(!showClassLabel);
-            }}
-            className={classes.selectListAfter}
-          >
-            <ListItemIcon className={classes.center}>
-              {!showClassLabel ? (
-                <ArrowRightIcon />
-              ) : (
-                <ArrowDropDownIcon />
-              )}
-              <ListItemText
-                primary={`Categories `}
-                className={classes.selectSpan}
-                style={{ marginLeft: "4px" }}
-              />
-              <span style={{ marginLeft: "115px" }}> {"(23)"}</span>
-            </ListItemIcon>
-          </ListItem> */}
+          
           <Divider
             style={{ backgroundColor: "rgb(0 0 0 / 8%)", marginLeft: "19px" }}
           />
@@ -334,28 +313,6 @@ function LeftContainer(props) {
               );
             })()}
           </Collapse>
-          {/* <ListItem
-            button
-            onClick={() => {
-              setShowBoundingBox(!showBoundingBox);
-            }}
-            className={classes.selectListAfter}
-          >
-            <ListItemIcon className={classes.center}>
-              {!showBoundingBox ? (
-                <ArrowRightIcon />
-              ) : (
-                <ArrowDropDownIcon />
-              )}
-              <ListItemText
-                primary={`标注框 `}
-                className={classes.selectSpan}
-                style={{ marginLeft: "4px" }}
-              />
-              <span style={{ marginLeft: "115px" }}>
-                {`${props.BoundingBoxCollection[props.currentFrameIndex].length}`}</span>
-            </ListItemIcon>
-          </ListItem> */}
           <Collapse in={showBoundingBox}>
             {props.currentStyle === "BOX" ? (
               <ul
@@ -368,7 +325,7 @@ function LeftContainer(props) {
                 }}
               >
                 {returnBoudingBoxList(
-                  props.BoundingBoxCollection[props.currentFrameIndex],
+                  props.BoundingBoxCollection[props.currentFrameIndex].annotation,
                   props.setCurrentSelectedBoundingBox
                 )}
               </ul>
