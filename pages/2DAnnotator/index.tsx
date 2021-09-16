@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../header";
-import StyleisBox from "../../component/Layout/BoxAnnotator";
+import StyleisBox from "../../component/BoxAnnotator";
 import StyleisPolyline from "../../component/Layout/PolylineAnnotator";
 import SwitchStyles from "../../component/Layout/SwitchStylesBro";
 import Position from "../../component/Layout/PageRight";
