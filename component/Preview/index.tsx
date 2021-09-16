@@ -1,6 +1,4 @@
-import { PinDropSharp } from "@material-ui/icons";
 import React from "react";
-import { connect } from "react-redux";
 import server_ip, { option } from "../../main_config";
 import dynamic from "next/dynamic";
 interface Properties {

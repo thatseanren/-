@@ -174,7 +174,6 @@ function POLYLINE(props) {
     (async function () {
       TellReduxLoadingStarted();
       await Promise.all(PromiseArray).then((value) => {
-        console.log(value);
         value.forEach((val, index) => {
           console.log(val);
           if (typeof val == "object") {
