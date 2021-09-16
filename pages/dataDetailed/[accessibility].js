@@ -213,7 +213,6 @@ export class Detailed extends React.Component {
     return (
       <div>
         <Header />
-        <Preview datasetID = {_id}/> 
         <div style={{width:"400px",margin:"20px auto",paddingTop:"220px",display:this.state.status === 0 ? 'block' : 'none'}}>
           <img style={{width:"100%"}} src="/qsy.png" />
           <div style={{textAlign:"center",color:"#666",marginTop:"20px",fontWeight:"500",fontSize:"17px"}}>请等待数据分解</div>
