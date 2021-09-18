@@ -37,12 +37,13 @@ import qs from "qs";
 export default function DetailsWrapper(props) {
   const route = useRouter();
   const { _id } = route.query;
-  console.log("taskID ID: ",_id);
+
   // return <TagDetails {...props} TaskId={_id} />;
   return <TagDetails {...props} TaskId={_id} />;
 }
 DetailsWrapper.getInitialProps = (appContext) => {
-  return { _id: appContext.query._id };
+  console.log('[id]getinitialProps',annotation)
+  return { _id: appContext.query._id,annotation:annotation };
 };
 
 class TagDetails extends React.Component {
@@ -107,7 +108,7 @@ class TagDetails extends React.Component {
     axios
       .get(`${ip}${option.getTaskList}?_id=${this.props.TaskId}`)
       .then((res) => {
-        console.log(" get_tasklist Response: Response" ,res.data.data);
+
         let arr = [];
         let speed = [];
         for(let i = 0;i<res.data.data[0].split;i++) {
@@ -269,7 +270,7 @@ class TagDetails extends React.Component {
         console.log(response)
         const data = response.data.data
         const dtaskUserList = that.state.dtaskUserList;
-console.log("dtaskUserList", dtaskUserList)        
+     
 let arr = [];
         let userList = [];
         let type;
@@ -287,7 +288,7 @@ let arr = [];
               'id':data[i]._id,
               'chkebox':type
             })
-console.log("arr",arr)
+
           } else {
             that.setState({  
               adminId:data[i]._id,
@@ -358,7 +359,7 @@ console.log("arr",arr)
     this.setState({
       category:event.target.value
     })
-    console.log(event.target.value);
+   
   };
 
   dtaskUser = value => {  //确认添加成员
@@ -372,14 +373,12 @@ console.log("arr",arr)
         arr.push(checkindex[i].id)
       }
     }
-    console.log(this.props.TaskId);
-    console.log(arr.join(','));
     axios.post(ip + 'edit_dtask_user',qs.stringify({
         '_id':this.props.TaskId,
         'users':arr.join(',')
     }))
     .then(function (response) {
-      console.log(response);
+   
       if(response.data.status == 1){
         let add = [];
         for(let i=0;i<arr.length;i++){
@@ -442,7 +441,7 @@ console.log("arr",arr)
               href={
                 (this.state.data.type === "2dBox" ||this.state.data.type === "2DBox")
                   ? `/2DAnnotator?_taskID=${this.state.data._id}&sequence=${a}`
-                  : `${"http://10.78.4.88:555"}?_id=${
+                  : `${this.props.annotation}?_id=${
                       this.state.data.dataset_id
                     }&_taskID=${this.state.data._id}&sequence=${a}`
               }

@@ -3,8 +3,11 @@
 const dreamview_ip = "http://10.78.4.88:8888/"; //统一设置服务器ip
 // var server_ip="http://10.78.7.169:888/";//统一设置服务器ip
 const server_ip = "http://10.78.4.88:888/"; //统一设置服务器ip
-const test_ip = "http://10.78.6.6:888/"
-const annotation = "http://10.78.4.88:555/";
+const test_ip = "http://10.78.6.6:888/";
+import getConfig from "next/config";
+const { serverRuntimeConfig } = getConfig();
+var annotation = serverRuntimeConfig.annotation;
+
 interface API {
   dataset: string;
   getSingleTask: string;
@@ -13,7 +16,7 @@ interface API {
   getTaskList: string;
   getMeterail: string;
   sendAnnotation: string;
-  datasetFiles:string;
+  datasetFiles: string;
 }
 
 const option: API = {
@@ -28,7 +31,7 @@ const option: API = {
 };
 export type A = keyof API;
 
-export { server_ip as default, option, annotation,test_ip };
+export { server_ip as default, option, annotation, test_ip };
 //封装了跨域请求
 // function my_post(url = '', data = {}, func) {
 // 	$.ajax({
