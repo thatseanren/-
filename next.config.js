@@ -14,7 +14,9 @@ module.exports = (phase, { defaultConfig }) => {
       serverRuntimeConfig: {
         annotation: "http://localhost:555/",
       },
-    
+      // webpack: (config) =>{
+      //   "sideEffects": ["./src/some-side-effectful-file.js"]
+      // }
     };
   }
   return {

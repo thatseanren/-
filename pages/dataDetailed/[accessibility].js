@@ -136,8 +136,8 @@ export class Detailed extends React.Component {
 
   //鼠标移入移出显示翻页按钮
   openOpacity = (value) => {
-    this.setState({
-      opacity: 1,
+    this.setState(state => {
+      return {opacity: 1}
     });
   };
   closeOpacity = (value) => {
@@ -240,13 +240,8 @@ export class Detailed extends React.Component {
       })}\n`, response)
         if(response.status === 200){
           setTimeout( () => {
-              Router.push({
-                  pathname:'../myDataSet'
-              })
-          }, 2000);
-        }
-
-      })
+              Router.push({pathname:'../myDataSet'})
+          }, 2000);}})
       .catch(function (error) {
         console.log(error);
       });
@@ -260,7 +255,6 @@ export class Detailed extends React.Component {
       Fetch <folder> data save a collection of jpg, json, pcd. 
       chop the first imgurl displays in the input field.
       fetch the first img displays in the img view.
-            
     */
     axios
       .get(
@@ -271,7 +265,6 @@ export class Detailed extends React.Component {
         {}
       )
       .then((response) => {
-        console.log(`${server_ip}get_dataset_filelist?_id=${this.props.urlQueryObj._id}&limit=1000\n`,response)
         var ite = response.data.data[0].jpg;
         var url =
           ite.substring(0, 10) +
@@ -294,7 +287,6 @@ export class Detailed extends React.Component {
     axios
       .get(server_ip + "get_dataset_list?_id=" + this.props.urlQueryObj._id, {})
       .then((response) => {
-        console.log(response)
         this.setState({
           basic: response.data.data[0],
           status:response.data.data[0].flag
@@ -963,7 +955,8 @@ export class Detailed extends React.Component {
           </div>
           </div>
         </div>
+        <Preview datasetID = {_id} />
       </div>
-    );
+    ); 
   }
 }
