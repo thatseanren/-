@@ -138,7 +138,7 @@ export const Preview = (props: Properties) => {
       httpReq.send();
     });
   const getUrl = (frame, key) => {
-    return files.length > 0 ? files[frame][key] : null;
+    return files.length > 0 ? files[frame][key] : `${server_ip}download?url=${null}`;
   };
   const makeDownloadURL = (path): string => `${server_ip}download?url=${path}`;
   const changeFrame = (arg) => {
