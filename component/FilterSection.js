@@ -60,6 +60,10 @@ export default class Left extends React.Component {
 
   render() {
     const { data } = this.props;
+    // let tep=JSON.parse(data[0].arr);
+    // let tec=JSON.parse(data[1].arr);
+    // data[0].arr = tep
+    // data[1].arr = tec
     return (
       <div>
         <div
@@ -70,7 +74,7 @@ export default class Left extends React.Component {
           <KeyboardArrowUpRoundedIcon style={{ fontSize: 32 }} />
         </div>
         <div className={DataSet.left}>
-          {data.map((item, index) => {
+          {data ? data.map((item, index) => {
             return (
               <div className={DataSet.boxList}>
                 <div
@@ -128,7 +132,7 @@ export default class Left extends React.Component {
                 )}
               </div>
             );
-          })}
+          }):''}
         </div>
       </div>
     );

@@ -120,7 +120,7 @@ export function ForkDialog(props: any): any {
                   variant="outlined"
                 ></TextField>
               </div>
-              <div style={{ paddingTop: "20px" }}>
+              {/* <div style={{ paddingTop: "20px" }}>
                 <FormLabel component="description" children={"可见范围"} />
                 <RadioGroup
                   value={accessibility}
@@ -160,7 +160,7 @@ export function ForkDialog(props: any): any {
                     </div>
                   </div>{" "}
                 </RadioGroup>
-              </div>
+              </div> */}
 
               <div style={{ marginTop: "10px" }}>
                 <p className={clsx(classes.p14Gray, classes.MarginBottom16)}>

@@ -959,7 +959,51 @@ body .pagenet:hover{
 }
 
 .MuiFilledInput-underline:before {
-  
     border-bottom: 1px solid rgba(0, 0, 0, 0);
+}
+.uphome{
+    margin-top: 20px;
+}
+.uptitle{
+    font-size: 17px;
+    border-left: 5px solid #3f51b5;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+.upList{
+    overflow: hidden;
+    margin: 13px 0px;
+}
+.upLeft{
+    font-size: 16px;
+    margin-top: 10px;
+}
+.upRight{
 
+}
+.taghome{
+    overflow: hidden;
+    margin: 20px 0px;
+    min-height: 40px;
+}
+.tagBox{
+    float: left;
+    background: #708fed;
+    margin-right: 10px;
+    padding: 4px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+    margin-bottom: 10px;
+}
+.checkedClick{
+    float: left;
+    background: #3f51b5;
+    text-align: center;
+    padding: 2px 10px;
+    border-radius: 5px;
+    margin-right: 10px;
+    color: #fff;
+    margin-bottom: 10px;
+    cursor: pointer;
 }

@@ -410,15 +410,15 @@ export default class Detailed extends React.Component {
                       }}
                     >
                       <FormControlLabel
-                        value="2dBox"
+                        value={this.state.category}
                         control={<Radio />}
-                        label="2DBox"
+                        label={this.state.category}
                       />
-                      <FormControlLabel
-                        value="3dBox"
+                      {/* <FormControlLabel
+                        value="3DBox"
                         control={<Radio />}
                         label="3DBox"
-                      />
+                      /> */}
                       {/* <FormControlLabel value="2d多边形" control={<Radio />} label="Both" />
                                             <FormControlLabel value="Segm" control={<Radio/>} label="Segm" /> */}
                     </RadioGroup>
