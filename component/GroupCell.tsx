@@ -217,7 +217,7 @@ export default function Dataset(props: {
                         </span>
                       </div>
                       <div className={classes.metaData_Div} style={{overflow:"inherit"}}>
-                        {tags.map((item) => {
+                        {tags.map ? tags.map((item) => {
                           return (
                             <span>
                               {item != "" ? <span
@@ -235,7 +235,7 @@ export default function Dataset(props: {
                         </span> : ''}
                             </span>
                         );
-                      })}
+                      }):''}
                       </div>
                       {/* {<div className={classes.metaData_Div} style={{fontSize: '17px'}}> {category}</div>} */}
                       <div className={classes.metaData_Div}>

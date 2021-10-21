@@ -31,7 +31,8 @@ export default class App extends React.Component {
     .catch(function (error) {
         console.log(error);
     });
-  }
+}
+
   componentDidMount() {
     const that = this;
 
@@ -55,7 +56,30 @@ export default class App extends React.Component {
       .catch(function (error) {
         console.log(error);
       });
+
+      const instance = axios.create({
+        // baseURL: 'http://localhost:3000/',
+        xhrFields: {
+            withCredentials: true
+        },
+        headers: {
+            'Content-Type': "application/json;charset=UTF-8"
+        }
+      })
+    
+      axios.interceptors.request.use(
+          config => {
+              config.headers.Authorization = "bdta";//把localStorage的token放在Authorization里
+              //  config.headers["Content-type"] = "application/json;charset=UTF-8";
+              config.withCredentials = true;
+              return config;
+          },
+          function (err) {
+              console.log("失败信息" + err);
+          }
+      );
   }
+
   render() {
     return (
       <div
@@ -123,7 +147,7 @@ export default class App extends React.Component {
                 </Link>
               </div>
               <div
-                onClick={() => this.loginout()}
+                onClick={() => this.loout()}
                 className={headerstyle.login}
               >
                 {/* <Link href="/login">

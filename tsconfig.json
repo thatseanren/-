@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "pages/tools/annotation/creation"  ],
+, "pages/tools/annotation/creation", "pages/dataStatistics.js", "pages/dataStatistics.js"  ],
   "exclude": [
     "node_modules"
   ]

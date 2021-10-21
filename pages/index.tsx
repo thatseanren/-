@@ -122,7 +122,7 @@ export default class Home extends React.Component<{}, HomeState> {
             pageNumber: res.data.count,
           });
           console.log(res.data.data);
-          var count = parseInt(res.data.count / 15 + 1);
+          var count = parseInt(res.data.count / 18 + 1);
           var numb = [];
           for (let i = 1; i <= count; i++) {
             numb.push(i);
@@ -167,7 +167,6 @@ export default class Home extends React.Component<{}, HomeState> {
         .get(server + "get_dataset_info", {})
 
         .then((response) => {
-          console.log(response);
           var setdata = this.state.data;
           setdata[0].arr = response.data.data.tags;
           setdata[1].arr = response.data.data.tasks;

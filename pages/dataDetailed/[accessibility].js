@@ -3,17 +3,31 @@ import Image from "next/image";
 import Header from "../header.js";
 import server_ip from "../../main_config";
 import React from "react";
+import { makeStyles } from '@material-ui/core/styles';
+import Alert from "@material-ui/lab/Alert";
 import DataSet from "../../styles/DataSet.module.css";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
 import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
 import ArtTrackIcon from "@material-ui/icons/ArtTrack";
 import Button from "@material-ui/core/Button";
+import MobileStepper from "@material-ui/core/MobileStepper";
 import ExpandMoreOutlinedIcon from "@material-ui/icons/ExpandMoreOutlined";
 import ExpandLessOutlinedIcon from "@material-ui/icons/ExpandLessOutlined";
 import ContactSupportOutlinedIcon from "@material-ui/icons/ContactSupportOutlined";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import Avatar from '@material-ui/core/Avatar';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemText from '@material-ui/core/ListItemText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import PersonIcon from '@material-ui/icons/Person';
+import TextField from '@material-ui/core/TextField';
+import AddIcon from '@material-ui/icons/Add';
+import Typography from '@material-ui/core/Typography';
+import { blue } from '@material-ui/core/colors';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -23,8 +37,15 @@ import ForDialogWrapper from "../../component/ForkDialog";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Router  from 'next/router';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import MobiledataOffIcon from '@mui/icons-material/MobiledataOff';
 import {Preview} from '../../component/Preview'
 import '../../config'
+import BackupOutlinedIcon from '@material-ui/icons/BackupOutlined';
 import { 
   Grow,
   Popper,
@@ -35,13 +56,41 @@ import {
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ShareIcon from "@material-ui/icons/Share";
+const useStyles = makeStyles({
+  MuiMobileStepperProgress: {
+    width: "200%",
+    background: "rgba(0,0,0,0)",
+    "&:MuiMobileStepper_progress": {
+      width: "200%",
+    },
+  },
+  MuiPaper_root: {
+    "&:MuiMobileStepper_progress": {
+      position: "absolute",
+      content: '""',
+      display: "block",
+      right: 0,
+      top: "2px",
+      width: "1px",
+      height: "10px",
+      background: "#000",
+      marginRight: "5px",
+    },
+  },
+  MuiMobileStepper_progress: {
+    width: "100%",
+  },
+});
+
 const Detailed_Wrapper = (props) => {
   const route = useRouter();
   const urlQueryObj = route.query;
   return <Detailed {...props} router={route} urlQueryObj={urlQueryObj} />;
 };
+
 export default Detailed_Wrapper;
 export class Detailed extends React.Component {
+  
   constructor(props) {
     super(props);
     this.ButtonRef = React.createRef();
@@ -51,12 +100,19 @@ export class Detailed extends React.Component {
       openlist: 0,
       opacity: 0,
       open:false,
+      downloadNumb:'',
       img: "",
       showlist: 0, //显示隐藏数据列表
-      isOpen: false,
+      downloadOpen:false,
       imgurl: "",
       basic: [],
+      page:[],
       status:"",
+      errorspan: '',
+      errorShow: "none",
+      isrand:'0',
+      seed:'',
+      pageIndex:1,
       filedata: [
         {
           jpg: "455",
@@ -97,6 +153,30 @@ export class Detailed extends React.Component {
     });
   };
 
+  download = (value) => {  //下载数据集
+    this.setState({
+      downloadOpen: true,
+    });
+  };
+
+  handleChange = value => {
+    console.log(value.target.value);
+    this.setState({
+      isrand: value.target.value,
+    });
+  };
+
+  downloadInput = value => {
+    var reg = /^[0-9]+.?[0-9]*$/;
+    let numb = ''
+    if (reg.test(value)&&value<=100&&value>0) {
+      numb = value
+    }
+    this.setState({
+      downloadNumb: numb,
+    });
+  }
+
   openfile = (value) => {
     //数据列表层级菜单展开/隐藏
     let show = this.state.fileshow;
@@ -117,16 +197,43 @@ export class Detailed extends React.Component {
       open:true
     });
   }
-
+  handleListItemClick = value => {
+    console.log(value)
+    var numb = this.state.pageIndex
+      if(!this.state.pageIndex){
+        if(value!='all'){
+          this.error('百分比不能为空')
+          return false;
+        } else {
+          numb = 0
+        }
+      }
+      axios.post(server_ip + 'download_dataset?dataset_id='+this.props.urlQueryObj._id+'&zip=0&split='+numb+'&type='+value+'&is_rand='+this.state.isrand+'&seed='+this.state.seed+'&rename=1')
+      .then((res) => {
+        console.log(res);
+        if(res.data.status == 0){
+          this.error(res.data.info)
+        } else {
+          const file_path_arr = res.data.path.split('/');
+          const file_name = file_path_arr.pop();
+          const file_path = file_path_arr.join('/');
+          console.log(server_ip + 'download?url=' + file_path + '/' + file_name);
+          window.location.href = server_ip + 'download?url=' + file_path + '/' + file_name;
+        } 
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 
   deleteAgree = value => {
       this.setState({ 
         open:false
       });
       var qs = require('qs');  
-        axios.post(server_ip + 'del_dataset',qs.stringify({
-            '_id':this.props.urlQueryObj._id
-        }))
+      axios.post(server_ip + 'del_dataset',qs.stringify({
+          '_id':this.props.urlQueryObj._id
+      }))
       .then((response) => {
         console.log(`${server_ip + 'del_dataset',qs.stringify({
           '_id':this.props.urlQueryObj._id
@@ -199,20 +306,48 @@ export class Detailed extends React.Component {
   };
   handleClose = () => {
     this.setState({ 
-      open:false
+      open:false,
+      downloadOpen:false,
     });
   };
   componentDidMount() {
+    var pa = []
+    for(let i = 1 ;i<=100;i++){
+      pa.push(i)
+    }
+    this.setState({
+      page:pa,
+    })
     setTimeout(() => {
       this.axios();
     }, 500);
   }
+  pages = value => {
+    this.setState({
+      pageIndex:value
+    })
+  }
+  error = (value) => {
+    this.setState({
+      errorspan: value,
+      errorShow: "flex",
+    });
+    setTimeout(() => {
+      this.setState({
+        errorShow: "none",
+      });
+    }, 3000);
+  };
   render() {
+
     let { accessibility,_id } = this.props.router.query;
-    // let { accessibility } = "private";
+
     return (
       <div>
         <Header />
+        <Alert style={{ display: this.state.errorShow,top:'56px',position:'fixed',zIndex:'10000000',left:'0px',right:'0px' }} severity="error">
+          {this.state.errorspan} <strong>error</strong>
+        </Alert>
         <div style={{width:"400px",margin:"20px auto",paddingTop:"220px",display:this.state.status === 0 ? 'block' : 'none'}}>
           <img style={{width:"100%"}} src="/qsy.png" />
           <div style={{textAlign:"center",color:"#666",marginTop:"20px",fontWeight:"500",fontSize:"17px"}}>请等待数据分解</div>
@@ -222,6 +357,120 @@ export class Detailed extends React.Component {
             </Button>
           </div>  
         </div>
+        <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.state.downloadOpen}>
+          <DialogTitle id="simple-dialog-title">选择你的下载</DialogTitle>
+          <List style={{marginTop:'-10px'}}>
+            <ListItem style={{width:'260px',overflow:'hidden',paddingBottom:'25px'}}>
+              <div>设置训练集百分比</div>
+              {/* <TextField style={{width:'260px'}}
+                id="filled-number"
+                label="设置训练集百分比(1-100)"
+                style={{background:'#fff',width:'100%'}}
+                type="text"
+                onChange={(e) => this.downloadInput(e.target.value)}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={this.state.downloadNumb}
+              /> */}
+               <div
+                  style={{
+                    // position: "fixed",
+                    // bottom: "20px",
+                    // right: "345px",
+                    // left: "50px",
+                    zIndex: "10000",
+                    width: "452px",
+                    position: "absolute",
+                    overflow: "hidden",
+                    marginTop: "56px",
+                    marginLeft: '-6px',
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: "0px",
+                      display: "flex",
+                      width: 'calc(50% - 8px)',
+                      left: '8px',
+                    }}
+                  >
+                    {this.state.page.map((item, index) => {
+                          return (
+                            <div
+                              onClick={() => {
+                                this.pages(index+1);
+                              }}
+                              style={{
+                                flex: "1",
+                                cursor: "pointer",
+                                zIndex: "10",
+                                height: "21px",
+                              }}
+                              title={index + 1}
+                            ></div>
+                          );
+                        })}
+                  </div>
+                  <MobileStepper
+                    variant="progress"
+                    // className={classes.MuiMobileStepperProgress}
+                    steps={101}
+                    position="static"
+                    activeStep={this.state.pageIndex}
+                  />
+                </div>
+            </ListItem>
+            <ListItem style={{display:'inherit',fontSize:'12px',color:'#999'}}>
+              <div style={{width:'100%'}}>
+                训练集下载比例:{this.state.pageIndex}%
+              </div>
+              <div>
+                测试集下载比例:{100 - this.state.pageIndex}%
+              </div>
+            </ListItem>
+            <ListItem style={{width:'260px',display:'none'}}>
+              <FormControl component="fieldset">
+                <RadioGroup row aria-label="gender" name="gender1" value={this.state.isrand} onChange={this.handleChange}>
+                  <FormControlLabel value={'0'} control={<Radio />} label="顺序拆分" />
+                  <FormControlLabel value={'1'} control={<Radio />} label="随机拆分" />
+                </RadioGroup>
+              </FormControl>
+            </ListItem>
+            <ListItem style={{display:this.state.isrand==0?'none':'block'}}>
+              <TextField 
+              onChange={(e) => this.setState({
+                seed:e.target.value
+              })}
+               style={{marginTop:'-10px',width:'100%'}} id="standard-basic" label="输入随机种子" />
+            </ListItem>
+            <ListItem button onClick={() => this.handleListItemClick('train')}>
+              <ListItemAvatar>
+                  <BackupOutlinedIcon style={{marginTop:'3px'}} />
+              </ListItemAvatar>
+              <ListItemText primary={'下载训练集'} />
+            </ListItem>
+            <ListItem button onClick={() => this.handleListItemClick('test')}>
+              <ListItemAvatar>
+                  <BackupOutlinedIcon style={{marginTop:'3px'}} />
+              </ListItemAvatar>
+              <ListItemText primary={'下载测试集'} />
+            </ListItem>
+            <ListItem button onClick={() => this.handleListItemClick('both')}>
+              <ListItemAvatar>
+                  <BackupOutlinedIcon style={{marginTop:'3px'}} />
+              </ListItemAvatar>
+              <ListItemText primary={'训练集+测试集'} />
+            </ListItem>
+            {/* <ListItem button onClick={() => this.handleListItemClick('all')}>
+              <ListItemAvatar>
+                  <BackupOutlinedIcon style={{marginTop:'3px'}} />
+              </ListItemAvatar>
+              <ListItemText primary={'All'} />
+            </ListItem> */}
+          </List>
+        </Dialog>
         <div style={{display:this.state.status === 1 ? 'block' : 'none'}}>
         <Dialog
           open={this.state.open}
@@ -348,8 +597,19 @@ export class Detailed extends React.Component {
                                 />
                                 删除数据集
                               </MenuItem>
-                              <MenuItem> Comming Soon</MenuItem>
-                              <MenuItem> Comming Soon </MenuItem>
+                              <MenuItem onClick={() => this.download(this.props.urlQueryObj._id)}>
+                              <BackupOutlinedIcon style={{
+                                    marginRight: "10px",
+                                    fontSize: "1.2rem",
+                                  }} />
+                              下载数据集</MenuItem>
+                              <MenuItem onClick={() => this.download(this.props.urlQueryObj._id)}>
+                              <MobiledataOffIcon style={{
+                                    marginRight: "10px",
+                                    fontSize: "1.2rem",
+                                  }} />
+                              数据统计</MenuItem>
+                             
                             </MenuList>
                           </ClickAwayListener>
                         </Paper>
@@ -413,8 +673,18 @@ export class Detailed extends React.Component {
                                 />
                                 Fork数据集
                               </MenuItem>
-                              <MenuItem> Comming Soon</MenuItem>
-                              <MenuItem> Comming Soon </MenuItem>
+                              <MenuItem onClick={() => this.download(this.props.urlQueryObj._id)}>
+                              <BackupOutlinedIcon style={{
+                                    marginRight: "10px",
+                                    fontSize: "1.2rem",
+                                  }} />
+                              下载数据集</MenuItem>
+                              {/* <MenuItem  onClick={() => this.handleListItemClick('all')}>
+                              <BackupOutlinedIcon style={{
+                                    marginRight: "10px",
+                                    fontSize: "1.2rem",
+                                  }} />
+                              全部下载</MenuItem> */}
                             </MenuList>
                           </ClickAwayListener>
                         </Paper>
@@ -591,7 +861,9 @@ export class Detailed extends React.Component {
                         onClick={() => {
                           var fileda = this.state.filedata;
                           var ind = this.state.fileindex;
-                          if (ind < fileda.length) {
+                          console.log(fileda.length)
+                          console.log(ind)
+                          if (ind + 1 < fileda.length) {
                             var img = fileda[ind + 1].jpg;
                             var url =
                               fileda[ind + 1].jpg.substring(0, 10) +
@@ -626,7 +898,7 @@ export class Detailed extends React.Component {
                   <span className={DataSet.DatasetInfoFieldInfoSubtitle}>
                     标注类型
                   </span>
-                  {this.state.basic.tags ? (
+                  {/* {this.state.basic.tags ? (
                     this.state.basic.tags.map((item, index) => {
                       return (
                         <span className={DataSet.DatasetInfoFieldTagChip}>
@@ -642,13 +914,13 @@ export class Detailed extends React.Component {
                         暂无
                       </span>
                     </span>
-                  )}
+                  )} */}
                 </div>
                 <div className={DataSet.DatasetInfoFieldInfoEntry}>
                   <span className={DataSet.DatasetInfoFieldInfoSubtitle}>
                     数据格式
                   </span>
-                  {this.state.basic.tasks ? (
+                  {/* {this.state.basic.tasks ? (
                     this.state.basic.tasks.map((item, index) => {
                       return (
                         <span className={DataSet.DatasetInfoFieldTagChip}>
@@ -664,7 +936,7 @@ export class Detailed extends React.Component {
                         暂无
                       </span>
                     </span>
-                  )}
+                  )} */}
                 </div>
                 <div className={DataSet.DatasetInfoFieldInfoEntry}>
                   <span className={DataSet.DatasetInfoFieldInfoSubtitle}>

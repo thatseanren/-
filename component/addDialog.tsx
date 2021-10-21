@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import Radio from "@material-ui/core/Radio";
+import DataSet from "../styles/DataSet.module.css";
 import {
   FormLabel,
   DialogContent,
@@ -13,9 +14,12 @@ import PublicIcon from "@material-ui/icons/Public";
 import PersonIcon from "@material-ui/icons/Person";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import MobileStepper from "@material-ui/core/MobileStepper";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import axios from "axios";
+import SearchIcon from "@material-ui/icons/Search";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import server, { option } from "../main_config";
 import ShareIcon from '@material-ui/icons/Share';
@@ -64,8 +68,77 @@ export function ForkDialog(props: any): any {
   const [format, setFormat] = useState("");
   const [datalist, setDataList] = useState();
   const [errorshow, setErrorShow] = useState(3);
+  const [pageIndex, setPageIndex] = useState(1);
   const [category, setCategory] = React.useState('female');
   const [accessibility, setAccessibility] = useState<string>("public");
+  const [page,setPage] = React.useState([]);
+  const [tagList,setTagList] = React.useState([]);
+  const [tag,setTag] = React.useState([]);
+  const [tagIndex,setTagIndex] = React.useState([]);
+  
+
+  const SearchTag = value => {  //标签搜索
+    var list = []
+    for(let i = 0 ; i< tagList.length;i++){
+      if(tagList[i].match(value)) {
+        list.push(tagList[i])
+      }
+    }
+    value == '' ? list = [] : ''
+    console.log(list)
+    setTag(list)
+  }
+
+  const tagchecked = value => { //选中标签
+    var tagType = 0
+    let temp = JSON.stringify(tagIndex)
+    temp = JSON.parse(temp);
+    if(temp.length>0){
+      for(let i = 0;i<temp.length;i++){
+        if(temp[i] == value){
+          tagType = 1;
+          temp.splice(i,1);
+        }
+      }
+      if(tagType == 0){
+        temp.push(value)
+      }
+    } else {
+      temp.push(value)
+    }
+    setTagIndex(temp)
+  }
+
+  const pag = () => {
+    var pa = []
+    for(let i = 1 ;i<=20;i++){
+      pa.push(i)
+    }
+    setPage(pa)
+
+    const that = this
+    axios.post(server + 'get_record_tag_list')
+    .then((response) => {
+        console.log(response.data.data)
+        var tagListt = [];
+        var tag = response.data.data
+        tag.map(function(k,v){
+          var o = {};
+          // o[k.tag] = false
+          tagListt.push(k.tag) 
+        })
+        setTagList(tagListt)
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+  }
+  useEffect(() => {
+    pag();
+  }, []);
+  const pages = value => {
+    setPageIndex(value)
+  }
   const handleCreate = () => {
     // const obj: httpObject = {
     //   dataSetName: dataSetName,
@@ -74,13 +147,14 @@ export function ForkDialog(props: any): any {
     // axios.get(`${server}${option.forkDataSet}`);
     var qs = require('qs');
     axios.post(server + 'add_dataset',qs.stringify({
-      'tags':show.tag,
-      'name':titleName||"",
-      'description':dataSetName,
-      'category':category,
-      'ids':show.operation.substring(10,show.operation.length),
-      'tasks':format,
-      'accessibility':accessibility
+      'tags':tagIndex.join(','),  //数据标签信息
+      'name':titleName||"",//数据名称
+      'description':dataSetName, //数据简介
+      'category':category, //标注类型
+      'ids':show[0].join(','), //分解数据集id
+      'tasks':format,  //数据格式
+      'accessibility':'private',//可见范围/默认私有
+      'sampling_scale':pageIndex,//抽帧
     }))
       .then(function (response) {
       response.data.status === 1 ? setErrorShow(2) : setErrorShow(1)
@@ -195,7 +269,112 @@ export function ForkDialog(props: any): any {
                 </RadioGroup>
                 </FormControl>
               </div>
-              <div style={{ paddingTop: "20px" }}>
+              <div className={classes.flexDiv} style={{overflow:'hidden'}}>
+                <p style={{ margin: "0", fontSize: "16px", fontWeight: 500 }}>
+                  数据抽帧
+                </p>
+                <p className={clsx(classes.p14Gray, classes.Size12)} style={{margin: '0px'}}>
+                  数据生成间隔({pageIndex*100}ms)
+                </p>
+                <div
+                  style={{
+                    // position: "fixed",
+                    // bottom: "20px",
+                    // right: "345px",
+                    // left: "50px",
+                    zIndex: "10000",
+                    width: "200%",
+                    // position: "absolute",
+                    overflow: "hidden",
+                    // marginTop: "56px",
+                    marginLeft: '-6px',
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "relative",
+                      // bottom: "0px",
+                      display: "flex",
+                      width:'calc(50% - 7px)',
+                      left: '7px',
+                      bottom:'-21px',
+                    }}
+                  >
+                    {page.map((item, index) => {
+                          return (
+                            <div
+                              onClick={() => {
+                                pages(item);
+                              }}
+                              style={{
+                                flex: "1",
+                                cursor: "pointer",
+                                zIndex: "10",
+                                height: "21px",
+                              }}
+                              title={item}
+                            ></div>
+                          );
+                        })}
+                  </div>
+                  <MobileStepper
+                    variant="progress"
+                    // className={classes.MuiMobileStepperProgress}
+                    steps={21}
+                    position="static"
+                    activeStep={pageIndex}
+                  />
+                </div>
+              </div>
+              <div className={classes.flexDiv}>
+                <p style={{ margin: "0", fontSize: "16px", fontWeight: 500 }}>
+                  数据标签
+                </p>
+                <p className={clsx(classes.p14Gray, classes.Size12)}>
+                  搜索并选择数据标签
+                </p>
+                <Autocomplete
+                  style={{margin:'0px'}}
+                  freeSolo
+                  size="small"
+                  options={[]}
+                  renderInput={(paramsdd) => (
+                  <TextField
+                      {...paramsdd}
+                      label="搜索数据集标签"
+                      margin="normal"
+                      onChange={(e) => SearchTag(e.target.value)}
+                      defaultValue="44"
+                      variant="outlined"
+                      InputProps={{
+                        endAdornment: <SearchIcon  style={{ fontSize: "24px",cursor:'pointer' }} />,
+                      }}
+                  />
+                  )}  
+              />
+              <div className={DataSet.taghome}>
+                {
+                  tag.map((item,index) => {
+                    return (
+                      <div className={DataSet.tagBox} onClick={() => tagchecked(item)}>
+                        {item}
+                      </div>
+                    );
+                })}
+              </div>
+              <div>
+              <div>已选数据标签</div>
+              <div style={{overflow:'hidden',marginTop:'10px',minHeight: '36px'}}>
+                {
+                  tagIndex.map((item,index) => {
+                  return (
+                    <div className={DataSet.checkedClick} onClick={() => tagchecked(item)}>{item}</div>
+                    );
+                })}
+              </div>
+            </div>
+              </div>
+              {/* <div style={{ paddingTop: "20px" }}>
                 <FormLabel component="description" children={"可见范围"} />
                 <RadioGroup
                   value={accessibility}
@@ -235,7 +414,7 @@ export function ForkDialog(props: any): any {
                     </div>
                   </div>{" "}
                 </RadioGroup>
-              </div>
+              </div> */}
 
               <div style={{ marginTop: "10px" }}>
                 <p className={clsx(classes.p14Gray, classes.MarginBottom16)}>

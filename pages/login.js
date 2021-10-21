@@ -59,17 +59,17 @@ export default class Login extends React.Component {
       }
     
       componentDidMount () {
-        axios.interceptors.request.use(
-          (config) => {
-            config.headers.Authorization = "bdta"; //把localStorage的token放在Authorization里
-            //  config.headers["Content-type"] = "application/json;charset=UTF-8";
-            config.headers.withCredentials = true;
-            return config;
-          },
-          function (err) {
-            console.log("失败信息" + err);
-          }
-        );
+        // axios.interceptors.request.use(
+        //   (config) => {
+        //     config.headers.Authorization = "bdta"; //把localStorage的token放在Authorization里
+        //     //  config.headers["Content-type"] = "application/json;charset=UTF-8";
+        //     config.headers.withCredentials = true;
+        //     return config;
+        //   },
+        //   function (err) {
+        //     console.log("失败信息" + err);
+        //   }
+        // );
       }
         // const classes = useStyles();
     render() {
