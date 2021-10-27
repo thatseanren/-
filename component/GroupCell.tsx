@@ -138,7 +138,16 @@ export default function Dataset(props: {
           }) => (
             <Link
               href={`/dataDetailed/`}
-              as={`/dataDetailed/${props.accessibility}?` + "_id" + "=" + _id}
+              as={
+                `/dataDetailed/${props.accessibility}?` +
+                "_id" +
+                "=" +
+                _id +
+                "&" +
+                "category" +
+                "=" +
+                category
+              }
             >
               {/* <Link href={`/dataDetailed?id=`+_id} as={`/dataDetailed/${props.accessibility}`}> */}
               <a
@@ -173,7 +182,9 @@ export default function Dataset(props: {
                     >
                       <img
                         className={classes.img}
-                        src={img ? `${server}download?url=${img}` : '/imgqs.jpg'}
+                        src={
+                          img ? `${server}download?url=${img}` : "/imgqs.jpg"
+                        }
                       />
                       <div className={classes.miniLabel}>
                         <div className={classes.briefInfo}>
@@ -216,34 +227,43 @@ export default function Dataset(props: {
                           {name || "Dataset Name"}
                         </span>
                       </div>
-                      <div className={classes.metaData_Div} style={{overflow:"inherit"}}>
-                        {tags.map ? tags.map((item) => {
-                          return (
-                            <span>
-                              {item != "" ? <span
-                          style={{
-                            fontSize: "12px",
-                            height: "15px",
-                            background: "#dfdfdf",
-                            padding: "2px 6px",
-                            marginRight: "3px",
-                            borderRadius:"5px",
-                            color:"#666"
-                          }}
-                        >
-                          {item}
-                        </span> : ''}
-                            </span>
-                        );
-                      }):''}
+                      <div
+                        className={classes.metaData_Div}
+                        style={{ overflow: "inherit" }}
+                      >
+                        {tags.map
+                          ? tags.map((item) => {
+                              return (
+                                <span>
+                                  {item != "" ? (
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        height: "15px",
+                                        background: "#dfdfdf",
+                                        padding: "2px 6px",
+                                        marginRight: "3px",
+                                        borderRadius: "5px",
+                                        color: "#666",
+                                      }}
+                                    >
+                                      {item}
+                                    </span>
+                                  ) : (
+                                    ""
+                                  )}
+                                </span>
+                              );
+                            })
+                          : ""}
                       </div>
                       {/* {<div className={classes.metaData_Div} style={{fontSize: '17px'}}> {category}</div>} */}
                       <div className={classes.metaData_Div}>
                         <span style={{ fontSize: "12px" }}>
-                          { department} {user_name || "Author"}
+                          {department} {user_name || "Author"}
                         </span>
-                        <span style={{ fontSize: "12px", color:"#a8b0b7" }}>
-                          { } {create_time|| "Author"}
+                        <span style={{ fontSize: "12px", color: "#a8b0b7" }}>
+                          {} {create_time || "Author"}
                         </span>
                       </div>
                     </div>

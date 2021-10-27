@@ -443,30 +443,7 @@ export default class My extends React.Component<
           </div>
           <div className={DataSet.listContainer}>
             <div className={clsx(DataSet.filterContainer)}>
-              {/* <div className={DataSet.search}>
-                <input
-                  placeholder="搜索数据集"
-                  className={
-                    this.state.focusFn === 0 ? DataSet.inp : DataSet.blue
-                  }
-                  onKeyDown={(e) => this.handleKeyDown(e)}
-                  value={this.state.valueName}
-                  onChange={(e) => {
-                    this.setState({
-                      valueName: e.target.value,
-                    });
-                  }}
-                  onFocus={this.focusFn}
-                  onBlur={this.ononBlur}
-                />
-                <div className={DataSet.iconse}>
-                  <SearchIcon
-                    className={
-                      this.state.focusFn === 0 ? DataSet.sear : DataSet.searblue
-                    }
-                  />
-                </div>
-              </div> */}
+              
               <div className={DataSet.leftContent} style={{marginTop:'0px'}}>
                 <FilterSection
                   data={this.state.data}

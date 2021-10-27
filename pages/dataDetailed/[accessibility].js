@@ -225,7 +225,7 @@ export class Detailed extends React.Component {
         console.log(error);
       });
   }
-
+    
   deleteAgree = value => {
       this.setState({ 
         open:false
@@ -276,6 +276,7 @@ export class Detailed extends React.Component {
           filedata: response.data.data,//collection of jpg, json, pcd. Array
           imgurl: url,//Displayed in a abriviative way
         });
+        console.log(this.state.filedata)
       })
       .catch(function (error) {
         console.log(error);
@@ -332,7 +333,7 @@ export class Detailed extends React.Component {
   };
   render() {
 
-    let { accessibility,_id } = this.props.router.query;
+    let { accessibility,_id ,category} = this.props.router.query;
 
     return (
       <div>
@@ -354,23 +355,9 @@ export class Detailed extends React.Component {
           <List style={{marginTop:'-10px'}}>
             <ListItem style={{width:'260px',overflow:'hidden',paddingBottom:'25px'}}>
               <div>设置训练集百分比</div>
-              {/* <TextField style={{width:'260px'}}
-                id="filled-number"
-                label="设置训练集百分比(1-100)"
-                style={{background:'#fff',width:'100%'}}
-                type="text"
-                onChange={(e) => this.downloadInput(e.target.value)}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                value={this.state.downloadNumb}
-              /> */}
+             
                <div
                   style={{
-                    // position: "fixed",
-                    // bottom: "20px",
-                    // right: "345px",
-                    // left: "50px",
                     zIndex: "10000",
                     width: "452px",
                     position: "absolute",
@@ -407,7 +394,6 @@ export class Detailed extends React.Component {
                   </div>
                   <MobileStepper
                     variant="progress"
-                    // className={classes.MuiMobileStepperProgress}
                     steps={101}
                     position="static"
                     activeStep={this.state.pageIndex}
@@ -455,12 +441,6 @@ export class Detailed extends React.Component {
               </ListItemAvatar>
               <ListItemText primary={'训练集+测试集'} />
             </ListItem>
-            {/* <ListItem button onClick={() => this.handleListItemClick('all')}>
-              <ListItemAvatar>
-                  <BackupOutlinedIcon style={{marginTop:'3px'}} />
-              </ListItemAvatar>
-              <ListItemText primary={'All'} />
-            </ListItem> */}
           </List>
         </Dialog>
         <div style={{display:this.state.status === 1 ? 'block' : 'none'}}>
@@ -485,8 +465,6 @@ export class Detailed extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-
-        {/* <ForkDialog ref={this.ForkRef} /> */}
         <div className={DataSet.home}>
           <div className={DataSet.grid}>
             <div className={DataSet.publicDataChip}>
@@ -671,12 +649,6 @@ export class Detailed extends React.Component {
                                     fontSize: "1.2rem",
                                   }} />
                               下载数据集</MenuItem>
-                              {/* <MenuItem  onClick={() => this.handleListItemClick('all')}>
-                              <BackupOutlinedIcon style={{
-                                    marginRight: "10px",
-                                    fontSize: "1.2rem",
-                                  }} />
-                              全部下载</MenuItem> */}
                             </MenuList>
                           </ClickAwayListener>
                         </Paper>
@@ -718,22 +690,9 @@ export class Detailed extends React.Component {
               <div className={DataSet.fieldHome}>
                 <div className={DataSet.previewTitle}>
                   <div className={DataSet.previewTitleLeft}>数据预览</div>
-                  {/* <div className={DataSet.previewTitleBtnField}>
-                    <Button variant="outlined" color="primary">
-                      查看数据
-                    </Button>
-                  </div> */}
                 </div>
                 <div className={DataSet.groupContainer}>
                   <div className={DataSet.groupSideContainer}>
-                    {/* <div
-                      className={clsx(DataSet.poweredBy, DataSet.poweredTitle)}
-                    >
-                      <span>Powered By Graviti</span>
-                      <div className={DataSet.ico}>
-                        <FormatIndentDecreaseIcon />
-                      </div>
-                    </div> */}
                     <div
                       style={{
                         display: this.state.showlist === 0 ? "block" : "none",
@@ -758,6 +717,7 @@ export class Detailed extends React.Component {
                           <ContactSupportOutlinedIcon
                             style={{ fontSize: "18px", marginLeft: "3px" }}
                           />
+                          
                         </div>
                       </div>
                     </div>
@@ -818,10 +778,10 @@ export class Detailed extends React.Component {
                   </div>
                   <div
                     className={DataSet.viewerGroupDisplay}
-                    onMouseMove={() => this.openOpacity()}
+                    onMouseEnter={() => this.openOpacity()}
                     onMouseOut={() => this.closeOpacity()}
                   >
-                    <div style={{ opacity: this.state.opacity }}>
+                    <div style={{ opacity: 1                                                                                                 }}>
                       <div
                         className={DataSet.viewerArrowLeft}
                         style={{ left: "20px" }}
@@ -875,8 +835,7 @@ export class Detailed extends React.Component {
                         <ArrowForwardIosIcon style={{ fontSize: "12px" }} />
                       </div>
                     </div>
-
-                    <img src={this.state.img} />
+                    <Preview datasetID = {_id} category = {category} currentFrame = {this.state.fileindex} />
                   </div>
                 </div>
               </div>
@@ -890,45 +849,13 @@ export class Detailed extends React.Component {
                   <span className={DataSet.DatasetInfoFieldInfoSubtitle}>
                     标注类型
                   </span>
-                  {/* {this.state.basic.tags ? (
-                    this.state.basic.tags.map((item, index) => {
-                      return (
-                        <span className={DataSet.DatasetInfoFieldTagChip}>
-                          <span className={DataSet.DatasetDetailTagChipChip}>
-                            {item}
-                          </span>
-                        </span>
-                      );
-                    })
-                  ) : (
-                    <span className={DataSet.DatasetInfoFieldTagChip}>
-                      <span className={DataSet.DatasetDetailTagChipChip}>
-                        暂无
-                      </span>
-                    </span>
-                  )} */}
+                 
                 </div>
                 <div className={DataSet.DatasetInfoFieldInfoEntry}>
                   <span className={DataSet.DatasetInfoFieldInfoSubtitle}>
                     数据格式
                   </span>
-                  {/* {this.state.basic.tasks ? (
-                    this.state.basic.tasks.map((item, index) => {
-                      return (
-                        <span className={DataSet.DatasetInfoFieldTagChip}>
-                          <span className={DataSet.DatasetDetailTagChipChip}>
-                            {item}
-                          </span>
-                        </span>
-                      );
-                    })
-                  ) : (
-                    <span className={DataSet.DatasetInfoFieldTagChip}>
-                      <span className={DataSet.DatasetDetailTagChipChip}>
-                        暂无
-                      </span>
-                    </span>
-                  )} */}
+                  
                 </div>
                 <div className={DataSet.DatasetInfoFieldInfoEntry}>
                   <span className={DataSet.DatasetInfoFieldInfoSubtitle}>
@@ -955,7 +882,7 @@ export class Detailed extends React.Component {
           </div>
           </div>
         </div>
-        <Preview datasetID = {_id} />
+       
       </div>
     ); 
   }

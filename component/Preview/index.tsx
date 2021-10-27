@@ -1,23 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import server_ip, { option } from "../../main_config";
-import {
-  Canvas,
-  useFrame,
-  useLoader,
-  extend,
-  useThree,
-} from "@react-three/fiber";
+import { Canvas, useFrame, extend, useThree } from "@react-three/fiber";
 import { THREE } from "three/examples/js/loaders/PCDLoader";
 import { OrbitControls } from "three/examples/js/controls/OrbitControls";
-import IconButton from "@material-ui/core/IconButton";
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-
+import { makeStyles } from "@material-ui/core/styles";
 extend({ OrbitControls });
 interface Properties {
   width: number;
   height: number;
   datasetID: string;
+  currentFrame:number;
 }
 function Controls() {
   const controls = React.useRef();
@@ -33,6 +25,284 @@ function Controls() {
     ></orbitControls>
   );
 }
+
+export const Preview = (props: Properties) => {
+  var [files, setFiles] = React.useState([]);
+  // const [currentFrame, setCurrentFrame] = React.useState(0);
+  const { currentFrame } = props;
+  const classes = useStyles();
+  const getUrl = (frame, key) => {
+    console.log(files,frame)
+    return files.length > 0
+      ? files[frame][key]
+      : `${server_ip}download?url=${null}`;
+  };
+  const Fetchfiles = (): Promise<Array<number>> =>
+    new Promise((res, rej) => {
+      console.log(props.datasetID, "new promise");
+      let httpReq = new XMLHttpRequest();
+      httpReq.open(
+        "get",
+        server_ip + option.datasetFiles + "?_id=" + props.datasetID+"&limit=1000"
+      );
+      httpReq.withCredentials = true;
+      httpReq.setRequestHeader("Authorization", "bdta");
+      httpReq.addEventListener("load", (e) => {
+        if (e.currentTarget.status === 200) {
+          let filelists = JSON.parse(e.currentTarget.responseText);
+          res(filelists.data);
+        } else {
+          rej(e.currentTarget.status);
+        }
+      });
+      httpReq.send();
+    });
+  const makeDownloadURL = (path): string => `${server_ip}download?url=${path}`;
+  const changeFrame = (arg) => {
+    if (arg === "+") {
+      if (currentFrame < 49) {
+        setCurrentFrame(currentFrame + 1);
+      }
+    }
+    if (arg === "-") {
+      if (currentFrame > 0) {
+        setCurrentFrame(currentFrame - 1);
+      }
+    }
+    if (typeof arg === "number") {
+      if (arg >= 0 && arg <= 49) {
+        setCurrentFrame(arg);
+      } else {
+        null;
+      }
+    }
+  };
+  const load2DAnnotation = () => {
+    const request = new XMLHttpRequest();
+    request.open("GET", getUrl(currentFrame, "json"));
+    request.withCredentials = true;
+    request.setRequestHeader("Authorization", "bdta");
+    request.addEventListener("load", (e) => {
+      if (e.currentTarget.status === 200) {
+        let filelists = JSON.parse(e.currentTarget.responseText);
+        let boxlist = filelists.label.map((val) => {});
+      } else {
+        console.log(
+          "loading Annotation 2D ERROR",
+          e.currentTarget.status,
+          e.currentTarget.responseURL
+        );
+      }
+    });
+  };
+  React.useEffect(() => {
+    if (props.datasetID !== undefined) {
+      Fetchfiles()
+        .then(
+          (result) => {
+            let file = result.map((frame) => {
+              return {
+                json: makeDownloadURL(frame.json),
+                pcd: makeDownloadURL(frame.pcd),
+                jpg: makeDownloadURL(frame.jpg),
+              };
+            });
+            setFiles(file);
+            console.log(file);
+          },
+          (result) => {
+            console.log(result, "Failed");
+          }
+        )
+        .catch((e) => {
+          console.log("catch error, PreviewComponentDidMOunt ", e);
+        });
+    }
+    return () => {
+      console.log("Updating props.datasetID, updating", props.datasetID);
+    };
+  }, [props.datasetID]);
+  // React.useEffect(() => {
+  //   loadAnnotation();
+  // }, [currentFrame, files]);
+  // React.useEffect(() => {
+  //   async function a() {
+  //     const Raphael = await import("react-raphael");
+  //     setRaphael(Raphael);
+  //     console.log("runtime", Paper);
+  //     setA(
+  //       <Paper>
+  //         <Image
+  //           src={getUrl(currentFrame, "jpg")}
+  //           width={100}
+  //           height={100}
+  //           x={0}
+  //           y={0}
+  //         />
+  //         {/* <Text x={0} y={0} text="同一个世界 同一个梦想" attr={{"fill":"#fff"}}/> */}
+  //         {/* <Rect x={0} y = {0} width= {20} height={30} attr={{"stroke":"#f0c620","stroke-width":3}}/> */}
+  //       </Paper>
+  //     );
+  //   }
+  //   a();
+  // }, []);
+
+  return (
+    <>
+      {" "}
+      <PointCloud
+        pcd_url={getUrl(currentFrame, "pcd")}
+        box_url={getUrl(currentFrame, "json")}
+      />
+      <Picture img_url={getUrl(currentFrame, "jpg")} />
+      {/* <IconButton
+        onClick={() => {
+          changeFrame("-");
+        }}
+      >
+        <ArrowBackIcon />
+      </IconButton>{" "}
+      {currentFrame}
+      <IconButton
+        onClick={() => {
+          changeFrame("+");
+        }}
+      >
+        <ArrowForwardIcon />
+      </IconButton> */}
+    </>
+  );
+};
+const Picture = ({ img_url, box_url }) => {
+  const [ele, setEle] = React.useState(<> </>);
+  const loadRaphael = async () => {
+    const {
+      Raphael,
+      Paper,
+      Set,
+      Circle,
+      Ellipse,
+      Image,
+      Rect,
+      Text,
+      Path,
+      Line,
+    } = await import("react-raphael");
+    return {
+      Raphael,
+      Paper,
+      Set,
+      Circle,
+      Ellipse,
+      Image,
+      Rect,
+      Text,
+      Path,
+      Line,
+    };
+  };
+  React.useEffect(() => {
+    loadRaphael().then(
+      ({
+        Raphael,
+        Paper,
+        Set,
+        Circle,
+        Ellipse,
+        Image,
+        Rect,
+        Text,
+        Path,
+        Line,
+      }) => {
+        setEle(
+          <div style={{ position: "relative", top: "-588px", left: "446px" }}>
+            <Paper width={200} height={200}>
+              <Image src={img_url} x={0} y={0} width={200} height={200} />
+              <Text
+                x={60}
+                y={110}
+                text="轿车"
+                attr={{ fill: "#f0c620" }}
+              />{" "}
+              <Rect
+                x={60}
+                y={118}
+                width={60}
+                height={70}
+                attr={{ stroke: "#f0c620", "stroke-width": 3 }}
+              />
+            </Paper>
+          </div>
+        );
+      }
+    );
+  }, [img_url]);
+  return ele;
+};
+const PointCloud = ({ pcd_url, box_url }) => {
+  //initialize the PointCloud
+  const [loader, setLoader] = React.useState(new THREE.PCDLoader());
+  const pointcloud = usePointCloud(pcd_url, loader);
+  const BoundingBox = useBoundingBox3D(box_url);
+  const classes = useStyles();
+  return (
+    <Canvas style={{ width: '100%', height: '100%'}} >
+      <Controls />
+      {pointcloud}
+      {BoundingBox}
+    </Canvas>
+  );
+};
+const useStyles = makeStyles(() => ({
+  canvas: {
+    "& canvas": {
+      height: "85%",
+    },
+  },
+}));
+const useBoundingBox3D = (box_url) => {
+  const [box, setBox] = React.useState({ labels: [] });
+  React.useEffect(() => {
+    const Req = new XMLHttpRequest();
+    Req.open("GET", box_url);
+    Req.setRequestHeader("Authorization", "bdta");
+    Req.withCredentials = true;
+    Req.addEventListener("load", (event) => {
+      if (event.currentTarget.status === 200) {
+        setBox(JSON.parse(event.currentTarget.responseText));
+        console.log(box);
+      } else {
+        console.log(
+          `Error when ${event.currentTarget.responseURL} useBoundingBox3D`
+        );
+      }
+    });
+    Req.send();
+  }, [box_url]);
+  return box.labels.map((val) => {
+    return create3DBox(val);
+  });
+};
+const usePointCloud = (url, loader) => {
+  const [pointCloud, setPointCloud] = React.useState(null);
+  React.useEffect(() => {
+    loader.load(
+      url,
+      (mesh) => {
+        mesh.rotation.z = Math.PI / 2;
+        setPointCloud(<primitive object={mesh}></primitive>);
+      },
+      (progress) => {
+        setPointCloud(progress.loaded / progress.total);
+      },
+      (err) => {
+        console.log("THREE.PCDLoader", err);
+      }
+    );
+  }, [url]);
+  return pointCloud;
+};
 const create3DBox = ({ id, category, box3d }) => {
   function increaseBrightness(hex, percent) {
     // strip the leading # if it's there
@@ -110,139 +380,6 @@ const create3DBox = ({ id, category, box3d }) => {
   cubeMesh.add(edges);
   return <primitive object={cubeMesh}></primitive>;
 };
-export const Preview = (props: Properties) => {
-  var [files, setFiles] = React.useState([]);
-  const [, forceUpdate] = React.useState([]);
-  const [pcd, setPcd] = React.useState([]);
-  const [currentFrame, setCurrentFrame] = React.useState(0);
-  const [loader, setLoader] = React.useState(new THREE.PCDLoader());
-  let [bb, setBB] = React.useState<React.ReactElement>(<></>);
-  const Fetchfiles = (): Promise<Array<number>> =>
-    new Promise((res, rej) => {
-      console.log(props.datasetID, "new promise");
-      let httpReq = new XMLHttpRequest();
-      httpReq.open(
-        "get",
-        server_ip + option.datasetFiles + "?_id=" + props.datasetID
-      );
-      httpReq.withCredentials = true;
-      httpReq.setRequestHeader("Authorization", "bdta");
-      httpReq.addEventListener("load", (e) => {
-        if (e.currentTarget.status === 200) {
-          let filelists = JSON.parse(e.currentTarget.responseText);
-          res(filelists.data);
-        } else {
-          rej(e.currentTarget.status);
-        }
-      });
-      httpReq.send();
-    });
-  const getUrl = (frame, key) => {
-    return files.length > 0 ? files[frame][key] : `${server_ip}download?url=${null}`;
-  };
-  const makeDownloadURL = (path): string => `${server_ip}download?url=${path}`;
-  const changeFrame = (arg) => {
-    if (arg === "+") {
-      if (currentFrame < 49) {
-        setCurrentFrame(currentFrame + 1);
-      }
-    }
-    if (arg === "-") {
-      if (currentFrame > 0) {
-        setCurrentFrame(currentFrame - 1);
-      }
-    }
-    if (typeof arg === "number") {
-      if (arg >= 0 && arg <= 49) {
-        setCurrentFrame(arg);
-      } else {
-        null;
-      }
-    }
-  };
-  const loadAnnotation = () => {
-    const request = new XMLHttpRequest();
-    request.open("GET", getUrl(currentFrame, "json"));
-    request.withCredentials = true;
-    request.setRequestHeader("Authorization", "bdta");
-    request.addEventListener("load", (e) => {
-      if (e.currentTarget.status === 200) {
-        let filelists = JSON.parse(e.currentTarget.responseText);
-        let boxlist = filelists.labels.map((val) => create3DBox(val));
-        setBB(boxlist);
-      } else {
-        console.log(e.currentTarget.status);
-      }
-    });
-    request.send();
-  };
-  React.useEffect(() => {
-    loader.load(
-      getUrl(currentFrame, "pcd"),
-      (mesh) => {
-        mesh.rotation.z = Math.PI / 2;
-        setPcd(<primitive object={mesh}></primitive>);
-      },
-      (progress) => {},
-      (err) => {
-        console.log("THREE.PCDLoader", err);
-      }
-    );
-  }, [currentFrame, files]);
-  React.useEffect(() => {
-    if (props.datasetID !== undefined) {
-      Fetchfiles()
-        .then(
-          (result) => {
-            let file = result.map((frame) => {
-              return {
-                json: makeDownloadURL(frame.json),
-                pcd: makeDownloadURL(frame.pcd),
-                jpg: makeDownloadURL(frame.jpg),
-              };
-            });
-            setFiles(file);
-          },
-          (result) => {
-            console.log(result, "Failed");
-          }
-        )
-        .catch((e) => {
-          console.log("catch error, PreviewComponentDidMOunt ", e);
-        });
-    }
-    return () => {
-      console.log("Updating props.datasetID, updating", props.datasetID);
-    };
-  }, [props.datasetID]);
-  React.useEffect(() => {
-    loadAnnotation();
-  }, [currentFrame]);
-
-  return (
-    <div>
-      {" "}
-      <IconButton
-        onClick={() => {
-          changeFrame("-");
-        }}
-      >
-        <ArrowBackIcon />
-      </IconButton>{" "}
-      {currentFrame}
-      <Canvas style={{ width: "1080px", height: "720px" }}>
-        {" "}
-        <Controls />
-        {pcd}
-        {bb}
-      </Canvas>
-      <IconButton
-        onClick={() => {
-          changeFrame("+");
-        }}
-      >
-        <ArrowForwardIcon />
-      </IconButton>
-    </div>
-  );
+const useAddress = (id_of_Dataset) => {
+  const [addresses, setAddresses] = React.useState(null);
 };
