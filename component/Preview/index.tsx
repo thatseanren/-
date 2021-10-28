@@ -4,12 +4,18 @@ import { Canvas, useFrame, extend, useThree } from "@react-three/fiber";
 import { THREE } from "three/examples/js/loaders/PCDLoader";
 import { OrbitControls } from "three/examples/js/controls/OrbitControls";
 import { makeStyles } from "@material-ui/core/styles";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ButtonBase from "@mui/material/ButtonBase";
+import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
+import ListItemIcon from "@mui/material/ListItemIcon";
 extend({ OrbitControls });
 interface Properties {
   width: number;
   height: number;
   datasetID: string;
-  currentFrame:number;
+  currentFrame: number;
 }
 function Controls() {
   const controls = React.useRef();
@@ -32,18 +38,20 @@ export const Preview = (props: Properties) => {
   const { currentFrame } = props;
   const classes = useStyles();
   const getUrl = (frame, key) => {
-    console.log(files,frame)
     return files.length > 0
       ? files[frame][key]
       : `${server_ip}download?url=${null}`;
   };
   const Fetchfiles = (): Promise<Array<number>> =>
     new Promise((res, rej) => {
-      console.log(props.datasetID, "new promise");
       let httpReq = new XMLHttpRequest();
       httpReq.open(
         "get",
-        server_ip + option.datasetFiles + "?_id=" + props.datasetID+"&limit=1000"
+        server_ip +
+          option.datasetFiles +
+          "?_id=" +
+          props.datasetID +
+          "&limit=1000"
       );
       httpReq.withCredentials = true;
       httpReq.setRequestHeader("Authorization", "bdta");
@@ -108,7 +116,6 @@ export const Preview = (props: Properties) => {
               };
             });
             setFiles(file);
-            console.log(file);
           },
           (result) => {
             console.log(result, "Failed");
@@ -155,21 +162,6 @@ export const Preview = (props: Properties) => {
         box_url={getUrl(currentFrame, "json")}
       />
       <Picture img_url={getUrl(currentFrame, "jpg")} />
-      {/* <IconButton
-        onClick={() => {
-          changeFrame("-");
-        }}
-      >
-        <ArrowBackIcon />
-      </IconButton>{" "}
-      {currentFrame}
-      <IconButton
-        onClick={() => {
-          changeFrame("+");
-        }}
-      >
-        <ArrowForwardIcon />
-      </IconButton> */}
     </>
   );
 };
@@ -216,10 +208,10 @@ const Picture = ({ img_url, box_url }) => {
         Line,
       }) => {
         setEle(
-          <div style={{ position: "relative", top: "-588px", left: "446px" }}>
+          <div style={{ position: "relative", top: "-588px", left: "430px" }}>
             <Paper width={200} height={200}>
               <Image src={img_url} x={0} y={0} width={200} height={200} />
-              <Text
+              {/* <Text
                 x={60}
                 y={110}
                 text="轿车"
@@ -231,7 +223,7 @@ const Picture = ({ img_url, box_url }) => {
                 width={60}
                 height={70}
                 attr={{ stroke: "#f0c620", "stroke-width": 3 }}
-              />
+              /> */}
             </Paper>
           </div>
         );
@@ -247,7 +239,7 @@ const PointCloud = ({ pcd_url, box_url }) => {
   const BoundingBox = useBoundingBox3D(box_url);
   const classes = useStyles();
   return (
-    <Canvas style={{ width: '100%', height: '100%'}} >
+    <Canvas style={{ width: "100%", height: "100%" }}>
       <Controls />
       {pointcloud}
       {BoundingBox}
@@ -271,7 +263,6 @@ const useBoundingBox3D = (box_url) => {
     Req.addEventListener("load", (event) => {
       if (event.currentTarget.status === 200) {
         setBox(JSON.parse(event.currentTarget.responseText));
-        console.log(box);
       } else {
         console.log(
           `Error when ${event.currentTarget.responseURL} useBoundingBox3D`
@@ -382,4 +373,41 @@ const create3DBox = ({ id, category, box3d }) => {
 };
 const useAddress = (id_of_Dataset) => {
   const [addresses, setAddresses] = React.useState(null);
+};
+export const Labellist = ({ box_url }) => {
+  const [label, setLabel] = React.useState([]);
+  React.useEffect(() => {
+    const Req = new XMLHttpRequest();
+    Req.open("GET", box_url);
+    Req.setRequestHeader("Authorization", "bdta");
+    Req.withCredentials = true;
+    Req.addEventListener("load", (event) => {
+      if (event.currentTarget.status === 200) {
+        setLabel(JSON.parse(event.currentTarget.responseText).labels);
+      } else {
+        console.log(
+          `Error when ${event.currentTarget.responseURL} useBoundingBox3D`
+        );
+      }
+    });
+    Req.send();
+  }, [box_url]);
+  return (
+    <List>
+      <div style={{ position: "relative", top: "72px", overflow: "scroll" }}>
+        {label.map((value, index) => {
+          return (
+            <ButtonBase>
+              <ListItem>
+                <ListItemIcon>
+                  <CenterFocusWeakIcon />
+                </ListItemIcon>
+                <ListItemText primary={value.category}></ListItemText>
+              </ListItem>
+            </ButtonBase>
+          );
+        })}{" "}
+      </div>
+    </List>
+  );
 };
