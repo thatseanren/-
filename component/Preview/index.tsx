@@ -161,7 +161,7 @@ export const Preview = (props: Properties) => {
         pcd_url={getUrl(currentFrame, "pcd")}
         box_url={getUrl(currentFrame, "json")}
       />
-      <Picture img_url={getUrl(currentFrame, "jpg")} />
+      {props.show_2d ? <Picture img_url={getUrl(currentFrame, "jpg")} /> : null}
     </>
   );
 };
@@ -208,7 +208,7 @@ const Picture = ({ img_url, box_url }) => {
         Line,
       }) => {
         setEle(
-          <div style={{ position: "relative", top: "-588px", left: "430px" }}>
+          <div style={{ position: "relative", top: "-585px", left: "446px" }}>
             <Paper width={200} height={200}>
               <Image src={img_url} x={0} y={0} width={200} height={200} />
               {/* <Text
@@ -393,8 +393,8 @@ export const Labellist = ({ box_url }) => {
     Req.send();
   }, [box_url]);
   return (
-    <List>
-      <div style={{ position: "relative", top: "72px", overflow: "scroll" }}>
+    <List style={{scrollbarWidth:"none",height:"360px", overflow: "scroll", paddingTop:"0px", paddingBottom:"0px"}}>
+
         {label.map((value, index) => {
           return (
             <ButtonBase>
@@ -407,7 +407,7 @@ export const Labellist = ({ box_url }) => {
             </ButtonBase>
           );
         })}{" "}
-      </div>
+      
     </List>
   );
 };

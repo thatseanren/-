@@ -282,7 +282,7 @@ export default class My extends React.Component<
                   onChange={(e) => this.setState({
                     dataTags:e.target.value
                   })}
-                  defaultValue="44"
+              
                   variant="outlined"
               />
               )}  
@@ -300,7 +300,7 @@ export default class My extends React.Component<
                   onChange={(e) => this.setState({
                     dataTasks:e.target.value
                   })}
-                  defaultValue="44"
+  
                   variant="outlined"
               />
               )}  
@@ -335,7 +335,7 @@ export default class My extends React.Component<
                   onChange={(e) => this.setState({
                     dataDescription:e.target.value
                   })}
-                  defaultValue="44"
+              
                   variant="outlined"
               />
               )}
@@ -353,7 +353,7 @@ export default class My extends React.Component<
                   onChange={(e) => this.setState({
                     dataUserName:e.target.value
                   })}
-                  defaultValue="44"
+              
                   variant="outlined"
               />
               )}  
@@ -371,7 +371,7 @@ export default class My extends React.Component<
                   onChange={(e) => this.setState({
                     dataSection:e.target.value
                   })}
-                  defaultValue="44"
+                 
                   variant="outlined"
               />
               )}  
@@ -389,7 +389,7 @@ export default class My extends React.Component<
                   onChange={(e) => this.setState({
                     dataWeather:e.target.value
                   })}
-                  defaultValue="44"
+                 
                   variant="outlined"
               />
               )}  
@@ -407,7 +407,7 @@ export default class My extends React.Component<
                   onChange={(e) => this.setState({
                     dataWayType:e.target.value
                   })}
-                  defaultValue="44"
+          
                   variant="outlined"
               />
               )}  
@@ -425,7 +425,7 @@ export default class My extends React.Component<
                   onChange={(e) => this.setState({
                     dataEgoType:e.target.value
                   })}
-                  defaultValue="44"
+              
                   variant="outlined"
               />
               )}  

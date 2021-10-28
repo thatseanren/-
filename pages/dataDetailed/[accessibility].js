@@ -45,7 +45,7 @@ import MobiledataOffIcon from "@mui/icons-material/MobiledataOff";
 import { Preview } from "../../component/Preview";
 import "../../config";
 import BackupOutlinedIcon from "@material-ui/icons/BackupOutlined";
-
+import Switch from "@mui/material/Switch";
 import { Labellist } from "../../component/Preview";
 import {
   Grow,
@@ -123,6 +123,7 @@ export class Detailed extends React.Component {
       ],
       fileindex: 0,
       fileshow: ["block", "none"],
+      switchState: true,
     };
   }
   open = (value) => {
@@ -811,162 +812,191 @@ export class Detailed extends React.Component {
                     <div className={DataSet.previewTitleLeft}>数据预览</div>
                   </div>
                   <div className={DataSet.groupContainer}>
-                    <div
-                      className={clsx(DataSet.poweredBy, DataSet.poweredList)}
-                    >
-                      <span>Annotation Type</span>
-                      <div title="455ff">
-                        <ContactSupportOutlinedIcon
-                          style={{ fontSize: "18px", marginLeft: "3px" }}
-                        />
-                      </div>
-                    </div>{" "}
-                    <div className={DataSet.groupSideContainer}>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
                       <div
-                        style={{
-                          display: this.state.showlist === 0 ? "block" : "none",overflow: "hidden"
-                        }}
+                        className={clsx(DataSet.poweredBy, DataSet.poweredList)}
                       >
-                        <div className={DataSet.fileSelectorContainer}>
-                          <div className={DataSet.objectPathDisplay}>
-                            {this.state.imgurl}
+                        <span>Annotation Type</span>
+                        <div title="455ff">
+                          <ContactSupportOutlinedIcon
+                            style={{ fontSize: "18px", marginLeft: "3px" }}
+                          />
+                        </div>
+               
+                          <FormControlLabel
+                          labelPlacement="start"
+                            control={
+                              <Switch
+                              size="small"
+                                name="显示2D图片"
+                                checked={this.state.switchState}
+                                onChange={() => {
+                                  this.setState((prev) => ({
+                                    switchState: !prev.switchState,
+                                  }));
+                                }}
+                              ></Switch>
+                            }
+                            label="显示2D图片"
+                          />{" "}
+             
+                      </div>{" "}
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "row" }}>
+                      <div className={DataSet.groupSideContainer}>
+                        <div
+                          style={{
+                            display: "block",
+                            overflow: "hidden",
+                          }}
+                        >
+                          <div className={DataSet.fileSelectorContainer}>
+                            <div className={DataSet.objectPathDisplay}>
+                              {this.state.imgurl}
+                            </div>
+                            <div
+                              className={DataSet.objectSelectButton}
+                              onClick={() => this.dataList(1)}
+                            >
+                              Select
+                            </div>
                           </div>
+                        </div>{" "}
+                        <div
+                          className={DataSet.fileLstContainer}
+                          style={{
+                            display:
+                              this.state.showlist === 1 ? "block" : "none",
+                            position: "absolute",
+                            zIndex: "2",
+                            left: "250px",
+                            scrollbarWidth: "none",
+                          }}
+                        >
                           <div
-                            className={DataSet.objectSelectButton}
-                            onClick={() => this.dataList(1)}
+                            className={DataSet.button}
+                            onClick={() => this.dataList(0)}
                           >
-                            Select
+                            <ArrowBackIosIcon
+                              style={{ fontSize: "12px", alignSelf: "center" }}
+                            />
+                            <span>back</span>
+                          </div>
+                          <div className={DataSet.fileList}>
+                            <div className={DataSet.segmentContainer}>
+                              {this.state.filedata.map((item, index) => {
+                                var jpg = item.jpg.split("/");
+                                return (
+                                  <div>
+                                    <div
+                                      className={
+                                        index === this.state.fileindex
+                                          ? clsx(
+                                              DataSet.objectBlock,
+                                              DataSet.activeObjectBlock
+                                            )
+                                          : DataSet.objectBlock
+                                      }
+                                      onClick={() => {
+                                        var url =
+                                          item.jpg.substring(0, 10) +
+                                          "..." +
+                                          item.jpg.substring(
+                                            item.jpg.length - 10,
+                                            item.jpg.length
+                                          );
+                                        this.setState({
+                                          imgurl: url,
+                                          fileindex: index,
+                                          img:
+                                            server_ip +
+                                            "download?url=" +
+                                            item.jpg,
+                                        });
+                                      }}
+                                    >
+                                      {jpg[5]}
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
                           </div>
                         </div>
-
                         <Labellist
                           box_url={
                             `${server_ip}download?url=` +
                             this.state.filedata[this.state.fileindex].json
                           }
+                        
                         />
                       </div>
                       <div
-                        className={DataSet.fileLstContainer}
-                        style={{
-                          display: this.state.showlist === 1 ? "block" : "none",
-                        }}
+                        className={DataSet.viewerGroupDisplay}
+                        onMouseEnter={() => this.openOpacity()}
+                        onMouseOut={() => this.closeOpacity()}
                       >
-                        <div
-                          className={DataSet.button}
-                          onClick={() => this.dataList(0)}
-                        >
-                          <ArrowBackIosIcon
-                            style={{ fontSize: "12px", alignSelf: "center" }}
-                          />
-                          <span>bcak</span>
-                        </div>
-                        <div className={DataSet.fileList}>
-                          <div className={DataSet.segmentContainer}>
-                            {this.state.filedata.map((item, index) => {
-                              var jpg = item.jpg.split("/");
-                              return (
-                                <div>
-                                  <div
-                                    className={
-                                      index === this.state.fileindex
-                                        ? clsx(
-                                            DataSet.objectBlock,
-                                            DataSet.activeObjectBlock
-                                          )
-                                        : DataSet.objectBlock
-                                    }
-                                    onClick={() => {
-                                      var url =
-                                        item.jpg.substring(0, 10) +
-                                        "..." +
-                                        item.jpg.substring(
-                                          item.jpg.length - 10,
-                                          item.jpg.length
-                                        );
-                                      this.setState({
-                                        imgurl: url,
-                                        fileindex: index,
-                                        img:
-                                          server_ip +
-                                          "download?url=" +
-                                          item.jpg,
-                                      });
-                                    }}
-                                  >
-                                    {jpg[5]}
-                                  </div>
-                                </div>
-                              );
-                            })}
+                        <div style={{ opacity: 1 }}>
+                          <div
+                            className={DataSet.viewerArrowLeft}
+                            style={{ left: "20px", zIndex: 1 }}
+                            onClick={() => {
+                              var fileda = this.state.filedata;
+                              var ind = this.state.fileindex;
+                              if (ind > 0) {
+                                var img = fileda[ind - 1].jpg;
+                                var url =
+                                  fileda[ind - 1].jpg.substring(0, 10) +
+                                  "..." +
+                                  fileda[ind - 1].jpg.substring(
+                                    fileda[ind - 1].jpg.length - 10,
+                                    fileda[ind - 1].jpg.length
+                                  );
+                                this.setState({
+                                  imgurl: url,
+                                  fileindex: ind - 1,
+                                  img: server_ip + "download?url=" + img,
+                                });
+                              }
+                            }}
+                          >
+                            <ArrowBackIosIcon style={{ fontSize: "12px" }} />
+                          </div>
+                          <div
+                            className={DataSet.viewerArrowLeft}
+                            style={{ right: "20px", zIndex: 1 }}
+                            onClick={() => {
+                              var fileda = this.state.filedata;
+                              var ind = this.state.fileindex;
+                              console.log(fileda.length);
+                              console.log(ind);
+                              if (ind + 1 < fileda.length) {
+                                var img = fileda[ind + 1].jpg;
+                                var url =
+                                  fileda[ind + 1].jpg.substring(0, 10) +
+                                  "..." +
+                                  fileda[ind + 1].jpg.substring(
+                                    fileda[ind + 1].jpg.length - 10,
+                                    fileda[ind + 1].jpg.length
+                                  );
+                                this.setState({
+                                  imgurl: url,
+                                  fileindex: ind + 1,
+                                  img: server_ip + "download?url=" + img,
+                                });
+                              }
+                            }}
+                          >
+                            <ArrowForwardIosIcon style={{ fontSize: "12px" }} />
                           </div>
                         </div>
+                        <Preview
+                          datasetID={_id}
+                          category={category}
+                          currentFrame={this.state.fileindex}
+                          show_2d={this.state.switchState}
+                        />
                       </div>
-                    </div>
-                    <div
-                      className={DataSet.viewerGroupDisplay}
-                      onMouseEnter={() => this.openOpacity()}
-                      onMouseOut={() => this.closeOpacity()}
-                    >
-                      <div style={{ opacity: 1 }}>
-                        <div
-                          className={DataSet.viewerArrowLeft}
-                          style={{ left: "20px", zIndex: 1 }}
-                          onClick={() => {
-                            var fileda = this.state.filedata;
-                            var ind = this.state.fileindex;
-                            if (ind > 0) {
-                              var img = fileda[ind - 1].jpg;
-                              var url =
-                                fileda[ind - 1].jpg.substring(0, 10) +
-                                "..." +
-                                fileda[ind - 1].jpg.substring(
-                                  fileda[ind - 1].jpg.length - 10,
-                                  fileda[ind - 1].jpg.length
-                                );
-                              this.setState({
-                                imgurl: url,
-                                fileindex: ind - 1,
-                                img: server_ip + "download?url=" + img,
-                              });
-                            }
-                          }}
-                        >
-                          <ArrowBackIosIcon style={{ fontSize: "12px" }} />
-                        </div>
-                        <div
-                          className={DataSet.viewerArrowLeft}
-                          style={{ right: "20px", zIndex: 1 }}
-                          onClick={() => {
-                            var fileda = this.state.filedata;
-                            var ind = this.state.fileindex;
-                            console.log(fileda.length);
-                            console.log(ind);
-                            if (ind + 1 < fileda.length) {
-                              var img = fileda[ind + 1].jpg;
-                              var url =
-                                fileda[ind + 1].jpg.substring(0, 10) +
-                                "..." +
-                                fileda[ind + 1].jpg.substring(
-                                  fileda[ind + 1].jpg.length - 10,
-                                  fileda[ind + 1].jpg.length
-                                );
-                              this.setState({
-                                imgurl: url,
-                                fileindex: ind + 1,
-                                img: server_ip + "download?url=" + img,
-                              });
-                            }
-                          }}
-                        >
-                          <ArrowForwardIosIcon style={{ fontSize: "12px" }} />
-                        </div>
-                      </div>
-                      <Preview
-                        datasetID={_id}
-                        category={category}
-                        currentFrame={this.state.fileindex}
-                      />
                     </div>
                   </div>
                 </div>
