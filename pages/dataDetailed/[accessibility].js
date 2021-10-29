@@ -81,6 +81,9 @@ const useStyles = makeStyles({
   MuiMobileStepper_progress: {
     width: "100%",
   },
+  MuiFormControlLabel_labelPlacementStart:{
+width:'100px'
+  }
 });
 
 const Detailed_Wrapper = (props) => {
@@ -825,8 +828,10 @@ export class Detailed extends React.Component {
                
                           <FormControlLabel
                           labelPlacement="start"
+                          style={{}}
                             control={
                               <Switch
+                              style={{width:'50px'}}
                               size="small"
                                 name="显示2D图片"
                                 checked={this.state.switchState}
@@ -868,7 +873,9 @@ export class Detailed extends React.Component {
                               this.state.showlist === 1 ? "block" : "none",
                             position: "absolute",
                             zIndex: "2",
-                            left: "250px",
+                            background:"rgba(255,255,255,0.7);",
+                            paddingRight:"20px",
+                            left: "240px",
                             scrollbarWidth: "none",
                           }}
                         >
