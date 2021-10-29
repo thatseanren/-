@@ -344,7 +344,7 @@ export class Detailed extends React.Component {
     });
     setTimeout(() => {
       this.axios();
-    }, 500);
+    }, 1500);
   }
   pages = (value) => {
     this.setState({
@@ -838,8 +838,7 @@ export class Detailed extends React.Component {
                               ></Switch>
                             }
                             label="显示2D图片"
-                          />{" "}
-             
+                          />{" "} 
                       </div>{" "}
                     </div>
                     <div style={{ display: "flex", flexDirection: "row" }}>

@@ -34,8 +34,7 @@ function Controls() {
 
 export const Preview = (props: Properties) => {
   var [files, setFiles] = React.useState([]);
-  // const [currentFrame, setCurrentFrame] = React.useState(0);
-  const { currentFrame } = props;
+  const { currentFrame, category } = props;
   const classes = useStyles();
   const getUrl = (frame, key) => {
     return files.length > 0
@@ -129,43 +128,23 @@ export const Preview = (props: Properties) => {
       console.log("Updating props.datasetID, updating", props.datasetID);
     };
   }, [props.datasetID]);
-  // React.useEffect(() => {
-  //   loadAnnotation();
-  // }, [currentFrame, files]);
-  // React.useEffect(() => {
-  //   async function a() {
-  //     const Raphael = await import("react-raphael");
-  //     setRaphael(Raphael);
-  //     console.log("runtime", Paper);
-  //     setA(
-  //       <Paper>
-  //         <Image
-  //           src={getUrl(currentFrame, "jpg")}
-  //           width={100}
-  //           height={100}
-  //           x={0}
-  //           y={0}
-  //         />
-  //         {/* <Text x={0} y={0} text="同一个世界 同一个梦想" attr={{"fill":"#fff"}}/> */}
-  //         {/* <Rect x={0} y = {0} width= {20} height={30} attr={{"stroke":"#f0c620","stroke-width":3}}/> */}
-  //       </Paper>
-  //     );
-  //   }
-  //   a();
-  // }, []);
 
-  return (
+  return category === "3dBox" ? (
     <>
       {" "}
       <PointCloud
         pcd_url={getUrl(currentFrame, "pcd")}
         box_url={getUrl(currentFrame, "json")}
       />
-      {props.show_2d ? <Picture img_url={getUrl(currentFrame, "jpg")} /> : null}
+      {/* {props.show_2d ? (
+      <Picture img_url={getUrl(currentFrame, "jpg")} scale = {200} />
+    ) : null} */}
     </>
+  ) : (
+    <Picture img_url={getUrl(currentFrame, "jpg")} scale={300} />
   );
 };
-const Picture = ({ img_url, box_url }) => {
+const Picture = ({ img_url, scale }) => {
   const [ele, setEle] = React.useState(<> </>);
   const loadRaphael = async () => {
     const {
@@ -208,24 +187,51 @@ const Picture = ({ img_url, box_url }) => {
         Line,
       }) => {
         setEle(
-          <div style={{ position: "relative", top: "-585px", left: "446px" }}>
-            <Paper width={200} height={200}>
-              <Image src={img_url} x={0} y={0} width={200} height={200} />
-              {/* <Text
-                x={60}
-                y={110}
-                text="轿车"
-                attr={{ fill: "#f0c620" }}
-              />{" "}
-              <Rect
-                x={60}
-                y={118}
-                width={60}
-                height={70}
-                attr={{ stroke: "#f0c620", "stroke-width": 3 }}
-              /> */}
-            </Paper>
-          </div>
+          scale !== 200 ? (
+            <div style={{ position: "relative" }}>
+              <Paper width={"100%"} height={430}>
+                <Image
+                  src={img_url}
+                  x={0}
+                  y={0}
+                  width={"100%"}
+                  height={"100%"}
+                />
+                {/* <Text
+              x={60}
+              y={110}
+              text="轿车"             
+              attr={{ fill: "#f0c620" }}
+            />{" "}
+            <Rect
+              x={60}
+              y={118}
+              width={60}
+              height={70}
+              attr={{ stroke: "#f0c620", "stroke-width": 3 }}
+            /> */}
+              </Paper>
+            </div>
+          ) : (
+            <div style={{ position: "relative" }}>
+              <Paper width={200} height={200}>
+                <Image src={img_url} x={0} y={0} width={200} height={200} />
+                {/* <Text
+              x={60}
+              y={110}
+              text="轿车"             
+              attr={{ fill: "#f0c620" }}
+            />{" "}
+            <Rect
+              x={60}
+              y={118}
+              width={60}
+              height={70}
+              attr={{ stroke: "#f0c620", "stroke-width": 3 }}
+            /> */}
+              </Paper>
+            </div>
+          )
         );
       }
     );
@@ -393,21 +399,27 @@ export const Labellist = ({ box_url }) => {
     Req.send();
   }, [box_url]);
   return (
-    <List style={{scrollbarWidth:"none",height:"360px", overflow: "scroll", paddingTop:"0px", paddingBottom:"0px"}}>
-
-        {label.map((value, index) => {
-          return (
-            <ButtonBase>
-              <ListItem>
-                <ListItemIcon>
-                  <CenterFocusWeakIcon />
-                </ListItemIcon>
-                <ListItemText primary={value.category}></ListItemText>
-              </ListItem>
-            </ButtonBase>
-          );
-        })}{" "}
-      
+    <List
+      style={{
+        scrollbarWidth: "none",
+        height: "360px",
+        overflow: "scroll",
+        paddingTop: "0px",
+        paddingBottom: "0px",
+      }}
+    >
+      {label.map((value, index) => {
+        return (
+          <ButtonBase>
+            <ListItem>
+              <ListItemIcon>
+                <CenterFocusWeakIcon />
+              </ListItemIcon>
+              <ListItemText primary={value.category}></ListItemText>
+            </ListItem>
+          </ButtonBase>
+        );
+      })}{" "}
     </List>
   );
 };

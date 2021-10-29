@@ -376,7 +376,7 @@
 }
 .viewerGroupDisplay{
     width: 646px;
-    height: 584px;
+    /* height: 584px; */
     position: relative;
 }
 .viewerGroupDisplay img{
@@ -459,7 +459,7 @@
     scrollbar-width: none;
 }
 .segmentContainer{
-    
+    height:100%;
     font-size: 14px;
 
 }
