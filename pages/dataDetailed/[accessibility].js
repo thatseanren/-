@@ -45,7 +45,7 @@ import MobiledataOffIcon from "@mui/icons-material/MobiledataOff";
 import { Preview } from "../../component/Preview";
 import "../../config";
 import BackupOutlinedIcon from "@material-ui/icons/BackupOutlined";
-import Switch from "@mui/material/Switch";
+import Switch from '@material-ui/core/Switch';
 import { Labellist } from "../../component/Preview";
 import {
   Grow,
@@ -747,7 +747,15 @@ export class Detailed extends React.Component {
                                     )
                                   }
                                 >
-                                  {" "}
+<<<<<<< HEAD
+<<<<<<< HEAD
+                                  {"  "}
+=======
+                                  {""}
+>>>>>>> b432be57dd1b2ac06cb70fd6e0453cc6590c0e04
+=======
+                                  {""}
+>>>>>>> b432be57dd1b2ac06cb70fd6e0453cc6590c0e04
                                   <ShareIcon
                                     style={{
                                       marginRight: "10px",
@@ -831,9 +839,10 @@ export class Detailed extends React.Component {
                           style={{}}
                             control={
                               <Switch
-                              style={{width:'50px'}}
+                              // style={{width:'50px'}}
                               size="small"
                                 name="显示2D图片"
+                                color="primary"
                                 checked={this.state.switchState}
                                 onChange={() => {
                                   this.setState((prev) => ({

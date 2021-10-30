@@ -229,7 +229,6 @@ export const Body: React.FC<{}> = (props) => {
     axios
     .get(`${ip}${option.getTaskList}`)
     .then((response) => {
-      console.log(response)
       if (JSON.stringify(response.data.data) === JSON.stringify(meta)) {
       } else {
         response.data.data.forEach((e, i) => {
@@ -418,7 +417,6 @@ export default function AnnotationPage(props) {
     <>
       <Header />
       <Body />
-      
     </>
   );
 }
