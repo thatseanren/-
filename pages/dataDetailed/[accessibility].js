@@ -45,7 +45,7 @@ import MobiledataOffIcon from "@mui/icons-material/MobiledataOff";
 import { Preview } from "../../component/Preview";
 import "../../config";
 import BackupOutlinedIcon from "@material-ui/icons/BackupOutlined";
-import Switch from '@material-ui/core/Switch';
+import Switch from "@material-ui/core/Switch";
 import { Labellist } from "../../component/Preview";
 import {
   Grow,
@@ -81,9 +81,9 @@ const useStyles = makeStyles({
   MuiMobileStepper_progress: {
     width: "100%",
   },
-  MuiFormControlLabel_labelPlacementStart:{
-width:'100px'
-  }
+  MuiFormControlLabel_labelPlacementStart: {
+    width: "100px",
+  },
 });
 
 const Detailed_Wrapper = (props) => {
@@ -317,7 +317,6 @@ export class Detailed extends React.Component {
       });
     /*
       Fetch <basic creation> data 
-
 */
     axios
       .get(server_ip + "get_dataset_list?_id=" + this.props.urlQueryObj._id, {})
@@ -347,7 +346,7 @@ export class Detailed extends React.Component {
     });
     setTimeout(() => {
       this.axios();
-    }, 1500);
+    }, 100);
   }
   pages = (value) => {
     this.setState({
@@ -747,15 +746,6 @@ export class Detailed extends React.Component {
                                     )
                                   }
                                 >
-<<<<<<< HEAD
-<<<<<<< HEAD
-                                  {"  "}
-=======
-                                  {""}
->>>>>>> b432be57dd1b2ac06cb70fd6e0453cc6590c0e04
-=======
-                                  {""}
->>>>>>> b432be57dd1b2ac06cb70fd6e0453cc6590c0e04
                                   <ShareIcon
                                     style={{
                                       marginRight: "10px",
@@ -833,26 +823,25 @@ export class Detailed extends React.Component {
                             style={{ fontSize: "18px", marginLeft: "3px" }}
                           />
                         </div>
-               
-                          <FormControlLabel
+                       { category === "3dBox" ? <FormControlLabel
                           labelPlacement="start"
                           style={{}}
-                            control={
-                              <Switch
+                          control={
+                            <Switch
                               // style={{width:'50px'}}
                               size="small"
-                                name="显示2D图片"
-                                color="primary"
-                                checked={this.state.switchState}
-                                onChange={() => {
-                                  this.setState((prev) => ({
-                                    switchState: !prev.switchState,
-                                  }));
-                                }}
-                              ></Switch>
-                            }
-                            label="显示2D图片"
-                          />{" "} 
+                              name="显示2D图片"
+                              color="primary"
+                              checked={this.state.switchState}
+                              onChange={() => {
+                                this.setState((prev) => ({
+                                  switchState: !prev.switchState,
+                                }));
+                              }}
+                            ></Switch>
+                          }
+                          label="显示2D图片"
+                        /> : null}
                       </div>{" "}
                     </div>
                     <div style={{ display: "flex", flexDirection: "row" }}>
@@ -882,8 +871,8 @@ export class Detailed extends React.Component {
                               this.state.showlist === 1 ? "block" : "none",
                             position: "absolute",
                             zIndex: "2",
-                            background:"rgba(255,255,255,0.7);",
-                            paddingRight:"20px",
+                            background: "rgba(255,255,255,0.7);",
+                            paddingRight: "20px",
                             left: "240px",
                             scrollbarWidth: "none",
                           }}
@@ -943,7 +932,6 @@ export class Detailed extends React.Component {
                             `${server_ip}download?url=` +
                             this.state.filedata[this.state.fileindex].json
                           }
-                        
                         />
                       </div>
                       <div
