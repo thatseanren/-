@@ -136,9 +136,9 @@ export const Preview = (props: Properties) => {
         pcd_url={getUrl(currentFrame, "pcd")}
         box_url={getUrl(currentFrame, "json")}
       />
-      {/* {props.show_2d ? (
+      {props.show_2d ? (
       <Picture img_url={getUrl(currentFrame, "jpg")} scale = {200} />
-    ) : null} */}
+    ) : null}
     </>
   ) : (
     <Picture img_url={getUrl(currentFrame, "jpg")} scale={300} />
@@ -197,6 +197,7 @@ const Picture = ({ img_url, scale }) => {
                   width={"100%"}
                   height={"100%"}
                 />
+                {/* <Path d={['M 100,300 L 300,500 L 600,500 L 600,300 L 100,300']} attr={{stroke: "#F00", "stroke-width":3}}/>  */}
                 {/* <Text
               x={60}
               y={110}
@@ -213,7 +214,7 @@ const Picture = ({ img_url, scale }) => {
               </Paper>
             </div>
           ) : (
-            <div style={{ position: "relative" }}>
+            <div style={{ position: "absolute", top:"0px", left :"450px" }}>
               <Paper width={200} height={200}>
                 <Image src={img_url} x={0} y={0} width={200} height={200} />
                 {/* <Text
