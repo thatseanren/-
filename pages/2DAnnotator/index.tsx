@@ -5,23 +5,24 @@ import StyleisPolyline from "../../component/Layout/PolylineAnnotator";
 import SwitchStyles from "../../component/Layout/SwitchStylesBro";
 import Position from "../../component/Layout/PageRight";
 import { Provider } from "react-redux";
-import Grid from "@material-ui/core/Grid";
+import Grid from "@mui/material/Grid";
 import { useRouter } from "next/router";
 import dataServer, { option } from "../../main_config";
 import { connect } from "react-redux";
 import DataSet from "../../styles/DataSet.module.css";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import KeyboardVoiceIcon from "@material-ui/icons/KeyboardVoice";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import Button from "@material-ui/core/Button";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import Button from "@mui/material/Button";
 import store from "../../redux";
-import SaveIcon from "@material-ui/icons/Save";
+import SaveIcon from "@mui/icons-material/Save";
 import Router from "next/router";
-import ZoomInIcon from "@material-ui/icons/ZoomIn";
-import ZoomOutIcon from "@material-ui/icons/ZoomOut";
-import IconButton from "@material-ui/core/IconButton";
-import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import ZoomInIcon from "@mui/icons-material/ZoomIn";
+import ZoomOutIcon from "@mui/icons-material/ZoomOut";
+import IconButton from "@mui/material/IconButton";
+import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
+import { useTheme } from "@mui/material/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import {
   CreateNextFrame,
   CreatePreviousFrame,
@@ -37,7 +38,7 @@ import {
 import Draggable from "react-draggable";
 
 import Debug from "../../component/debug";
-import MobileStepper from "@material-ui/core/MobileStepper";
+import MobileStepper from "@mui/material/MobileStepper";
 interface taskInfo {
   taskid: string;
   sequence: number;
@@ -317,14 +318,14 @@ const ZoomCombo = connect(
         onClick={() => {
           scaleup();
         }}
-      >
+        size="large">
         <ZoomInIcon />
       </IconButton>
       <IconButton
         onClick={() => {
           scaledown();
         }}
-      >
+        size="large">
         <ZoomOutIcon />
       </IconButton>
     </div>

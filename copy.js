@@ -3,7 +3,7 @@ let path = require("path");
 // 处理内容
 function optimize(str) {
   return str
-    .replace(/.\/pages\/login.js/g, "")
+    .replace(/.\/pages\/login.js/g, "");
 }
 
 new CopyWebpackPlugin({

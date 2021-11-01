@@ -9,7 +9,7 @@ import server, { option } from "../main_config";
 import Header from "./header.js";
 import * as echarts from 'echarts';
 import '../config';
-import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogContentText from '@mui/material/DialogContentText';
 // import ForDialogWrapper from "../../component/ForkDialog";
 
 export default class App extends React.Component {

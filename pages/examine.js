@@ -7,9 +7,9 @@ import headerstyle from'../styles/header.module.css';
 import Router  from 'next/router';
 import server, { option } from "../main_config";
 import Header from "./header.js";
-import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import DataSet from "../styles/DataSet.module.css";
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import '../config';
 
 export default class App extends React.Component {

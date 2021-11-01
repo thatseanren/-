@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import Grid from "@material-ui/core/Grid";
+import Grid from "@mui/material/Grid";
 import { categories, class_colors } from "./SwitchStylesBro";
 import {
   createSwtichStateAction,
@@ -16,7 +16,7 @@ import {
   createIMGFINISHLOADING,
 } from "../../redux/action/GeneralReducerAction";
 import { ThreeDot } from "../loadingAnimation";
-import { makeStyles } from "@material-ui/core";
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles({
   transform: {
@@ -254,7 +254,7 @@ function POLYLINE(props) {
         wrap="nowrap"
         direction="column"
         alignItems="center"
-        justify="center"
+        justifyContent="center"
         style={{
           background: "#000",
           justifyContent: "flex-start",

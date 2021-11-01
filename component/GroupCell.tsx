@@ -1,13 +1,14 @@
-import Grid from "@material-ui/core/Grid";
+import Grid from "@mui/material/Grid";
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import BarChartIcon from "@material-ui/icons/BarChart";
-import ImageIcon from "@material-ui/icons/Image";
-import VideocamIcon from "@material-ui/icons/Videocam";
-import StorageIcon from "@material-ui/icons/Storage";
+import makeStyles from '@mui/styles/makeStyles';
+import withStyles from '@mui/styles/withStyles';
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import ImageIcon from "@mui/icons-material/Image";
+import VideocamIcon from "@mui/icons-material/Videocam";
+import StorageIcon from "@mui/icons-material/Storage";
 import clsx from "clsx";
 import Link from "next/link";
 import server from "../main_config";
@@ -172,7 +173,7 @@ export default function Dataset(props: {
                 >
                   <Grid
                     container
-                    justify="center"
+                    justifyContent="center"
                     style={{ flexFlow: "column" }}
                   >
                     <Grid

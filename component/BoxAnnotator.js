@@ -1,7 +1,7 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
+import Grid from "@mui/material/Grid";
 import { connect } from "react-redux";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import {
   CreateNextFrame,
   CreatePreviousFrame,
@@ -207,7 +207,7 @@ function MidPage(props) {
       wrap="nowrap"
       direction="column"
       alignItems="center"
-      justify="center"
+      justifyContent="center"
       style={{
         background: "#000",
         justifyContent: "flex-start",

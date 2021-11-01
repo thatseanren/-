@@ -1,23 +1,23 @@
 import React from "react";
-import Paper from "@material-ui/core/Paper";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import ListItemText from "@material-ui/core/ListItemText";
-import Collapse from "@material-ui/core/Collapse";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import { makeStyles } from "@material-ui/core/styles";
-import ArrowRightIcon from "@material-ui/icons/ArrowRight";
-import Grid from "@material-ui/core/Grid";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import { borderBottom } from "@material-ui/system";
+import Paper from "@mui/material/Paper";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import ListItemText from "@mui/material/ListItemText";
+import Collapse from "@mui/material/Collapse";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import makeStyles from '@mui/styles/makeStyles';
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import Grid from "@mui/material/Grid";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { borderBottom } from "@mui/system";
 import clsx from "clsx";
-import LinearScaleIcon from "@material-ui/icons/LinearScale";
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import LinearScaleIcon from "@mui/icons-material/LinearScale";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import store from "../../redux";
 import { connect } from "react-redux";
 import DataSet from "../../styles/DataSet.module.css";
@@ -216,20 +216,22 @@ function LeftContainer(props) {
             }}
           >
             <div class={DataSet.boxTap}>
-              <IconButton style={{padding:"0px"}}
+              <IconButton
+                style={{padding:"0px"}}
                 onClick={() => {
                   props.swtichStyle("BOX");
                 }}
-              >
+                size="large">
                 <CheckBoxOutlineBlankIcon />
               </IconButton>
             </div>
             <div class={DataSet.boxTap}>
-              <IconButton style={{padding:"0px"}}
+              <IconButton
+                style={{padding:"0px"}}
                 onClick={() => {
                   props.swtichStyle("POLYLINE");
                 }}
-              >
+                size="large">
                 <LinearScaleIcon />
               </IconButton>
             </div>

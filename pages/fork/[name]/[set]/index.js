@@ -1,8 +1,8 @@
 import React from 'react'
 import Header from '../../../header'
 import { useRouter } from "next/router"
-import Breadcrumbs from '@material-ui/core/Breadcrumbs'
-import Link from '@material-ui/core/Link';
+import Breadcrumbs from '@mui/material/Breadcrumbs'
+import Link from '@mui/material/Link';
 export default function Page(props) {
     const router = useRouter()
     const { name, set } = router.query
@@ -10,7 +10,7 @@ export default function Page(props) {
     return (
         <React.Fragment>
             <Header />
-            {name, set}
+            {(name, set)}
             <Breadcrumbs>
                 <Link color="inherit" href="/" >
 
@@ -21,5 +21,5 @@ export default function Page(props) {
             </Breadcrumbs>
 
         </React.Fragment>
-    )
+    );
 }

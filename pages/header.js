@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import Image from "next/image";
 import axios from "axios";
 import Link from "next/link";
-import NotificationsNone from "@material-ui/icons/NotificationsNone";
+import NotificationsNone from "@mui/icons-material/NotificationsNone";
 import headerstyle from "../styles/header.module.css";
 import Cookies from "js-cookie";
 import Router from "next/router";

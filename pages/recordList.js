@@ -1,31 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import 'antd/dist/antd.css';
-import Paper from "@material-ui/core/Paper";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
 // import { styled } from '@mui/material/styles';
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
-import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
 import 'moment/locale/zh-cn';
-import MenuItem from '@material-ui/core/MenuItem';
+import MenuItem from '@mui/material/MenuItem';
 import locale from 'antd/lib/locale/zh_CN';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import Header from "./header.js";
 import server_ip from "../main_config";
 import  "../config";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import BackspaceOutlinedIcon from '@material-ui/icons/BackspaceOutlined';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import BackspaceOutlinedIcon from '@mui/icons-material/BackspaceOutlined';
 import axios from "axios";
 import { DataGrid } from '@material-ui/data-grid';
 import { Dayjs } from 'dayjs';
-import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
+import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
 import ForkDialog from "../component/addDialog";
 import DateRangePicker from '@mui/lab/DateRangePicker';
 import InputLabel from '@mui/material/InputLabel';
@@ -773,7 +773,7 @@ export default function StickyHeadTable() {
           count={count}
           rowsPerPage={rowsPerPage}
           page={page}
-          onChangePage={handleChangePage}
+          onPageChange={handleChangePage}
           // onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>

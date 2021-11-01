@@ -1,5 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from "next/document"
-import { ServerStyleSheets } from "@material-ui/styles"
+import { ServerStyleSheets } from "@mui/styles"
 import React from "react";
 
 export default class MyCocument extends Document {

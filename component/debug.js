@@ -7,9 +7,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-} from "@material-ui/core";
-import Paper from "@material-ui/core/Paper";
-import { makeStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import Paper from "@mui/material/Paper";
+import makeStyles from '@mui/styles/makeStyles';
 import Draggable from "react-draggable";
 
 const useStyles = makeStyles({

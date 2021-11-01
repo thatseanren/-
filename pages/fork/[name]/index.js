@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from '../../header'
-import Breadcrumbs from '@material-ui/core/Breadcrumbs'
-import Link from '@material-ui/core/Link';
+import Breadcrumbs from '@mui/material/Breadcrumbs'
+import Link from '@mui/material/Link';
 import { useRouter } from "next/router"
 
 export default function ForkPage(props) {

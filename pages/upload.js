@@ -7,28 +7,28 @@ import headerstyle from'../styles/header.module.css';
 import Router  from 'next/router';
 import server, { option } from "../main_config";
 import Header from "./header.js";
-import VolumeUpIcon from '@material-ui/icons/VolumeUp';
-import SearchIcon from "@material-ui/icons/Search";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import Button from "@material-ui/core/Button";
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import SearchIcon from "@mui/icons-material/Search";
+import Autocomplete from '@mui/material/Autocomplete';
+import Button from "@mui/material/Button";
 import DataSet from "../styles/DataSet.module.css";
 import '../config';
-import Alert from "@material-ui/lab/Alert";
-import Radio from "@material-ui/core/Radio";
-import FormGroup from '@material-ui/core/FormGroup';
-import Switch from '@material-ui/core/Switch';
+import Alert from '@mui/material/Alert';
+import Radio from "@mui/material/Radio";
+import FormGroup from '@mui/material/FormGroup';
+import Switch from '@mui/material/Switch';
 import {
   FormLabel,
   DialogContent,
   DialogTitle,
   RadioGroup,
-} from "@material-ui/core";
+} from "@mui/material";
 import 'antd/dist/antd.css';
 import { UploadOutlined,InboxOutlined } from '@ant-design/icons';
 import { Upload, message } from 'antd';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl'
-import TextField from "@material-ui/core/TextField";
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl'
+import TextField from "@mui/material/TextField";
 import { func, object } from 'prop-types';
 // import ForDialogWrapper from "../../component/ForkDialog";
 

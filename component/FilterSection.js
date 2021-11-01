@@ -1,9 +1,9 @@
 import DataSet from "../styles/DataSet.module.css";
 import React from "react";
 import ReactDOM from "react-dom";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
-import KeyboardArrowUpRoundedIcon from "@material-ui/icons/KeyboardArrowUpRounded";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
 
 export default class Left extends React.Component {
   //切换数据

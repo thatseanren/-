@@ -3317,323 +3317,321 @@
                     });
                   };
                 })(pe));
-            return (
-              (fe.attr = function (t, r) {
-                if (t && e.is(t, A) && e.is(t[0], "object"))
-                  for (var i = 0, n = t.length; i < n; i++)
-                    this.items[i].attr(t[i]);
-                else
-                  for (var a = 0, s = this.items.length; a < s; a++)
-                    this.items[a].attr(t, r);
-                return this;
-              }),
-              (fe.clear = function () {
-                for (; this.length; ) this.pop();
-              }),
-              (fe.splice = function (t, e, r) {
-                (t = t < 0 ? w(this.length + t, 0) : t),
-                  (e = w(0, k(this.length - t, e)));
-                var i,
-                  n = [],
-                  a = [],
-                  s = [];
-                for (i = 2; i < arguments.length; i++) s.push(arguments[i]);
-                for (i = 0; i < e; i++) a.push(this[t + i]);
-                for (; i < this.length - t; i++) n.push(this[t + i]);
-                var o = s.length;
-                for (i = 0; i < o + n.length; i++)
-                  this.items[t + i] = this[t + i] = i < o ? s[i] : n[i - o];
-                for (i = this.items.length = this.length -= e - o; this[i]; )
-                  delete this[i++];
-                return new ce(a);
-              }),
-              (fe.exclude = function (t) {
-                for (var e = 0, r = this.length; e < r; e++)
-                  if (this[e] == t) return this.splice(e, 1), !0;
-              }),
-              (fe.animate = function (t, r, i, n) {
-                (e.is(i, "function") || !i) && (n = i || null);
-                var a,
-                  s,
-                  o = this.items.length,
-                  l = o,
-                  h = this;
-                if (!o) return this;
-                n &&
-                  (s = function () {
-                    !--o && n.call(h);
-                  }),
-                  (i = e.is(i, "string") ? i : s);
-                var u = e.animation(t, r, i, s);
-                for (a = this.items[--l].animate(u); l--; )
-                  this.items[l] &&
-                    !this.items[l].removed &&
-                    this.items[l].animateWith(a, u, u),
-                    (this.items[l] && !this.items[l].removed) || o--;
-                return this;
-              }),
-              (fe.insertAfter = function (t) {
-                for (var e = this.items.length; e--; )
-                  this.items[e].insertAfter(t);
-                return this;
-              }),
-              (fe.getBBox = function () {
-                for (
-                  var t = [], e = [], r = [], i = [], n = this.items.length;
-                  n--;
+            return (fe.attr = function (t, r) {
+              if (t && e.is(t, A) && e.is(t[0], "object"))
+                for (var i = 0, n = t.length; i < n; i++)
+                  this.items[i].attr(t[i]);
+              else
+                for (var a = 0, s = this.items.length; a < s; a++)
+                  this.items[a].attr(t, r);
+              return this;
+            }),
+            (fe.clear = function () {
+              for (; this.length; ) this.pop();
+            }),
+            (fe.splice = function (t, e, r) {
+              (t = t < 0 ? w(this.length + t, 0) : t),
+                (e = w(0, k(this.length - t, e)));
+              var i,
+                n = [],
+                a = [],
+                s = [];
+              for (i = 2; i < arguments.length; i++) s.push(arguments[i]);
+              for (i = 0; i < e; i++) a.push(this[t + i]);
+              for (; i < this.length - t; i++) n.push(this[t + i]);
+              var o = s.length;
+              for (i = 0; i < o + n.length; i++)
+                this.items[t + i] = this[t + i] = i < o ? s[i] : n[i - o];
+              for (i = this.items.length = this.length -= e - o; this[i]; )
+                delete this[i++];
+              return new ce(a);
+            }),
+            (fe.exclude = function (t) {
+              for (var e = 0, r = this.length; e < r; e++)
+                if (this[e] == t) return this.splice(e, 1), !0;
+            }),
+            (fe.animate = function (t, r, i, n) {
+              (e.is(i, "function") || !i) && (n = i || null);
+              var a,
+                s,
+                o = this.items.length,
+                l = o,
+                h = this;
+              if (!o) return this;
+              n &&
+                (s = function () {
+                  !--o && n.call(h);
+                }),
+                (i = e.is(i, "string") ? i : s);
+              var u = e.animation(t, r, i, s);
+              for (a = this.items[--l].animate(u); l--; )
+                this.items[l] &&
+                  !this.items[l].removed &&
+                  this.items[l].animateWith(a, u, u),
+                  (this.items[l] && !this.items[l].removed) || o--;
+              return this;
+            }),
+            (fe.insertAfter = function (t) {
+              for (var e = this.items.length; e--; )
+                this.items[e].insertAfter(t);
+              return this;
+            }),
+            (fe.getBBox = function () {
+              for (
+                var t = [], e = [], r = [], i = [], n = this.items.length;
+                n--;
 
-                )
-                  if (!this.items[n].removed) {
-                    var a = this.items[n].getBBox();
-                    t.push(a.x),
-                      e.push(a.y),
-                      r.push(a.x + a.width),
-                      i.push(a.y + a.height);
-                  }
-                return {
-                  x: (t = k[c](0, t)),
-                  y: (e = k[c](0, e)),
-                  x2: (r = w[c](0, r)),
-                  y2: (i = w[c](0, i)),
-                  width: r - t,
-                  height: i - e,
-                };
-              }),
-              (fe.clone = function (t) {
-                t = this.paper.set();
-                for (var e = 0, r = this.items.length; e < r; e++)
-                  t.push(this.items[e].clone());
-                return t;
-              }),
-              (fe.toString = function () {
-                return "Raphaël‘s set";
-              }),
-              (fe.glow = function (t) {
-                var e = this.paper.set();
-                return (
-                  this.forEach(function (r, i) {
-                    var n = r.glow(t);
-                    null != n &&
-                      n.forEach(function (t, r) {
-                        e.push(t);
-                      });
-                  }),
-                  e
-                );
-              }),
-              (fe.isPointInside = function (t, e) {
-                var r = !1;
-                return (
-                  this.forEach(function (i) {
-                    if (i.isPointInside(t, e)) return (r = !0), !1;
-                  }),
-                  r
-                );
-              }),
-              (e.registerFont = function (t) {
-                if (!t.face) return t;
-                this.fonts = this.fonts || {};
-                var e = { w: t.w, face: {}, glyphs: {} },
-                  r = t.face["font-family"];
-                for (var i in t.face) t.face[o](i) && (e.face[i] = t.face[i]);
-                if (
-                  (this.fonts[r]
-                    ? this.fonts[r].push(e)
-                    : (this.fonts[r] = [e]),
-                  !t.svg)
-                )
-                  for (var n in ((e.face["units-per-em"] = z(
-                    t.face["units-per-em"],
-                    10
-                  )),
-                  t.glyphs))
-                    if (t.glyphs[o](n)) {
-                      var a = t.glyphs[n];
-                      if (
-                        ((e.glyphs[n] = {
-                          w: a.w,
-                          k: {},
-                          d:
-                            a.d &&
-                            "M" +
-                              a.d.replace(/[mlcxtrv]/g, function (t) {
-                                return (
-                                  {
-                                    l: "L",
-                                    c: "C",
-                                    x: "z",
-                                    t: "m",
-                                    r: "l",
-                                    v: "c",
-                                  }[t] || "M"
-                                );
-                              }) +
-                              "z",
-                        }),
-                        a.k)
-                      )
-                        for (var s in a.k)
-                          a[o](s) && (e.glyphs[n].k[s] = a.k[s]);
-                    }
-                return t;
-              }),
-              (i.getFont = function (t, r, i, n) {
-                if (
-                  ((n = n || "normal"),
-                  (i = i || "normal"),
-                  (r =
-                    +r ||
-                    { normal: 400, bold: 700, lighter: 300, bolder: 800 }[r] ||
-                    400),
-                  e.fonts)
-                ) {
-                  var a,
-                    s = e.fonts[t];
-                  if (!s) {
-                    var l = new RegExp(
-                      "(^|\\s)" + t.replace(/[^\w\d\s+!~.:_-]/g, d) + "(\\s|$)",
-                      "i"
-                    );
-                    for (var h in e.fonts)
-                      if (e.fonts[o](h) && l.test(h)) {
-                        s = e.fonts[h];
-                        break;
-                      }
-                  }
-                  if (s)
-                    for (
-                      var u = 0, c = s.length;
-                      u < c &&
-                      ((a = s[u]).face["font-weight"] != r ||
-                        (a.face["font-style"] != i && a.face["font-style"]) ||
-                        a.face["font-stretch"] != n);
-                      u++
-                    );
-                  return a;
+              )
+                if (!this.items[n].removed) {
+                  var a = this.items[n].getBBox();
+                  t.push(a.x),
+                    e.push(a.y),
+                    r.push(a.x + a.width),
+                    i.push(a.y + a.height);
                 }
-              }),
-              (i.print = function (t, r, i, a, s, o, l, h) {
-                (o = o || "middle"),
-                  (l = w(k(l || 0, 1), -1)),
-                  (h = w(k(h || 1, 3), 1));
-                var u,
-                  c = x(i)[v](d),
-                  f = 0,
-                  p = 0,
-                  g = d;
-                if ((e.is(a, "string") && (a = this.getFont(a)), a)) {
-                  u = (s || 16) / a.face["units-per-em"];
+              return {
+                x: (t = k[c](0, t)),
+                y: (e = k[c](0, e)),
+                x2: (r = w[c](0, r)),
+                y2: (i = w[c](0, i)),
+                width: r - t,
+                height: i - e,
+              };
+            }),
+            (fe.clone = function (t) {
+              t = this.paper.set();
+              for (var e = 0, r = this.items.length; e < r; e++)
+                t.push(this.items[e].clone());
+              return t;
+            }),
+            (fe.toString = function () {
+              return "Raphaël‘s set";
+            }),
+            (fe.glow = function (t) {
+              var e = this.paper.set();
+              return (
+                this.forEach(function (r, i) {
+                  var n = r.glow(t);
+                  null != n &&
+                    n.forEach(function (t, r) {
+                      e.push(t);
+                    });
+                }),
+                e
+              );
+            }),
+            (fe.isPointInside = function (t, e) {
+              var r = !1;
+              return (
+                this.forEach(function (i) {
+                  if (i.isPointInside(t, e)) return (r = !0), !1;
+                }),
+                r
+              );
+            }),
+            (e.registerFont = function (t) {
+              if (!t.face) return t;
+              this.fonts = this.fonts || {};
+              var e = { w: t.w, face: {}, glyphs: {} },
+                r = t.face["font-family"];
+              for (var i in t.face) t.face[o](i) && (e.face[i] = t.face[i]);
+              if (
+                (this.fonts[r]
+                  ? this.fonts[r].push(e)
+                  : (this.fonts[r] = [e]),
+                !t.svg)
+              )
+                for (var n in ((e.face["units-per-em"] = z(
+                  t.face["units-per-em"],
+                  10
+                )),
+                t.glyphs))
+                  if (t.glyphs[o](n)) {
+                    var a = t.glyphs[n];
+                    if (
+                      ((e.glyphs[n] = {
+                        w: a.w,
+                        k: {},
+                        d:
+                          a.d &&
+                          "M" +
+                            a.d.replace(/[mlcxtrv]/g, function (t) {
+                              return (
+                                {
+                                  l: "L",
+                                  c: "C",
+                                  x: "z",
+                                  t: "m",
+                                  r: "l",
+                                  v: "c",
+                                }[t] || "M"
+                              );
+                            }) +
+                            "z",
+                      }),
+                      a.k)
+                    )
+                      for (var s in a.k)
+                        a[o](s) && (e.glyphs[n].k[s] = a.k[s]);
+                  }
+              return t;
+            }),
+            (i.getFont = function (t, r, i, n) {
+              if (
+                ((n = n || "normal"),
+                (i = i || "normal"),
+                (r =
+                  +r ||
+                  { normal: 400, bold: 700, lighter: 300, bolder: 800 }[r] ||
+                  400),
+                e.fonts)
+              ) {
+                var a,
+                  s = e.fonts[t];
+                if (!s) {
+                  var l = new RegExp(
+                    "(^|\\s)" + t.replace(/[^\w\d\s+!~.:_-]/g, d) + "(\\s|$)",
+                    "i"
+                  );
+                  for (var h in e.fonts)
+                    if (e.fonts[o](h) && l.test(h)) {
+                      s = e.fonts[h];
+                      break;
+                    }
+                }
+                if (s)
                   for (
-                    var y = a.face.bbox[v](n),
-                      m = +y[0],
-                      b = y[3] - y[1],
-                      _ = 0,
-                      B =
-                        +y[1] + ("baseline" == o ? b + +a.face.descent : b / 2),
-                      C = 0,
-                      S = c.length;
-                    C < S;
-                    C++
-                  ) {
-                    if ("\n" == c[C]) (f = 0), (A = 0), (p = 0), (_ += b * h);
-                    else {
-                      var T = (p && a.glyphs[c[C - 1]]) || {},
-                        A = a.glyphs[c[C]];
-                      (f += p
-                        ? (T.w || a.w) + ((T.k && T.k[c[C]]) || 0) + a.w * l
-                        : 0),
-                        (p = 1);
-                    }
-                    A &&
-                      A.d &&
-                      (g += e.transformPath(A.d, [
-                        "t",
-                        f * u,
-                        _ * u,
-                        "s",
-                        u,
-                        u,
-                        m,
-                        B,
-                        "t",
-                        (t - m) / u,
-                        (r - B) / u,
-                      ]));
+                    var u = 0, c = s.length;
+                    u < c &&
+                    ((a = s[u]).face["font-weight"] != r ||
+                      (a.face["font-style"] != i && a.face["font-style"]) ||
+                      a.face["font-stretch"] != n);
+                    u++
+                  );
+                return a;
+              }
+            }),
+            (i.print = function (t, r, i, a, s, o, l, h) {
+              (o = o || "middle"),
+                (l = w(k(l || 0, 1), -1)),
+                (h = w(k(h || 1, 3), 1));
+              var u,
+                c = x(i)[v](d),
+                f = 0,
+                p = 0,
+                g = d;
+              if ((e.is(a, "string") && (a = this.getFont(a)), a)) {
+                u = (s || 16) / a.face["units-per-em"];
+                for (
+                  var y = a.face.bbox[v](n),
+                    m = +y[0],
+                    b = y[3] - y[1],
+                    _ = 0,
+                    B =
+                      +y[1] + ("baseline" == o ? b + +a.face.descent : b / 2),
+                    C = 0,
+                    S = c.length;
+                  C < S;
+                  C++
+                ) {
+                  if ("\n" == c[C]) (f = 0), (A = 0), (p = 0), (_ += b * h);
+                  else {
+                    var T = (p && a.glyphs[c[C - 1]]) || {},
+                      A = a.glyphs[c[C]];
+                    (f += p
+                      ? (T.w || a.w) + ((T.k && T.k[c[C]]) || 0) + a.w * l
+                      : 0),
+                      (p = 1);
                   }
+                  A &&
+                    A.d &&
+                    (g += e.transformPath(A.d, [
+                      "t",
+                      f * u,
+                      _ * u,
+                      "s",
+                      u,
+                      u,
+                      m,
+                      B,
+                      "t",
+                      (t - m) / u,
+                      (r - B) / u,
+                    ]));
                 }
-                return this.path(g).attr({ fill: "#000", stroke: "none" });
-              }),
-              (i.add = function (t) {
-                if (e.is(t, "array"))
-                  for (var r, i = this.set(), n = 0, s = t.length; n < s; n++)
-                    (r = t[n] || {}),
-                      a[o](r.type) && i.push(this[r.type]().attr(r));
-                return i;
-              }),
-              (e.format = function (t, r) {
-                var i = e.is(r, A) ? [0][f](r) : arguments;
-                return (
-                  t &&
-                    e.is(t, "string") &&
-                    i.length - 1 &&
-                    (t = t.replace(s, function (t, e) {
-                      return null == i[++e] ? d : i[e];
-                    })),
-                  t || d
-                );
-              }),
-              (e.fullfill =
-                ((oe = /\{([^\}]+)\}/g),
-                (le =
-                  /(?:(?:^|\.)(.+?)(?=\[|\.|$|\()|\[('|")(.+?)\2\])(\(\))?/g),
-                function (t, e) {
-                  return String(t).replace(oe, function (t, r) {
-                    return (function (t, e, r) {
-                      var i = r;
-                      return (
-                        e.replace(le, function (t, e, r, n, a) {
-                          (e = e || n),
-                            i &&
-                              (e in i && (i = i[e]),
-                              "function" == typeof i && a && (i = i()));
-                        }),
-                        (i = (null == i || i == r ? t : i) + "")
-                      );
-                    })(t, r, e);
-                  });
-                })),
-              (e.ninja = function () {
-                if (h.was) l.win.Raphael = h.is;
-                else {
-                  window.Raphael = void 0;
-                  try {
-                    delete window.Raphael;
-                  } catch (t) {}
-                }
-                return e;
-              }),
-              (e.st = fe),
-              t.on("raphael.DOMload", function () {
-                r = !0;
-              }),
-              null == (he = document).readyState &&
-                he.addEventListener &&
-                (he.addEventListener(
-                  "DOMContentLoaded",
-                  (ue = function () {
-                    he.removeEventListener("DOMContentLoaded", ue, !1),
-                      (he.readyState = "complete");
-                  }),
-                  !1
-                ),
-                (he.readyState = "loading")),
-              (function t() {
-                /in/.test(he.readyState)
-                  ? setTimeout(t, 9)
-                  : e.eve("raphael.DOMload");
-              })(),
-              e
-            );
+              }
+              return this.path(g).attr({ fill: "#000", stroke: "none" });
+            }),
+            (i.add = function (t) {
+              if (e.is(t, "array"))
+                for (var r, i = this.set(), n = 0, s = t.length; n < s; n++)
+                  (r = t[n] || {}),
+                    a[o](r.type) && i.push(this[r.type]().attr(r));
+              return i;
+            }),
+            (e.format = function (t, r) {
+              var i = e.is(r, A) ? [0][f](r) : arguments;
+              return (
+                t &&
+                  e.is(t, "string") &&
+                  i.length - 1 &&
+                  (t = t.replace(s, function (t, e) {
+                    return null == i[++e] ? d : i[e];
+                  })),
+                t || d
+              );
+            }),
+            (e.fullfill =
+              ((oe = /\{([^\}]+)\}/g),
+              (le =
+                /(?:(?:^|\.)(.+?)(?=\[|\.|$|\()|\[('|")(.+?)\2\])(\(\))?/g),
+              function (t, e) {
+                return String(t).replace(oe, function (t, r) {
+                  return (function (t, e, r) {
+                    var i = r;
+                    return (
+                      e.replace(le, function (t, e, r, n, a) {
+                        (e = e || n),
+                          i &&
+                            (e in i && (i = i[e]),
+                            "function" == typeof i && a && (i = i()));
+                      }),
+                      (i = (null == i || i == r ? t : i) + "")
+                    );
+                  })(t, r, e);
+                });
+              })),
+            (e.ninja = function () {
+              if (h.was) l.win.Raphael = h.is;
+              else {
+                window.Raphael = void 0;
+                try {
+                  delete window.Raphael;
+                } catch (t) {}
+              }
+              return e;
+            }),
+            (e.st = fe),
+            t.on("raphael.DOMload", function () {
+              r = !0;
+            }),
+            null == (he = document).readyState &&
+              he.addEventListener &&
+              (he.addEventListener(
+                "DOMContentLoaded",
+                (ue = function () {
+                  he.removeEventListener("DOMContentLoaded", ue, !1),
+                    (he.readyState = "complete");
+                }),
+                !1
+              ),
+              (he.readyState = "loading")),
+            (function t() {
+              /in/.test(he.readyState)
+                ? setTimeout(t, 9)
+                : e.eve("raphael.DOMload");
+            })(),
+            e;
           }.apply(e, i)) || (t.exports = n);
     },
     function (t, e, r) {

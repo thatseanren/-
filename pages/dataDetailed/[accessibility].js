@@ -2,50 +2,50 @@ import Image from "next/image";
 import Header from "../header.js";
 import server_ip from "../../main_config";
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Alert from "@material-ui/lab/Alert";
+import makeStyles from '@mui/styles/makeStyles';
+import Alert from '@mui/material/Alert';
 import DataSet from "../../styles/DataSet.module.css";
-import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
-import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
-import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
-import ArtTrackIcon from "@material-ui/icons/ArtTrack";
-import Button from "@material-ui/core/Button";
-import MobileStepper from "@material-ui/core/MobileStepper";
-import ExpandMoreOutlinedIcon from "@material-ui/icons/ExpandMoreOutlined";
-import ExpandLessOutlinedIcon from "@material-ui/icons/ExpandLessOutlined";
-import ContactSupportOutlinedIcon from "@material-ui/icons/ContactSupportOutlined";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import Avatar from "@material-ui/core/Avatar";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import ListItemText from "@material-ui/core/ListItemText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import PersonIcon from "@material-ui/icons/Person";
-import TextField from "@material-ui/core/TextField";
-import AddIcon from "@material-ui/icons/Add";
-import Typography from "@material-ui/core/Typography";
-import { blue } from "@material-ui/core/colors";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
+import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
+import ArtTrackIcon from "@mui/icons-material/ArtTrack";
+import Button from "@mui/material/Button";
+import MobileStepper from "@mui/material/MobileStepper";
+import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
+import ExpandLessOutlinedIcon from "@mui/icons-material/ExpandLessOutlined";
+import ContactSupportOutlinedIcon from "@mui/icons-material/ContactSupportOutlined";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import Avatar from "@mui/material/Avatar";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemText from "@mui/material/ListItemText";
+import DialogTitle from "@mui/material/DialogTitle";
+import PersonIcon from "@mui/icons-material/Person";
+import TextField from "@mui/material/TextField";
+import AddIcon from "@mui/icons-material/Add";
+import Typography from "@mui/material/Typography";
+import { blue } from "@mui/material/colors";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
 import clsx from "clsx";
 import ForDialogWrapper from "../../component/ForkDialog";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Router from "next/router";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 import MobiledataOffIcon from "@mui/icons-material/MobiledataOff";
 import { Preview } from "../../component/Preview";
 import "../../config";
-import BackupOutlinedIcon from "@material-ui/icons/BackupOutlined";
-import Switch from "@material-ui/core/Switch";
+import BackupOutlinedIcon from "@mui/icons-material/BackupOutlined";
+import Switch from "@mui/material/Switch";
 import { Labellist } from "../../component/Preview";
 import {
   Grow,
@@ -54,9 +54,9 @@ import {
   MenuList,
   Paper,
   ClickAwayListener,
-} from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ShareIcon from "@material-ui/icons/Share";
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ShareIcon from "@mui/icons-material/Share";
 const useStyles = makeStyles({
   MuiMobileStepperProgress: {
     width: "200%",

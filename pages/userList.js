@@ -7,15 +7,15 @@ import headerstyle from'../styles/header.module.css';
 import Router  from 'next/router';
 import server, { option } from "../main_config";
 import Header from "./header.js";
-import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import DataSet from "../styles/DataSet.module.css";
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import '../config';
 import ForkDialog from '../component/addUser';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
 // import ForDialogWrapper from "../../component/ForkDialog";
 
 export default class App extends React.Component {

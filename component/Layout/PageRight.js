@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import Grid from '@material-ui/core/Grid'
-import Divider from "@material-ui/core/Divider"
-import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
-import Grow from "@material-ui/core/Grow";
-import ButtonBase from "@material-ui/core/ButtonBase"
-import TextField from "@material-ui/core/TextField"
-import { makeStyles } from "@material-ui/core/styles"
-// import Button from "@material-ui/core/Button"
-import CreateIcon from '@material-ui/icons/Create';
-import MouseIcon from '@material-ui/icons/Mouse';
+import Grid from '@mui/material/Grid'
+import Divider from "@mui/material/Divider"
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import Grow from "@mui/material/Grow";
+import ButtonBase from "@mui/material/ButtonBase"
+import TextField from "@mui/material/TextField"
+import makeStyles from '@mui/styles/makeStyles';
+// import Button from "@mui/material/Button"
+import CreateIcon from '@mui/icons-material/Create';
+import MouseIcon from '@mui/icons-material/Mouse';
 import { connect } from 'react-redux'
 
 import { createUpdateBoudingBoxAction } from '../../redux/action/BoundingBoxAction'
@@ -62,7 +62,7 @@ function PageRight(props) {
             paddingLeft: "10px",
             paddingRight: "10px"
         }}>
-            <Grid container item justify="space-evenly" className={classes.margin} >
+            <Grid container item justifyContent="space-evenly" className={classes.margin} >
                 <ButtonBase
                     id="draw"
                     color={"grey"}
@@ -82,7 +82,7 @@ function PageRight(props) {
             </Grid>
             <Divider component="div" style={{ width: "auto", }} />
             <ButtonBase disableRipple onClick={() => { setShowPosition(!showPosition); }}>
-                <Grid container direction="row" alignItems="center" justify="space-between">
+                <Grid container direction="row" alignItems="center" justifyContent="space-between">
                     <span style={{ marginTop: "10px", marginBottom: "10px", fontWeight: '550' }}> BoundingBox
                     </span>
                     {showPosition ? <RemoveIcon /> : <AddIcon />}
@@ -92,7 +92,7 @@ function PageRight(props) {
                 <Grid container direction="column" style={{ padding: '20px' }}>
                     <form className={classes.root}>
                         <div className="Grid-Container">
-                            <Grid container item alignItems="center" justify="space-between" style={{ width: "232px" }} >
+                            <Grid container item alignItems="center" justifyContent="space-between" style={{ width: "232px" }} >
                                 <span> Position</span>
                             </Grid>
                             <TextField
@@ -101,7 +101,7 @@ function PageRight(props) {
                                 label="T" type="number" variant="outlined" InputLabelProps={{
                                     shrink: true,
                                 }} />
-                            <Grid container item justify="space-between" alignItems="center" flexWrap="nowrap"
+                            <Grid container item justifyContent="space-between" alignItems="center" flexWrap="nowrap"
                                 style={{ margin: '0px auto', width: "180px" }}>
                                 <TextField
                                     value={x}
@@ -129,14 +129,14 @@ function PageRight(props) {
                                 label="B" type="number" variant="outlined" InputLabelProps={{
                                     shrink: true,
                                 }} />
-                            <Grid container item justify="space-between" alignItems="center">   <span> Width</span> <TextField
+                            <Grid container item justifyContent="space-between" alignItems="center">   <span> Width</span> <TextField
                                 value={width}
                                 label="" type="number" variant="outlined"
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
                             /></Grid>
-                            <Grid container item justify="space-between" alignItems="center">
+                            <Grid container item justifyContent="space-between" alignItems="center">
                                 <span> Height</span>
                                 <TextField
                                     value={height}
@@ -147,7 +147,7 @@ function PageRight(props) {
                                         shrink: true,
                                     }} />
                             </Grid>
-                            <Grid container item justify="space-between" alignItems="center">
+                            <Grid container item justifyContent="space-between" alignItems="center">
                                 <span> Overlapping</span>
                                 <TextField
                                     label="" type="number" variant="outlined" InputLabelProps={{
@@ -159,6 +159,6 @@ function PageRight(props) {
                 </Grid>
             </Grow>}
         </Grid >
-    )
+    );
 
 }
